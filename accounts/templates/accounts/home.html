@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>Welcome to the Event Planner</h1>
+    {% if user.is_authenticated %}
+    <p>Hello, {{ user.email }}!</p>
+    <a href="{% url 'account_logout' %}">Logout</a>
+    {% else %}
+    <a href="{% url 'account_login' %}">Login</a> |
+    <a href="{% url 'account_signup' %}">Signup</a>
+    {% endif %}
+  </body>
+</html>
