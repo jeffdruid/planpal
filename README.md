@@ -29,3 +29,9 @@ User Story 5: Consensus Building
 User Story 6: Notification System
 
 User Story 7: Dashboard
+
+### Wireframes:
+
+#### Site Map
+
+![site map](site-map.png)
