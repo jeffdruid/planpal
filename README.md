@@ -35,3 +35,7 @@ User Story 7: Dashboard
 #### Site Map
 
 ![site map](site-map.png)
+
+#### database schema
+
+![data base schema](<database model.png>)
