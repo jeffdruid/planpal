@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Home</title>
-  </head>
-  <body>
-    <h1>Welcome to the Event Planner</h1>
-    {% if user.is_authenticated %}
-    <p>Hello, {{ user.email }}!</p>
-    <a href="{% url 'account_logout' %}">Logout</a>
-    {% else %}
-    <a href="{% url 'account_login' %}">Login</a> |
-    <a href="{% url 'account_signup' %}">Signup</a>
-    {% endif %}
-  </body>
-</html>
+{% extends 'base.html' %} {% block title %}Home{% endblock %}
+<p>here is the home page</p>
+{% block content %}
+<h1>Welcome to the Event Planner</h1>
+{% if user.is_authenticated %}
+<p>Hello, {{ user.email }}!</p>
+<p><a href="{% url 'account_logout' %}">Logout</a></p>
+<p><a href="{% url 'event_create' %}">Create Event</a></p>
+<p><a href="{% url 'event_list' %}">View My Events</a></p>
+{% else %}
+<p>
+  <a href="{% url 'account_login' %}">Login</a> or
+  <a href="{% url 'account_signup' %}">Signup</a> to start planning your
+  events.
+</p>
+
+{% endif %} {% endblock %}
