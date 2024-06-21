@@ -5,8 +5,7 @@
 {% if user.is_authenticated %}
 <p>Hello, {{ user.email }}!</p>
 <p><a href="{% url 'account_logout' %}">Logout</a></p>
-<p><a href="{% url 'event_create' %}">Create Event</a></p>
-<p><a href="{% url 'event_list' %}">View My Events</a></p>
+
 {% else %}
 <p>
   <a href="{% url 'account_login' %}">Login</a> or
