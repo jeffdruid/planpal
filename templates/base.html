@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Event Planner{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
     <header>
-      <nav>
-        <ul>
-          <li><a href="{% url 'home' %}">Home</a></li>
-          {% if user.is_authenticated %}
-          <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-
-          <li><a href="{% url 'account_logout' %}">Logout</a></li>
-          {% else %}
-          <li><a href="{% url 'account_login' %}">Login</a></li>
-          <li><a href="{% url 'account_signup' %}">Signup</a></li>
-          {% endif %}
-        </ul>
-      </nav>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'account_logout' %}" method="post">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'account_login' %}">Login</a></li>
+                    <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </header>
-    <main>{% block content %}{% endblock %}</main>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
     <footer>
-      <p>&copy; 2024 Event Planner</p>
+        <p>&copy; 2024 Event Planner</p>
     </footer>
-  </body>
+</body>
 </html>
