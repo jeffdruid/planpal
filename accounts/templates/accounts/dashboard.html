@@ -3,11 +3,30 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2>Dashboard</h2>
-<p>Welcome to your dashboard, {{ user.username }}!</p>
-<ul>
-    <li>Email: {{ user.email }}</li>
-    <li>Username: {{ user.username }}</li>
-    <!-- Add more user info here as needed -->
-</ul>
+
+<div id="calendar"></div>
+
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: false,
+            events: [
+                {
+                    title: 'Event 1',
+                    start: '2024-06-15'
+                },
+                {
+                    title: 'Event 2',
+                    start: '2024-06-18'
+                }
+            ]
+        });
+    });
+</script>
+
 {% endblock %}
