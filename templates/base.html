@@ -13,18 +13,22 @@
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a></li>
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
-                    <li>Logged in as {{ user.username|upper }}</li>
                 {% else %}
-                    <li><a href="{% url 'account_login' %}">Login</a></li>
-                    <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+                    <li><a href="{% url 'account_login' %}" class="{% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">Login</a></li>
+                    <li><a href="{% url 'account_signup' %}" class="{% if request.resolver_match.url_name == 'account_signup' %}active{% endif %}">Sign Up</a></li>
                 {% endif %}
             </ul>
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    Logged in as {{ user.username|upper }}
+                </div>
+            {% endif %}
         </nav>
     </header>
     <main>

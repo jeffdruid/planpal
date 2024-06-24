@@ -18,25 +18,36 @@ header {
     padding: 1rem;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-nav ul li {
-    display: inline;
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-links li {
     margin-right: 1rem;
 }
 
-nav ul li a {
+.nav-links li a {
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 3px;
 }
 
-nav ul li a.active {
+.nav-links li a.active {
     background-color: #4CAF50;
+}
+
+.user-info {
+    color: white;
 }
 
 main {
