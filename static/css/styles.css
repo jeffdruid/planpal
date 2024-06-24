@@ -2,12 +2,14 @@
     box-sizing: border-box;
 }
 
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #676767;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -29,14 +31,20 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+}
+
+nav ul li a.active {
+    background-color: #4CAF50;
 }
 
 main {
+    flex: 1;
     padding: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 70vh;
     flex-direction: column;
     margin-bottom: 2rem;
 }
@@ -46,10 +54,9 @@ footer {
     padding: 1rem;
     background-color: #000000;
     color: white;
-    position: fixed;
+    position: relative;
     bottom: 0;
     width: 100%;
-    z-index: 1;
 }
 
 #calendar {
@@ -62,7 +69,27 @@ footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.upcoming-events {
+.fc-event.confirmed-event {
+    background-color: green;
+    border-color: green;
+    color: white;
+}
+
+.fc-event.pending-event {
+    background-color: orange;
+    border-color: orange;
+    color: white;
+}
+
+.fc-event.cancelled-event {
+    background-color: red;
+    border-color: red;
+    color: white;
+    text-decoration: line-through;
+}
+
+.upcoming-events,
+.your-events {
     margin-top: 2rem;
     background-color: white;
     padding: 1rem;
@@ -72,27 +99,61 @@ footer {
     max-width: 600px;
 }
 
-.upcoming-events h3 {
+.upcoming-events h3,
+.your-events h3 {
     margin-top: 0;
     color: #333;
     text-align: center;
 }
 
-.upcoming-events ul {
+.upcoming-events ul,
+.your-events ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.upcoming-events li {
+.upcoming-events li,
+.your-events li {
     padding: 0.5rem 0;
     border-bottom: 1px solid #ddd;
 }
 
-.upcoming-events li:last-child {
+.upcoming-events li:last-child,
+.your-events li:last-child {
     border-bottom: none;
 }
 
 .upcoming-events .status {
     font-weight: bold;
+}
+
+.upcoming-events .status.confirmed {
+    color: green;
+}
+
+.upcoming-events .status.pending {
+    color: orange;
+}
+
+.upcoming-events .status.cancelled {
+    color: red;
+}
+
+.edit-btn,
+.delete-btn,
+.add-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.edit-btn:hover,
+.delete-btn:hover,
+.add-btn:hover {
+    background-color: #555;
 }
