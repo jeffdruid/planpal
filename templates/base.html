@@ -14,7 +14,8 @@
                 <li><a href="{% url 'home' %}">Home</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li><a href="{% url 'account_logout' %}" method="post">Logout</a></li>
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    <li>Logged in as {{ user.username|upper }}</li>
                 {% else %}
                     <li><a href="{% url 'account_login' %}">Login</a></li>
                     <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
