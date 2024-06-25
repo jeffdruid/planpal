@@ -27,16 +27,16 @@
         <ul>
             <li>
                 <strong>Your Event 1</strong> - June 10, 2024
-                <button class="edit-btn">Edit</button>
+                <a href="{% url 'edit_event' event_id=1 %}" class="edit-btn">Edit</a>
                 <button class="delete-btn">Delete</button>
             </li>
             <li>
                 <strong>Your Event 2</strong> - June 12, 2024
-                <button class="edit-btn">Edit</button>
+                <a href="{% url 'edit_event' event_id=2 %}" class="edit-btn">Edit</a>
                 <button class="delete-btn">Delete</button>
             </li>
         </ul>
-            <a href="{% url 'add_event' %}" class="add-btn">Add New Event</a>
+        <a href="{% url 'add_event' %}" class="add-btn">Add New Event</a>
     </div>
 </div>
 
