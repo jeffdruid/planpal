@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-def hello_world(request):
-    return HttpResponse("Hello, Django!")
+@login_required
+def add_event(request):
+    return render(request, "events/add_event.html")
