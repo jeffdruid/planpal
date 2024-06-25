@@ -1,3 +1,4 @@
+/* Global Styles */
 * {
     box-sizing: border-box;
 }
@@ -12,6 +13,7 @@ body {
     min-height: 100vh;
 }
 
+/* Header and Navigation */
 header {
     background-color: #000000;
     color: white;
@@ -50,6 +52,7 @@ header {
     color: white;
 }
 
+/* Main Content */
 main {
     flex: 1;
     padding: 2rem;
@@ -60,6 +63,7 @@ main {
     margin-bottom: 2rem;
 }
 
+/* Footer */
 footer {
     text-align: center;
     padding: 1rem;
@@ -70,6 +74,7 @@ footer {
     width: 100%;
 }
 
+/* Dashboard */
 .dashboard-container {
     display: flex;
     justify-content: space-between;
@@ -175,35 +180,47 @@ footer {
     background-color: #555;
 }
 
+/* Forms */
 form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
+    background-color: #333;
+    padding: 2rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-form div {
+.form-group {
     margin-bottom: 1rem;
 }
 
-form label {
+.form-group label {
+    display: block;
     margin-bottom: 0.5rem;
     color: white;
 }
 
-form input,
-form select,
-form button {
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
 
-form button {
-    background-color: #333;
+.btn-submit {
+    background-color: #4CAF50;
     color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
     cursor: pointer;
+    border-radius: 3px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
 }
 
-form button:hover {
-    background-color: #555;
+.btn-submit:hover {
+    background-color: #45a049;
 }
