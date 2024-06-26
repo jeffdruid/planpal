@@ -9,7 +9,7 @@
     <ul>
         {% for invitation in invitations %}
         <li>
-            <strong>{{ invitation.name }}</strong> <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
+            <strong>{{ invitation.name }}</strong> {{ invitation.email }} <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
             <button class="invite-btn">Resend</button>
             <button class="delete-btn">Remove</button>
         </li>

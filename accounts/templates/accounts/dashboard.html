@@ -9,13 +9,13 @@
         <h3>Upcoming Events</h3>
         <ul>
             <li>
-                <strong>Event 1</strong> - June 15, 2024 - <span class="status confirmed">Confirmed</span>
+                <strong><a href="{% url 'event_details' event_id=1 %}" class="event-link">Event 1</a></strong> - June 15, 2024 - <span class="status confirmed">Confirmed</span>
             </li>
             <li>
-                <strong>Event 2</strong> - June 18, 2024 - <span class="status pending">Pending</span>
+                <strong><a href="{% url 'event_details' event_id=2 %}" class="event-link">Event 2</a></strong> - June 18, 2024 - <span class="status pending">Pending</span>
             </li>
             <li>
-                <strong>Event 3</strong> - June 20, 2024 - <span class="status cancelled">Cancelled</span>
+                <strong><a href="{% url 'event_details' event_id=3 %}" class="event-link">Event 3</a></strong> - June 20, 2024 - <span class="status cancelled">Cancelled</span>
             </li>
         </ul>
     </div>
@@ -26,12 +26,18 @@
         <h3>Your Events</h3>
         <ul>
             <li>
-                <strong>Your Event 1</strong> - June 10, 2024
+                <a href="{% url 'event_details' event_id=1 %}" class="event-link">
+                    <strong>Your Event 1</strong>
+                </a>
+                - June 10, 2024
                 <a href="{% url 'edit_event' event_id=1 %}" class="edit-btn">Edit</a>
                 <button class="delete-btn">Delete</button>
             </li>
             <li>
-                <strong>Your Event 2</strong> - June 12, 2024
+                <a href="{% url 'event_details' event_id=2 %}" class="event-link">
+                    <strong>Your Event 2</strong>
+                </a>
+                - June 12, 2024
                 <a href="{% url 'edit_event' event_id=2 %}" class="edit-btn">Edit</a>
                 <button class="delete-btn">Delete</button>
             </li>
@@ -53,17 +59,20 @@
                 {
                     title: 'Event 1',
                     start: '2024-06-15',
-                    className: 'confirmed-event'
+                    className: 'confirmed-event',
+                    url: '{% url "event_details" event_id=1 %}'
                 },
                 {
                     title: 'Event 2',
                     start: '2024-06-18',
-                    className: 'pending-event'
+                    className: 'pending-event',
+                    url: '{% url "event_details" event_id=2 %}'
                 },
                 {
                     title: 'Event 3',
                     start: '2024-06-20',
-                    className: 'cancelled-event'
+                    className: 'cancelled-event',
+                    url: '{% url "event_details" event_id=3 %}'
                 }
             ]
         });

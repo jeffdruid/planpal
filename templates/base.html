@@ -6,6 +6,7 @@
     <title>{% block title %}Event Planner{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -26,8 +27,32 @@
             </ul>
             {% if user.is_authenticated %}
                 <div class="user-info">
-                    Logged in as {{ user.username|upper }}
-                </div>
+                    <i class="fas fa-bell" id="notificationBell"></i>
+                    <span class="notification-count" id="notificationCount">3</span>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <ul>
+                            <li class="notification-item">
+                                <a href="{% url 'event_details' event_id=1 %}" class="notification-link">
+                                    <span class="notification-title">New Event Invitation</span>
+                                    <span class="notification-time">Just now</span>
+                                </a>
+                            </li>
+                            <li class="notification-item">
+                                <a href="{% url 'event_details' event_id=1 %}" class="notification-link">
+                                    <span class="notification-title">Event Updated</span>
+                                    <span class="notification-time">5 minutes ago</span>
+                                </a>
+                            </li>
+                            <li class="notification-item">
+                                <a href="{% url 'event_details' event_id=1 %}" class="notification-link">
+                                    <span class="notification-title">Invitation Accepted</span>
+                                    <span class="notification-time">10 minutes ago</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    Logged in as {{ user.username }}
+                </div>                                    
             {% endif %}
         </nav>
     </header>
@@ -37,5 +62,6 @@
     <footer>
         <p>&copy; 2024 Event Planner</p>
     </footer>
+    <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>

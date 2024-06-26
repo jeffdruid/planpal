@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; color: #fff;">Event Details</h2>
+<div class="event-details">
+    <p><strong>Title:</strong> {{ event.title }}</p>
+    <p><strong>Date:</strong> {{ event.date }}</p>
+    <p><strong>Time:</strong> {{ event.time }}</p>
+    <p><strong>Description:</strong> {{ event.description }}</p>
+    <p><strong>Location:</strong> {{ event.location }}</p>
+    <p><strong>Status:</strong> {{ event.status }}</p>
+</div>
+{% endblock %}

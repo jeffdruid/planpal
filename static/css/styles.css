@@ -112,6 +112,15 @@ footer {
     text-decoration: line-through;
 }
 
+.event-link {
+    color: #000;
+    text-decoration: none;
+}
+
+.event-link:hover {
+    text-decoration: underline;
+}
+
 .upcoming-events,
 .your-events {
     background-color: white;
@@ -172,6 +181,7 @@ footer {
     margin: 0.5rem;
     cursor: pointer;
     border-radius: 3px;
+    text-decoration: none;
 }
 
 .edit-btn:hover,
@@ -288,4 +298,88 @@ form {
 .delete-btn:hover,
 .add-btn:hover {
     background-color: #555;
+}
+
+/* Notification Dropdown */
+#notificationCount {
+    margin-right: 1rem;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-dropdown li {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-dropdown li:last-child {
+    border-bottom: none;
+}
+
+.notification-dropdown .notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-dropdown .notification-item .notification-title {
+    font-weight: bold;
+}
+
+.notification-dropdown .notification-item .notification-time {
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.notification-dropdown .notification-link {
+    text-decoration: none;
+    color: black;
+    display: block;
+    width: 100%;
+}
+
+/* Event Details */
+.event-details {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    margin: 2rem auto;
+    color: #333;
+}
+
+.event-details h2 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 1.5rem;
+}
+
+.event-details p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+}
+
+.event-details p strong {
+    display: inline-block;
+    width: 150px;
+    color: #333;
 }
