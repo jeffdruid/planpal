@@ -355,22 +355,29 @@ form {
     width: 100%;
 }
 
+/* Event Details Container */
+.event-details-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    margin: 2rem auto;
+}
+
 /* Event Details */
 .event-details {
     background-color: white;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 800px;
-    margin: 2rem auto;
-    color: #333;
+    width: 60%;
     position: relative;
+    color: #333;
 }
 
 .event-details h2 {
     text-align: center;
-    color: #4CAF50;
+    color: #000;
     margin-bottom: 1.5rem;
 }
 
@@ -404,4 +411,105 @@ form {
 
 .status-cancelled {
     background-color: red;
+}
+
+.status-not-answered {
+    background-color: grey;
+}
+
+/* Response Buttons */
+.response-buttons {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.response-buttons .btn {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+.response-buttons .accept-btn {
+    background-color: green;
+    color: white;
+}
+
+.response-buttons .deny-btn {
+    background-color: red;
+    color: white;
+}
+
+.response-buttons .maybe-btn {
+    background-color: orange;
+    color: white;
+}
+
+/* Event Availability */
+.event-availability {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 35%;
+    color: #333;
+}
+
+.event-availability h3 {
+    color: orange;
+    margin-bottom: 1rem;
+}
+
+.event-availability ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-availability ul li {
+    margin-bottom: 0.5rem;
+}
+
+.event-availability ul li .status {
+    font-weight: bold;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

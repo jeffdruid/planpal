@@ -9,12 +9,12 @@
     <ul>
         {% for invitation in invitations %}
         <li>
-            <strong>{{ invitation.name }}</strong> {{ invitation.email }} <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
+            <strong>{{ invitation.name }}</strong>{{ invitation.email }}
             <button class="invite-btn">Resend</button>
             <button class="delete-btn">Remove</button>
         </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'invite_guests' event_id=event.id %}" class="add-btn">Add New Invitation</a>
+    <a href="{% url 'invite_guests' event_id=event.id %}" class="add-btn">Add Invitation</a>
 </div>
 {% endblock %}

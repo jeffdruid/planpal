@@ -3,14 +3,53 @@
 {% block title %}Event Details{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center; color: #fff;">Event Details</h2>
-<div class="event-details">
-    <p><strong>Title:</strong> {{ event.title }}</p>
-    <p><strong>Date:</strong> {{ event.date }}</p>
-    <p><strong>Time:</strong> {{ event.time }}</p>
-    <p><strong>Description:</strong> {{ event.description }}</p>
-    <p><strong>Location:</strong> {{ event.location }}</p>
-    <p><strong>Status:</strong>
-        <span class="status-indicator status-{{ event.status|lower }}"></span>{{ event.status }}</p>
+<div class="event-details-container">
+    <div class="event-details">
+        <span class="status-indicator status-{{ event.status|lower }}"></span>
+        <h2 style="text-align: center;">Event Details</h2>
+        <p><strong>Title:</strong> {{ event.title }}</p>
+        <p><strong>Date:</strong> {{ event.date }}</p>
+        <p><strong>Time:</strong> {{ event.time }}</p>
+        <p><strong>Description:</strong> {{ event.description }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p><strong>Status:</strong> {{ event.status }}</p>
+        <div class="response-buttons">
+            <button class="btn accept-btn" onclick="respondToInvitation('accept')">Accept</button>
+            <button class="btn deny-btn" onclick="respondToInvitation('deny')">Deny</button>
+            <button class="btn maybe-btn" onclick="respondToInvitation('maybe')">Maybe</button>
+        </div>
+    </div>
+    <div class="event-availability">
+        <h3>Availability</h3>
+        <ul>
+            <li>John Doe: <span class="status confirmed">Available</span></li>
+            <li>Jane Smith: <span class="status maybe">Maybe</span></li>
+            <li>Alice Johnson: <span class="status denied">Not Available</span></li>
+            <li>Bob Brown: <span class="status not-answered">Not Answered</span></li>
+        </ul>
+        <h3>Suggested Alternative Dates</h3>
+        <ul>
+            <li>John Doe: June 16, 2024 - 10:00 AM</li>
+            <li>Jane Smith: June 17, 2024 - 11:00 AM</li>
+            <li>Alice Johnson: June 18, 2024 - 12:00 PM</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Modal for suggesting alternate dates -->
+<div id="alternateDateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Suggest an Alternate Date</h2>
+        <form id="alternateDateForm">
+            <div class="form-group">
+                <label for="alternate_date">Alternate Date:</label>
+                <input type="date" id="alternate_date" name="alternate_date" required>
+                <label for="alternate_time">Time:</label>
+                <input type="time" id="alternate_time" name="alternate_time" required>
+            </div>
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
