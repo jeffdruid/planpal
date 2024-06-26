@@ -365,6 +365,7 @@ form {
     max-width: 800px;
     margin: 2rem auto;
     color: #333;
+    position: relative;
 }
 
 .event-details h2 {
@@ -382,4 +383,25 @@ form {
     display: inline-block;
     width: 150px;
     color: #333;
+}
+
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.status-confirmed {
+    background-color: green;
+}
+
+.status-pending {
+    background-color: orange;
+}
+
+.status-cancelled {
+    background-color: red;
 }
