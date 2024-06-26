@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Invitations{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; color: white;">Manage Invitations for {{ event.title }}</h2>
+<div class="invitations-container">
+    <h3>Invitations</h3>
+    <ul>
+        {% for invitation in invitations %}
+        <li>
+            <strong>{{ invitation.name }}</strong> <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
+            <button class="invite-btn">Resend</button>
+            <button class="delete-btn">Remove</button>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'invite_guests' event_id=event.id %}" class="add-btn">Add New Invitation</a>
+</div>
+{% endblock %}

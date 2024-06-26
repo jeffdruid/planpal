@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required
 def add_event(request):
+    if request.method == "POST":
+        # For now, just redirect to the invite guests page for event_id=1
+        return redirect("invite_guests", event_id=1)
     return render(request, "events/add_event.html")
 
 
@@ -25,4 +28,18 @@ def edit_event(request, event_id):
         # For now, just redirect to the dashboard
         return redirect("dashboard")
 
-    return render(request, "events/edit_event.html", {"event": event})
+    return render(
+        request,
+        "events/edit_event.html",
+        {"event": event, "event_id": event_id},
+    )
+
+
+@login_required
+def invite_guests(request, event_id):
+    # Static data for now
+    event = {
+        "id": event_id,
+        "title": "Sample Event",
+    }
+    return render(request, "events/invite_guests.html", {"event": event})

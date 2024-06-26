@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "accounts",
     "events",
+    "invitations",
 ]
 
 # Required for django-allauth
