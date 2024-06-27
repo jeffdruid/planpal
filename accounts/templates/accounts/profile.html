@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; color: #000;">User Profile</h2>
+<div class="profile-container">
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{ user_data.username }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user_data.first_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user_data.last_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" required>{{ user_data.bio }}</textarea>
+        </div>
+        <button type="submit" class="btn-submit">Update Profile</button>
+    </form>
+</div>
+{% endblock %}
