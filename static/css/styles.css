@@ -355,6 +355,56 @@ form {
     width: 100%;
 }
 
+.notification-dropdown .view-all {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    color: #333;
+    text-decoration: none;
+    border-top: 1px solid #ddd;
+}
+
+.notification-dropdown .view-all:hover {
+    background-color: #ddd;
+}
+
+/* Notifications List */
+.notifications-list {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    margin: 2rem auto;
+    color: #333;
+}
+
+.notifications-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.notifications-list ul li {
+    margin-bottom: 1rem;
+}
+
+.notifications-list ul li .notification-link {
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.notifications-list ul li .notification-link:hover {
+    background-color: #f1f1f1;
+}
+
 /* Event Details Container */
 .event-details-container {
     display: flex;

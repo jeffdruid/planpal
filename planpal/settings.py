@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "accounts",
     "events",
     "invitations",
+    "notifications",
 ]
 
 # Required for django-allauth
