@@ -53,7 +53,7 @@
                         </ul>
                         <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
                     </div>
-                    Logged in as {{ user.username }}
+                    {{ user.first_name }} {{ user.last_name }} 
                 </div>                                    
             {% endif %}
         </nav>

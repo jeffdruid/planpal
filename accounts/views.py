@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 
@@ -14,12 +14,16 @@ def dashboard(request):
 
 @login_required
 def profile(request):
-    # Static user data for now
+    if request.method == "POST":
+        user = request.user
+        user.first_name = request.POST["first_name"]
+        user.last_name = request.POST["last_name"]
+        user.save()
+        return redirect("dashboard")
+
     user_data = {
         "username": request.user.username,
-        "email": request.user.email,
-        "first_name": "John",
-        "last_name": "Doe",
-        "bio": "This is a sample bio.",
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
     }
     return render(request, "accounts/profile.html", {"user_data": user_data})
