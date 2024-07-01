@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Welcome to the Event Planner</h1>
 {% if user.is_authenticated %}
-<p>Hello, {{ user.email }}!</p>
+<p>Hello, {{ user.username }} !</p>
 <p><a href="{% url 'account_logout' %}">Logout</a></p>
 
 {% else %}
