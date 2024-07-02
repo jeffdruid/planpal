@@ -5,6 +5,21 @@ from django.contrib import messages
 from .models import UserProfile
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
+from django.utils import timezone
+from events.models import Event
+
+
+@login_required
+def dashboard(request):
+    current_user = request.user
+    upcoming_events = Event.objects.filter(
+        proposed_date__gte=timezone.now()
+    ).order_by("proposed_date")
+    user_events = Event.objects.filter(created_by=current_user).order_by(
+        "proposed_date"
+    )
+    context = {"upcoming_events": upcoming_events, "user_events": user_events}
+    return render(request, "accounts/dashboard.html", context)
 
 
 def signup(request):
@@ -46,11 +61,6 @@ def signup(request):
 
 def home(request):
     return render(request, "accounts/home.html")
-
-
-@login_required
-def dashboard(request):
-    return render(request, "accounts/dashboard.html")
 
 
 @login_required

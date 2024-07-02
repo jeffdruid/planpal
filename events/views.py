@@ -10,6 +10,7 @@ def create_event(request):
         if form.is_valid():
             event = form.save(commit=False)
             event.created_by = request.user
+            event.status = "Pending"
             event.save()
             return redirect("dashboard")
     else:
