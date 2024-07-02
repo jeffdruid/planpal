@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from .forms import EventForm
 
 
-# Create your views here.
 @login_required
-def add_event(request):
+def create_event(request):
     if request.method == "POST":
-        # For now, just redirect to the invite guests page for event_id=1
-        return redirect("invite_guests", event_id=1)
-    return render(request, "events/add_event.html")
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.created_by = request.user
+            event.save()
+            return redirect("dashboard")
+    else:
+        form = EventForm()
+    return render(request, "events/add_event.html", {"form": form})
 
 
 @login_required
