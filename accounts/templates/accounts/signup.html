@@ -5,11 +5,17 @@
 {% block content %}
 <h2 style="text-align: center; color: white;">Sign Up</h2>
 
-{% if messages %}
+{% if errors %}
     <div class="messages">
-        {% for message in messages %}
-            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% for error in errors %}
+            <div class="alert error">{{ error }}</div>
         {% endfor %}
+    </div>
+{% endif %}
+
+{% if success %}
+    <div class="messages">
+        <div class="alert success">{{ success }}</div>
     </div>
 {% endif %}
 
@@ -17,11 +23,11 @@
     {% csrf_token %}
     <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" value="{{ request.POST.username }}" required>
     </div>
     <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" value="{{ request.POST.email }}" required>
     </div>
     <div class="form-group">
         <label for="password1">Password:</label>

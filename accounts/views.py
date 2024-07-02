@@ -4,42 +4,46 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import UserProfile
 from django.contrib.auth import authenticate, login
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 def signup(request):
+    context = {"errors": [], "success": ""}
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-        password1 = request.POST["password1"]
-        password2 = request.POST["password2"]
+        try:
+            username = request.POST["username"]
+            email = request.POST["email"]
+            password1 = request.POST["password1"]
+            password2 = request.POST["password2"]
 
-        if password1 != password2:
-            messages.error(request, "Passwords do not match.")
-            return redirect("account_signup")
+            if password1 != password2:
+                context["errors"].append("Passwords do not match.")
+            elif User.objects.filter(username=username).exists():
+                context["errors"].append("Username already taken.")
+            elif User.objects.filter(email=email).exists():
+                context["errors"].append("Email already taken.")
+            else:
+                user = User.objects.create_user(
+                    username=username, email=email, password=password1
+                )
+                user.save()
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already taken.")
-            return redirect("account_signup")
+                # Check if the profile already exists
+                if not UserProfile.objects.filter(user=user).exists():
+                    UserProfile.objects.create(user=user)
 
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already taken.")
-            return redirect("account_signup")
+                # Automatically log the user in
+                user = authenticate(username=username, password=password1)
+                if user is not None:
+                    login(request, user)
+                    return redirect("dashboard")
 
-        user = User.objects.create_user(
-            username=username, email=email, password=password1
-        )
-        user.save()
+        except MultiValueDictKeyError as e:
+            context["errors"].append(f"Missing field: {str(e)}")
 
-        # Create the user profile
-        UserProfile.objects.create(user=user)
-
-        messages.success(request, "Registration successful. Please log in.")
-        return redirect("account_login")
-
-    return render(request, "accounts/signup.html")
+    return render(request, "accounts/signup.html", context)
 
 
-# Create your views here.
 def home(request):
     return render(request, "accounts/home.html")
 
