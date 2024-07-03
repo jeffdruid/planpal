@@ -14,6 +14,7 @@
                 </li>
             {% empty %}
                 <li>No upcoming events.</li>
+                <br>
             {% endfor %}
         </ul>
     </div>
@@ -31,13 +32,28 @@
                     - {{ event.proposed_date|date:"F j, Y" }}
                     <span class="status {{ event.status|lower }}">{{ event.status }}</span>
                     <a href="{% url 'edit_event' event.id %}" class="edit-btn">Edit</a>
-                    <button class="delete-btn">Delete</button>
+                    <button class="delete-btn" data-event-id="{{ event.id }}">Delete</button>
                 </li>
             {% empty %}
-                <li>You have not created any events.</li>
+            <li>You have not created any events.</li>
+            <br>
             {% endfor %}
         </ul>
         <a href="{% url 'create_event' %}" class="add-btn">Create Event</a>
+    </div>
+</div>
+
+<!-- Modal for deleting an event -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete this event?</p>
+        <form method="post" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn-submit">Delete</button>
+            <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+        </form>
     </div>
 </div>
 
@@ -50,17 +66,44 @@
                 right: 'month,agendaWeek,agendaDay'
             },
             editable: false,
+            timeZone: 'local',
             events: [
                 {% for event in upcoming_events %}
                     {
                         title: '{{ event.title }}',
-                        start: '{{ event.proposed_date|date:"Y-m-dTH:i:s" }}',
+                        start: '{{ event.proposed_date|date:"c" }}',  // ISO 8601 format
                         className: '{{ event.status|lower }}-event',
                         url: '{% url "event_details" event.id %}'
                     },
                 {% endfor %}
             ]
         });
+
+        var deleteModal = document.getElementById("deleteModal");
+        var deleteForm = document.getElementById("deleteForm");
+        var closeModalBtn = document.getElementsByClassName("close")[0];
+
+        $(".delete-btn").click(function() {
+            var eventId = $(this).data("event-id");
+            deleteForm.action = "/events/" + eventId + "/delete/";
+            deleteModal.style.display = "block";
+        });
+
+        closeModalBtn.onclick = function() {
+            deleteModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == deleteModal) {
+                deleteModal.style.display = "none";
+            }
+        }
+
+        function closeModal() {
+            deleteModal.style.display = "none";
+        }
+
+        document.querySelector(".btn-cancel").addEventListener("click", closeModal);
     });
 </script>
 

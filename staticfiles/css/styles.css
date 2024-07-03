@@ -592,6 +592,10 @@ form {
     cursor: pointer;
 }
 
+#deleteForm>button.btn-submit {
+    background-color: red;
+}
+
 /* Profile Container */
 .profile-container {
     background-color: white;
