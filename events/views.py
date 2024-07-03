@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from .models import Event
 from .forms import EventForm
 
 
@@ -20,51 +21,28 @@ def create_event(request):
 
 @login_required
 def edit_event(request, event_id):
-    # Static data for now
-    event = {
-        "title": "Sample Event",
-        "date": "2024-06-15",
-        "time": "14:00",
-        "description": "This is a sample event description.",
-        "location": "Sample Location",
-        "status": "confirmed",
-    }
-
+    event = get_object_or_404(Event, id=event_id, created_by=request.user)
     if request.method == "POST":
-        # Handle form submission and save changes
-        # For now, just redirect to the dashboard
-        return redirect("dashboard")
-
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+    else:
+        form = EventForm(instance=event)
     return render(
-        request,
-        "events/edit_event.html",
-        {"event": event, "event_id": event_id},
+        request, "events/edit_event.html", {"form": form, "event_id": event_id}
     )
 
 
 @login_required
 def event_details(request, event_id):
-    # Static data for now
-    event = {
-        "id": event_id,
-        "title": "Sample Event",
-        "date": "2024-06-15",
-        "time": "14:00",
-        "description": "This is a sample event description.",
-        "location": "Sample Location",
-        "status": "confirmed",
-    }
+    event = get_object_or_404(Event, id=event_id)
     return render(request, "events/event_details.html", {"event": event})
 
 
 @login_required
 def invite_guests(request, event_id):
-    # Static data for now
-    event = {
-        "id": event_id,
-        "title": "Sample Event",
-    }
-
+    event = get_object_or_404(Event, id=event_id)
     if request.method == "POST":
         # Simulate sending an invitation and add a notification
         notifications = [
