@@ -10,7 +10,7 @@
         <ul>
             {% for event in upcoming_events %}
                 <li>
-                    <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title }}</a></strong> - {{ event.proposed_date|date:"F j, Y" }} - <span class="status {{ event.status|lower }}">{{ event.status }}</span>
+                    <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title|upper }}</a></strong> - {{ event.proposed_date|date:"F j, Y" }} - <span class="status {{ event.status|lower }}">{{ event.status }}</span>
                 </li>
             {% empty %}
                 <li>No upcoming events.</li>
@@ -26,7 +26,7 @@
             {% for event in user_events %}
                 <li>
                     <a href="{% url 'event_details' event.id %}" class="event-link">
-                        <strong>{{ event.title }}</strong>
+                        <strong>{{ event.title|upper }}</strong>
                     </a>
                     - {{ event.proposed_date|date:"F j, Y" }}
                     <span class="status {{ event.status|lower }}">{{ event.status }}</span>

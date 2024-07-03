@@ -179,19 +179,23 @@ footer {
     border-bottom: none;
 }
 
-.upcoming-events .status {
+.upcoming-events .status,
+.your-events .status {
     font-weight: bold;
 }
 
-.upcoming-events .status.confirmed {
+.upcoming-events .status.confirmed,
+.your-events .status.confirmed {
     color: green;
 }
 
-.upcoming-events .status.pending {
+.upcoming-events .status.pending,
+.your-events .status.pending {
     color: orange;
 }
 
-.upcoming-events .status.cancelled {
+.upcoming-events .status.cancelled,
+.your-events .status.cancelled {
     color: red;
 }
 
