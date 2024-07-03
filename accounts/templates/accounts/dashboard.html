@@ -31,9 +31,10 @@
                     </a>
                     - {{ event.proposed_date|date:"F j, Y" }}
                     <span class="status {{ event.status|lower }}">{{ event.status }}</span>
-                    <a href="{% url 'edit_event' event.id %}" class="edit-btn">Edit</a>
-                    <button class="delete-btn" data-event-id="{{ event.id }}">Delete</button>
+                    <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
+                    <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
                 </li>
+                <br>
             {% empty %}
             <li>You have not created any events.</li>
             <br>
