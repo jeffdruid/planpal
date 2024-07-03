@@ -7,12 +7,19 @@
     <div class="event-details">
         <span class="status-indicator status-{{ event.status|lower }}"></span>
         <h2 style="text-align: center;">Event Details</h2>
-        <p><strong>Title:</strong> {{ event.title }}</p>
-        <p><strong>Date:</strong> {{ event.date }}</p>
-        <p><strong>Time:</strong> {{ event.time }}</p>
-        <p><strong>Description:</strong> {{ event.description }}</p>
-        <p><strong>Location:</strong> {{ event.location }}</p>
-        <p><strong>Status:</strong> {{ event.status }}</p>
+        <p><strong>Title:</strong> {{ event.title|title }}</p>
+        <p><strong>Date:</strong> {{ event.proposed_date|date:"F j, Y" }}</p>
+        <p><strong>Time:</strong> {{ event.proposed_date|time:"H:i" }}</p>
+        <p><strong>Description:</strong> {{ event.description|title }}</p>
+        <p><strong>Location:</strong> {{ event.location|title }}</p>
+        <p><strong>Status:</strong> {{ event.status|title }}</p>
+        <p><strong>Created by:</strong> {{ event.created_by.username|title }}</p>
+        {% if event.created_by == user %}
+        <div class="event-actions">
+            <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
+            <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
+        </div>
+        {% endif %}
         <div class="response-buttons">
             <button class="btn accept-btn" onclick="respondToInvitation('accept')">Accept</button>
             <button class="btn deny-btn" onclick="respondToInvitation('deny')">Deny</button>
@@ -36,6 +43,20 @@
     </div>
 </div>
 
+<!-- Modal for deleting an event -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete this event?</p>
+        <form method="post" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn-submit">Delete</button>
+            <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
 <!-- Modal for suggesting alternate dates -->
 <div id="alternateDateModal" class="modal">
     <div class="modal-content">
@@ -52,4 +73,31 @@
         </form>
     </div>
 </div>
+
+<script>
+    var deleteModal = document.getElementById("deleteModal");
+    var deleteForm = document.getElementById("deleteForm");
+    var closeModalBtn = document.getElementsByClassName("close")[0];
+
+    $(".delete-btn").click(function() {
+        var eventId = $(this).data("event-id");
+        deleteForm.action = "/events/" + eventId + "/delete/";
+        deleteModal.style.display = "block";
+    });
+
+    closeModalBtn.onclick = function() {
+        deleteModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == deleteModal) {
+            deleteModal.style.display = "none";
+        }
+    }
+
+    function closeModal() {
+        deleteModal.style.display = "none";
+    }
+</script>
+
 {% endblock %}
