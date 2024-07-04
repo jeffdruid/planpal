@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Event
 from .forms import EventForm
+from invitations.models import Invitation
 
 
 @login_required
@@ -36,7 +37,12 @@ def edit_event(request, event_id):
 @login_required
 def event_details(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    return render(request, "events/event_details.html", {"event": event})
+    invitations = Invitation.objects.filter(event=event)
+    return render(
+        request,
+        "events/event_details.html",
+        {"event": event, "invitations": invitations},
+    )
 
 
 @login_required

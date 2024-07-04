@@ -7,4 +7,9 @@ urlpatterns = [
         views.manage_invitations,
         name="manage_invitations",
     ),
+    path(
+        "create/<int:event_id>/",
+        views.create_invitation,
+        name="create_invitation",
+    ),
 ]

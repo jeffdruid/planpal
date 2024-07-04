@@ -42,6 +42,19 @@
         </ul>
     </div>
 </div>
+<div class="event-invitations">
+    <h3>Invitations</h3>
+    <ul>
+        {% for invitation in invitations %}
+        <li>
+            <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.email }} - <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
+        </li>
+        {% empty %}
+        <li>No invitations sent.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'manage_invitations' event.id %}" class="invite-btn">Manage Invitations</a>
+</div>
 
 <!-- Modal for deleting an event -->
 <div id="deleteModal" class="modal">
