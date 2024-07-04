@@ -21,6 +21,15 @@ def manage_invitations(request, event_id):
 @login_required
 def create_invitation(request, event_id):
     event = get_object_or_404(Event, id=event_id)
+
+    # Check if the logged-in user is the creator of the event
+    if request.user != event.created_by:
+        messages.error(
+            request,
+            "You are not authorized to send invitations for this event.",
+        )
+        return redirect("event_details", event_id=event_id)
+
     users = User.objects.all()  # Include all users, including the current user
     if request.method == "POST":
         user_id = request.POST.get("user_id")
