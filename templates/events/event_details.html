@@ -10,11 +10,12 @@
         <p><strong>Title:</strong> {{ event.title|title }}</p>
         <p><strong>Date:</strong> {{ event.proposed_date|date:"F j, Y" }}</p>
         <p><strong>Time:</strong> {{ event.proposed_date|time:"H:i" }}</p>
-        <p><strong>Description:</strong> {{ event.description|title }}</p>
-        <p><strong>Location:</strong> {{ event.location|title }}</p>
-        <p><strong>Status:</strong> {{ event.status|title }}</p>
-        <p><strong>Created by:</strong> {{ event.created_by.username|title }}</p>
-        {% if event.created_by == user %}
+        <p><strong>Description:</strong> {{ event.description|capfirst }}</p>
+        <p><strong>Location:</strong> {{ event.location|capfirst }}</p>
+        <p><strong>Status:</strong> {{ event.status|capfirst }}</p>
+        <p><strong>Created by:</strong> {{ event.created_by.username|capfirst }}</p>
+
+        {% if request.user == event.created_by %}
         <div class="event-actions">
             <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
             <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
@@ -53,7 +54,9 @@
         <li>No invitations sent.</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'manage_invitations' event.id %}" class="invite-btn">Manage Invitations</a>
+    {% if request.user == event.created_by %}
+        <a href="{% url 'manage_invitations' event.id %}" class="invite-btn">Manage Invitations</a>
+    {% endif %}
 </div>
 
 <!-- Modal for deleting an event -->
