@@ -30,6 +30,10 @@
     <div class="event-availability">
         <h3>Availability</h3>
         <ul>
+            {% for invitation in invitations %}
+            {% empty %}
+            <li>No invitations sent.</li>
+            {% endfor %}
             {% for invitation in event.invitations.all %}
                 <li>{{ invitation.user.username|capfirst }}: <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span> {% if invitation.read %}<span class="read-status">(Read)</span>{% else %}<span class="unread-status">(Unread)</span>{% endif %}</li>
             {% endfor %}
@@ -43,12 +47,6 @@
     </div>
 </div>
 <div class="event-invitations">
-    <ul>
-        {% for invitation in invitations %}
-        {% empty %}
-        <li>No invitations sent.</li>
-        {% endfor %}
-    </ul>
     {% if request.user == event.created_by %}
         <a href="{% url 'manage_invitations' event.id %}" class="invite-btn">Manage Invitations</a>
     {% endif %}
