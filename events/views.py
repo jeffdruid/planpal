@@ -43,6 +43,20 @@ def event_details(request, event_id):
     user_invitations = invitations.filter(user=request.user)
     user_invitations.update(read=True)
 
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action in ["accept", "deny", "maybe"]:
+            invitation = get_object_or_404(
+                Invitation, event=event, user=request.user
+            )
+            if action == "accept":
+                invitation.status = "Accepted"
+            elif action == "deny":
+                invitation.status = "Declined"
+            elif action == "maybe":
+                invitation.status = "Maybe"
+            invitation.save()
+
     context = {
         "event": event,
         "invitations": invitations,

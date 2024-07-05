@@ -26,6 +26,26 @@
             <button class="btn deny-btn" onclick="respondToInvitation('deny')">Deny</button>
             <button class="btn maybe-btn" onclick="respondToInvitation('maybe')">Maybe</button>
         </div>
+        <div class="response-buttons">
+            <div class="response-message">
+                <p>How would you like to respond to this event?</p>
+            </div>
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="accept">
+                <button type="submit" class="btn accept-btn">Accept</button>
+            </form>
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="deny">
+                <button type="submit" class="btn deny-btn">Deny</button>
+            </form>
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="maybe">
+                <button type="submit" class="btn maybe-btn">Maybe</button>
+            </form>
+        </div>
     </div>
     <div class="event-availability">
         <h3>Availability</h3>
