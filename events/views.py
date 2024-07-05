@@ -38,11 +38,16 @@ def edit_event(request, event_id):
 def event_details(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     invitations = Invitation.objects.filter(event=event)
-    return render(
-        request,
-        "events/event_details.html",
-        {"event": event, "invitations": invitations},
-    )
+
+    # Mark the invitations as read if the user opens the event details
+    user_invitations = invitations.filter(user=request.user)
+    user_invitations.update(read=True)
+
+    context = {
+        "event": event,
+        "invitations": invitations,
+    }
+    return render(request, "events/event_details.html", context)
 
 
 @login_required

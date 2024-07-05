@@ -29,7 +29,20 @@ def dashboard(request):
         (user_events | invited_events).distinct().order_by("proposed_date")
     )
 
-    context = {"upcoming_events": upcoming_events, "user_events": user_events}
+    # Prepare the list of upcoming events with their read status
+    upcoming_events_with_read_status = []
+    for event in upcoming_events:
+        unread_invitations = Invitation.objects.filter(
+            event=event, user=current_user, read=False
+        ).exists()
+        upcoming_events_with_read_status.append(
+            {"event": event, "unread": unread_invitations}
+        )
+
+    context = {
+        "upcoming_events_with_read_status": upcoming_events_with_read_status,
+        "user_events": user_events,
+    }
     return render(request, "accounts/dashboard.html", context)
 
 

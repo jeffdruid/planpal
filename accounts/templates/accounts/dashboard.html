@@ -8,9 +8,12 @@
     <div class="upcoming-events">
         <h3>Upcoming Events</h3>
         <ul>
-            {% for event in upcoming_events %}
+            {% for item in upcoming_events_with_read_status %}
                 <li>
-                    <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title|upper }}</a></strong> - {{ event.proposed_date|date:"F j, Y" }} - <span class="status {{ event.status|lower }}">{{ event.status }}</span>
+                    <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong> - {{ item.event.proposed_date|date:"F j, Y" }} - <span class="status {{ item.event.status|lower }}">{{ item.event.status }}</span>
+                    {% if item.unread %}
+                        <span class="unread-status">(Unread)</span>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>No upcoming events.</li>
@@ -69,12 +72,12 @@
             editable: false,
             timeZone: 'local',
             events: [
-                {% for event in upcoming_events %}
+                {% for item in upcoming_events_with_read_status %}
                     {
-                        title: '{{ event.title }}',
-                        start: '{{ event.proposed_date|date:"c" }}',  // ISO 8601 format
-                        className: '{{ event.status|lower }}-event',
-                        url: '{% url "event_details" event.id %}'
+                        title: '{{ item.event.title }}',
+                        start: '{{ item.event.proposed_date|date:"c" }}',  // ISO 8601 format
+                        className: '{{ item.event.status|lower }}-event',
+                        url: '{% url "event_details" item.event.id %}'
                     },
                 {% endfor %}
             ]

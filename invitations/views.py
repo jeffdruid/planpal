@@ -9,7 +9,10 @@ from django.contrib import messages
 @login_required
 def manage_invitations(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    invitations = Invitation.objects.filter(event=event)
+    if event.created_by != request.user:
+        return redirect("dashboard")
+
+    invitations = Invitation.objects.filter(event=event).select_related("user")
 
     return render(
         request,

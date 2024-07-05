@@ -30,10 +30,9 @@
     <div class="event-availability">
         <h3>Availability</h3>
         <ul>
-            <li>John Doe: <span class="status confirmed">Available</span></li>
-            <li>Jane Smith: <span class="status maybe">Maybe</span></li>
-            <li>Alice Johnson: <span class="status denied">Not Available</span></li>
-            <li>Bob Brown: <span class="status not-answered">Not Answered</span></li>
+            {% for invitation in event.invitations.all %}
+                <li>{{ invitation.user.username|capfirst }}: <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span> {% if invitation.read %}<span class="read-status">(Read)</span>{% else %}<span class="unread-status">(Unread)</span>{% endif %}</li>
+            {% endfor %}
         </ul>
         <h3>Suggested Alternative Dates</h3>
         <ul>
@@ -44,12 +43,8 @@
     </div>
 </div>
 <div class="event-invitations">
-    <h3>Invitations</h3>
     <ul>
         {% for invitation in invitations %}
-        <li>
-            <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.email }} - <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
-        </li>
         {% empty %}
         <li>No invitations sent.</li>
         {% endfor %}
