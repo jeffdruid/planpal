@@ -5,19 +5,30 @@ from django.contrib import messages
 from .models import UserProfile
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
-from django.utils import timezone
+from django.utils.timezone import *
 from events.models import Event
+from invitations.models import Invitation
 
 
 @login_required
 def dashboard(request):
     current_user = request.user
-    upcoming_events = Event.objects.filter(
-        proposed_date__gte=timezone.now()
-    ).order_by("proposed_date")
+
+    # Get events created by the user
     user_events = Event.objects.filter(created_by=current_user).order_by(
         "proposed_date"
     )
+
+    # Get events the user is invited to
+    invited_events = Event.objects.filter(
+        invitations__user=current_user
+    ).order_by("proposed_date")
+
+    # Combine both querysets
+    upcoming_events = (
+        (user_events | invited_events).distinct().order_by("proposed_date")
+    )
+
     context = {"upcoming_events": upcoming_events, "user_events": user_events}
     return render(request, "accounts/dashboard.html", context)
 
