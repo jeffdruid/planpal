@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import Event
 from .forms import EventForm
 from invitations.models import Invitation
@@ -45,17 +46,28 @@ def event_details(request, event_id):
 
     if request.method == "POST":
         action = request.POST.get("action")
-        if action in ["accept", "deny", "maybe"]:
+        if action in ["accept", "deny"]:
             invitation = get_object_or_404(
                 Invitation, event=event, user=request.user
             )
-            if action == "accept":
-                invitation.status = "Accepted"
-            elif action == "deny":
-                invitation.status = "Declined"
-            elif action == "maybe":
-                invitation.status = "Maybe"
+            invitation.status = (
+                "Accepted" if action == "accept" else "Declined"
+            )
             invitation.save()
+        elif action == "maybe":
+            invitation = get_object_or_404(
+                Invitation, event=event, user=request.user
+            )
+            suggested_date_str = request.POST.get("alternate_date")
+            suggested_time_str = request.POST.get("alternate_time")
+            if suggested_date_str and suggested_time_str:
+                suggested_date = timezone.datetime.strptime(
+                    f"{suggested_date_str} {suggested_time_str}",
+                    "%Y-%m-%d %H:%M",
+                )
+                invitation.suggested_date = suggested_date
+                invitation.status = "Maybe"
+                invitation.save()
 
     context = {
         "event": event,

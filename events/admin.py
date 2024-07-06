@@ -6,12 +6,15 @@ from .models import Event
 class EventAdmin(admin.ModelAdmin):
     list_display = (
         "title",
-        "location",
         "created_by",
         "proposed_date",
         "finalized_date",
-        "created_at",
-        "updated_at",
+        "status",
     )
-    list_filter = ("created_by", "proposed_date", "finalized_date")
-    search_fields = ("title", "description", "location")
+    list_filter = ("status", "proposed_date", "finalized_date")
+    search_fields = (
+        "title",
+        "description",
+        "location",
+        "created_by__username",
+    )
