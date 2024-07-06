@@ -4,6 +4,7 @@ from django.utils import timezone
 from .models import Event
 from .forms import EventForm
 from invitations.models import Invitation
+from notifications.models import Notification
 
 
 @login_required
@@ -43,6 +44,12 @@ def event_details(request, event_id):
     # Mark the invitations as read if the user opens the event details
     user_invitations = invitations.filter(user=request.user)
     user_invitations.update(read=True)
+
+    # Mark notifications as read when the user views the event
+    notifications = Notification.objects.filter(
+        user=request.user, event=event, read=False
+    )
+    notifications.update(read=True)
 
     if request.method == "POST":
         action = request.POST.get("action")

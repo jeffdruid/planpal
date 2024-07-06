@@ -7,10 +7,10 @@
 <div class="notifications-list">
     <ul>
         {% for notification in notifications %}
-        <li>
+        <li class="{% if not notification.read %}unread{% endif %}">
             <a href="{{ notification.url }}" class="notification-link">
                 <span class="notification-title">{{ notification.title }}</span>
-                <span class="notification-time">{{ notification.time }}</span>
+                <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
             </a>
         </li>
         {% endfor %}

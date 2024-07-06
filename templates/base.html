@@ -29,27 +29,19 @@
             {% if user.is_authenticated %}
                 <div class="user-info">
                     <i class="fas fa-bell" id="notificationBell"></i>
-                    <span class="notification-count" id="notificationCount">3</span>
+                    <span class="notification-count" id="notificationCount">{{ notifications.count }}</span>
                     <div class="notification-dropdown" id="notificationDropdown">
                         <ul>
-                            <li class="notification-item">
-                                <a href="{% url 'event_details' event_id=1 %}" class="notification-link">
-                                    <span class="notification-title">New Event Invitation</span>
-                                    <span class="notification-time">Just now</span>
-                                </a>
-                            </li>
-                            <li class="notification-item">
-                                <a href="{% url 'event_details' event_id=1 %}" class="notification-link">
-                                    <span class="notification-title">Event Updated</span>
-                                    <span class="notification-time">5 minutes ago</span>
-                                </a>
-                            </li>
-                            <li class="notification-item">
-                                <a href="{% url 'event_details' event_id=1 %}" class="notification-link">
-                                    <span class="notification-title">Invitation Accepted</span>
-                                    <span class="notification-time">10 minutes ago</span>
-                                </a>
-                            </li>
+                            {% for notification in notifications %}
+                                <li class="notification-item {% if not notification.read %}unread{% endif %}">
+                                    <a href="{{ notification.url }}" class="notification-link">
+                                        <span class="notification-title">{{ notification.title }}</span>
+                                        <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li class="notification-item">No notifications</li>
+                            {% endfor %}
                         </ul>
                         <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
                     </div>

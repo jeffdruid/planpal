@@ -1,29 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .models import Notification
 
 
 @login_required
 def notifications(request):
-    # Static data for now
-    notifications = [
-        {
-            "title": "New Event Invitation",
-            "time": "Just now",
-            "url": "/events/1/",
-        },
-        {
-            "title": "Event Updated",
-            "time": "5 minutes ago",
-            "url": "/events/1/",
-        },
-        {
-            "title": "Invitation Accepted",
-            "time": "10 minutes ago",
-            "url": "/events/1/",
-        },
-    ]
+    user_notifications = Notification.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
+    for notification in user_notifications:
+        if not notification.read:
+            notification.read = True
+            notification.save()
     return render(
         request,
         "notifications/notifications.html",
-        {"notifications": notifications},
+        {"notifications": user_notifications},
     )
