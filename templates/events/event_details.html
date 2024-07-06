@@ -20,28 +20,28 @@
             <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
             <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
         </div>
-        {% endif %}
-        <div class="response-buttons">
-            <button class="btn accept-btn" onclick="respondToInvitation('accept')">Accept</button>
-            <button class="btn deny-btn" onclick="respondToInvitation('deny')">Deny</button>
-            <button class="btn maybe-btn" onclick="respondToInvitation('maybe')">Maybe</button>
-        </div>
+        {% comment %} uncomment the following lines to enable the accept/deny/maybe buttons for testing {% endcomment %}
+        {% comment %} {% endif %} {% endcomment %}
+        {% else %}
+        <br>
         <div class="response-buttons">
             <div class="response-message">
                 <p>How would you like to respond to this event?</p>
             </div>
-            <form method="post" action="">
+            <form method="post" action="" class="inline-form">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="accept">
                 <button type="submit" class="btn accept-btn">Accept</button>
             </form>
-            <form method="post" action="">
+            <form method="post" action="" class="inline-form">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="deny">
                 <button type="submit" class="btn deny-btn">Deny</button>
             </form>
             <button class="btn maybe-btn" onclick="openAlternateDateModal()">Maybe</button>
         </div>
+        {% comment %} comment the following lines to enable the accept/deny/maybe buttons for testing {% endcomment %}
+        {% endif %}
     </div>
     <div class="event-availability">
         <h3>Availability</h3>
@@ -56,11 +56,20 @@
         </ul>
         <h3>Suggested Alternative Dates</h3>
         <ul>
-            {% for invitation in invitations %}
-                {% if invitation.suggested_date %}
-                    <li>{{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}</li>
+            {% with suggested_dates=invitations|dictsort:"suggested_date" %}
+                {% if suggested_dates %}
+                    {% for invitation in suggested_dates %}
+                        {% if invitation.suggested_date %}
+                            <li>{{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if not suggested_dates %}
+                        <li>No alternate dates suggested.</li>
+                    {% endif %}
+                {% else %}
+                    <li>No alternate dates suggested.</li>
                 {% endif %}
-            {% endfor %}
+            {% endwith %}
         </ul>
     </div>
 </div>

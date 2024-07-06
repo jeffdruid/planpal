@@ -263,6 +263,19 @@ form {
     background-color: #45a049;
 }
 
+/* Response Form */
+.inline-form {
+    display: inline;
+}
+
+.response-buttons form,
+.response-buttons button {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+
 /* Invitations */
 .invitations-container {
     background-color: white;
