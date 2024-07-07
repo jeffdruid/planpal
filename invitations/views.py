@@ -47,9 +47,8 @@ def create_invitation(request, event_id):
         Notification.objects.create(
             user=user,
             event=event,
-            title="New Event Invitation",
+            type="event_created",
             message=f"You have been invited to the event '{event.title}'.",
-            url=f"/events/{event.id}/",
         )
 
         messages.success(request, "Invitation sent successfully.")
