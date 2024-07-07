@@ -33,11 +33,16 @@ def create_event(request):
 @login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, id=event_id, created_by=request.user)
+    previous_status = event.status
     if request.method == "POST":
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
-            form.save()
-            notify_event_updated(event)
+            updated_event = form.save(commit=False)
+            if updated_event.status != previous_status:
+                updated_event.save()
+                notify_event_updated(event)
+            else:
+                updated_event.save()
             return redirect("dashboard")
     else:
         form = EventForm(instance=event)
