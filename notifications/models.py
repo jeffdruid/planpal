@@ -4,13 +4,21 @@ from events.models import Event
 
 
 class Notification(models.Model):
+    NOTIFICATION_TYPES = [
+        ("event_created", "Event Created"),
+        ("event_updated", "Event Updated"),
+        ("event_cancelled", "Event Cancelled"),
+        ("invitation_response", "Invitation Response"),
+        ("suggested_alternate_date", "Suggested Alternate Date"),
+        ("event_confirmed", "Event Confirmed"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
+    type = models.CharField(max_length=50, choices=NOTIFICATION_TYPES)
     message = models.TextField()
-    url = models.URLField(max_length=200)
-    read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username} - {self.title}"
+        return f"Notification for {self.user.username} - {self.type}"

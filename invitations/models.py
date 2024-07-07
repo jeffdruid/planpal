@@ -1,4 +1,3 @@
-# invitations/models.py
 from django.db import models
 from django.contrib.auth.models import User
 from events.models import Event
@@ -12,7 +11,7 @@ class Invitation(models.Model):
     ]
 
     event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, related_name="invitations"
+        Event, related_name="invitations", on_delete=models.CASCADE
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(
@@ -28,6 +27,8 @@ class Invitation(models.Model):
 
     @property
     def suggested_date_formatted(self):
-        if self.suggested_date:
-            return self.suggested_date.strftime("%Y-%m-%d %H:%M")
-        return None
+        return (
+            self.suggested_date.strftime("%B %d, %Y, %H:%M")
+            if self.suggested_date
+            else "-"
+        )

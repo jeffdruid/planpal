@@ -1,4 +1,3 @@
-# invitations/admin.py
 from django.contrib import admin
 from .models import Invitation
 
@@ -13,8 +12,7 @@ class InvitationAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    list_filter = ("status", "read", "event__title", "user__username")
-    search_fields = ("event__title", "user__username", "status")
+    list_filter = ("event", "status", "read")
 
 
 admin.site.register(Invitation, InvitationAdmin)

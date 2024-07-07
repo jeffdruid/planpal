@@ -5,6 +5,14 @@ from .models import Event
 from .forms import EventForm
 from invitations.models import Invitation
 from notifications.models import Notification
+from .utils import (
+    notify_event_created,
+    notify_event_updated,
+    notify_event_cancelled,
+    notify_invitation_response,
+    notify_suggested_alternate_date,
+    notify_event_confirmed,
+)
 
 
 @login_required
@@ -15,6 +23,7 @@ def create_event(request):
             event = form.save(commit=False)
             event.created_by = request.user
             event.save()
+            notify_event_created(event)
             return redirect("dashboard")
     else:
         form = EventForm()
@@ -28,6 +37,7 @@ def edit_event(request, event_id):
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
+            notify_event_updated(event)
             return redirect("dashboard")
     else:
         form = EventForm(instance=event)
@@ -45,36 +55,22 @@ def event_details(request, event_id):
     user_invitations = invitations.filter(user=request.user)
     user_invitations.update(read=True)
 
-    # Mark notifications as read when the user views the event
-    notifications = Notification.objects.filter(
-        user=request.user, event=event, read=False
-    )
-    notifications.update(read=True)
-
     if request.method == "POST":
         action = request.POST.get("action")
-        if action in ["accept", "deny"]:
-            invitation = get_object_or_404(
-                Invitation, event=event, user=request.user
-            )
-            invitation.status = (
-                "Accepted" if action == "accept" else "Declined"
-            )
-            invitation.save()
+        if action == "accept":
+            user_invitations.update(status="Accepted")
+            notify_invitation_response(user_invitations.first())
+        elif action == "deny":
+            user_invitations.update(status="Declined")
+            notify_invitation_response(user_invitations.first())
         elif action == "maybe":
-            invitation = get_object_or_404(
-                Invitation, event=event, user=request.user
+            alternate_date = request.POST.get("alternate_date")
+            alternate_time = request.POST.get("alternate_time")
+            suggested_datetime = f"{alternate_date} {alternate_time}"
+            user_invitations.update(
+                status="Maybe", suggested_date=suggested_datetime
             )
-            suggested_date_str = request.POST.get("alternate_date")
-            suggested_time_str = request.POST.get("alternate_time")
-            if suggested_date_str and suggested_time_str:
-                suggested_date = timezone.datetime.strptime(
-                    f"{suggested_date_str} {suggested_time_str}",
-                    "%Y-%m-%d %H:%M",
-                )
-                invitation.suggested_date = suggested_date
-                invitation.status = "Maybe"
-                invitation.save()
+            notify_suggested_alternate_date(user_invitations.first())
 
     context = {
         "event": event,
@@ -118,6 +114,7 @@ def invite_guests(request, event_id):
 def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id, created_by=request.user)
     if request.method == "POST":
+        notify_event_cancelled(event)
         event.delete()
         return redirect("dashboard")
     return render(request, "events/confirm_delete.html", {"event": event})
