@@ -17,3 +17,11 @@ class EventForm(forms.ModelForm):
                 attrs={"type": "datetime-local"}
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["title"].initial = "Default Title"
+        self.fields["description"].initial = "Default Description"
+        self.fields["location"].initial = "Default Location"
+        self.fields["proposed_date"].initial = "2022-01-01T00:00"
+        self.fields["status"].initial = "Pending"
