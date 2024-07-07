@@ -20,9 +20,20 @@ def notify_event_created(event):
 
 
 def notify_event_updated(event):
-    message = f"The event '{event.title}' has been updated."
-    for invitation in event.invitations.all():
-        create_notification(invitation.user, event, "event_updated", message)
+    for invitee in event.invitations.all():
+        message = f"The event '{event.title}' has been updated."
+
+        if event.status == "Cancelled":
+            message = f"The event '{event.title}' has been cancelled."
+        elif event.status == "Confirmed":
+            message = f"The event '{event.title}' has been confirmed."
+
+        Notification.objects.create(
+            user=invitee.user,
+            event=event,
+            type="event_updated",
+            message=message,
+        )
 
 
 def notify_event_cancelled(event):

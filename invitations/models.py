@@ -11,7 +11,7 @@ class Invitation(models.Model):
     ]
 
     event = models.ForeignKey(
-        Event, related_name="invitations", on_delete=models.CASCADE
+        Event, on_delete=models.CASCADE, related_name="invitations"
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(
@@ -27,8 +27,6 @@ class Invitation(models.Model):
 
     @property
     def suggested_date_formatted(self):
-        return (
-            self.suggested_date.strftime("%B %d, %Y, %H:%M")
-            if self.suggested_date
-            else "-"
-        )
+        if self.suggested_date:
+            return self.suggested_date.strftime("%B %d, %Y %I:%M %p")
+        return "-"
