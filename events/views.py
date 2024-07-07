@@ -24,7 +24,7 @@ def create_event(request):
             event.created_by = request.user
             event.save()
             notify_event_created(event)
-            return redirect("dashboard")
+            return redirect("manage_invitations", event_id=event.id)
     else:
         form = EventForm()
     return render(request, "events/add_event.html", {"form": form})
