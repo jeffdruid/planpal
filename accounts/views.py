@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import UserProfile
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
-from django.utils.timezone import *
+from django.utils.timezone import now
 from events.models import Event
 from invitations.models import Invitation
 
@@ -14,14 +14,17 @@ from invitations.models import Invitation
 def dashboard(request):
     current_user = request.user
 
+    # Get current datetime
+    current_datetime = now()
+
     # Get events created by the user
-    user_events = Event.objects.filter(created_by=current_user).order_by(
-        "proposed_date"
-    )
+    user_events = Event.objects.filter(
+        created_by=current_user, proposed_date__gte=current_datetime
+    ).order_by("proposed_date")
 
     # Get events the user is invited to
     invited_events = Event.objects.filter(
-        invitations__user=current_user
+        invitations__user=current_user, proposed_date__gte=current_datetime
     ).order_by("proposed_date")
 
     # Combine both querysets
