@@ -13,6 +13,8 @@
                 <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
             </a>
         </li>
+        {% empty %}
+        <li>No notifications</li>
         {% endfor %}
     </ul>
 </div>
