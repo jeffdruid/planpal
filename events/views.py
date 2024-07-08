@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
+from django.contrib.auth.models import User
 from .models import Event
 from .forms import EventForm
 from invitations.models import Invitation
@@ -69,6 +71,9 @@ def event_details(request, event_id):
     user_invitations = invitations.filter(user=request.user)
     user_invitations.update(read=True)
 
+    current_date = timezone.now().date()
+    current_time = timezone.now().time()
+
     if request.method == "POST":
         action = request.POST.get("action")
         if action == "accept":
@@ -87,6 +92,8 @@ def event_details(request, event_id):
     context = {
         "event": event,
         "invitations": invitations,
+        "current_date": current_date,
+        "current_time": current_time,
     }
     return render(request, "events/event_details.html", context)
 
@@ -94,32 +101,39 @@ def event_details(request, event_id):
 @login_required
 def invite_guests(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    if request.method == "POST":
-        # Simulate sending an invitation and add a notification
-        notifications = [
-            {
-                "title": "New Event Invitation",
-                "time": "Just now",
-                "url": f"/events/{event_id}/invitations/",
-            },
-            {
-                "title": "Event Updated",
-                "time": "5 minutes ago",
-                "url": f"/events/{event_id}/",
-            },
-            {
-                "title": "Invitation Accepted",
-                "time": "10 minutes ago",
-                "url": f"/events/{event_id}/invitations/",
-            },
-        ]
-        return render(
+
+    # Check if the logged-in user is the creator of the event
+    if request.user != event.created_by:
+        messages.error(
             request,
-            "events/invite_guests.html",
-            {"event": event, "notifications": notifications},
+            "You are not authorized to send invitations for this event.",
+        )
+        return redirect("event_details", event_id=event_id)
+
+    users = User.objects.all()  # Include all users, including the current user
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        user = get_object_or_404(User, id=user_id)
+        if Invitation.objects.filter(event=event, user=user).exists():
+            messages.error(request, "Invitation already exists for this user.")
+            return redirect("create_invitation", event_id=event_id)
+        Invitation.objects.create(event=event, user=user, status="Pending")
+
+        # Create notification for the invited user
+        Notification.objects.create(
+            user=user,
+            event=event,
+            type="event_created",
+            message=f"You have been invited to the event '{event.title}'.",
         )
 
-    return render(request, "events/invite_guests.html", {"event": event})
+        messages.success(request, "Invitation sent successfully.")
+        return redirect("manage_invitations", event_id=event_id)
+    return render(
+        request,
+        "invitations/create_invitation.html",
+        {"event": event, "users": users},
+    )
 
 
 @login_required

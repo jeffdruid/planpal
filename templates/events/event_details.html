@@ -103,9 +103,9 @@
             <input type="hidden" name="action" value="maybe">
             <div class="form-group">
                 <label for="alternate_date">Alternate Date:</label>
-                <input type="date" id="alternate_date" name="alternate_date" required>
+                <input type="date" id="alternate_date" name="alternate_date" value="{{ current_date|date:"Y-m-d" }}" required>
                 <label for="alternate_time">Time:</label>
-                <input type="time" id="alternate_time" name="alternate_time" required>
+                <input type="time" id="alternate_time" name="alternate_time" value="{{ current_time|time:"H:i" }}" required>
             </div>
             <button type="submit" class="btn-submit">Submit</button>
         </form>
