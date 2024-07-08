@@ -75,7 +75,7 @@
 </div>
 <div class="event-invitations">
     {% if request.user == event.created_by %}
-        <a href="{% url 'manage_invitations' event.id %}" class="invite-btn">Manage Invitations</a>
+        <a href="{% url 'manage_invitations' event.id %}" class="invite-btn" style="color: white;">Manage Invitations</a>
     {% endif %}
 </div>
 

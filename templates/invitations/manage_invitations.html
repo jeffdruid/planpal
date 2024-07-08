@@ -3,7 +3,7 @@
 {% block title %}Manage Invitations{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center; color: white;">Manage Invitations for {{ event.title }}</h2>
+<h2 style="text-align: center; color: black;">Manage Invitations for {{ event.title }}</h2>
 {% if messages %}
 <div class="messages">
     {% for message in messages %}
@@ -13,16 +13,20 @@
     {% endfor %}
 </div>
 {% endif %}
-<div class="invitation-list">
+<form class="invitation-list">
     <ul>
         {% for invitation in invitations %}
-        <li>
+        <li style="color: white;">
             <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.email }} - <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
         </li>
         {% empty %}
         <li>No invitations found.</li>
         {% endfor %}
     </ul>
-</div>
-<a href="{% url 'create_invitation' event.id %}" class="add-btn">Add New Invitation</a>
+    <br>
+    <a href="{% url 'create_invitation' event.id %}" class="btn-submit">Add New Invitation</a>
+</form>
+<br>
+<br>
+<a href="{% url 'event_details' event.id %}" class="back-btn" style="color:white">Back to Event Details</a>
 {% endblock %}

@@ -81,6 +81,7 @@ def event_details(request, event_id):
         elif action == "deny":
             user_invitations.update(status="Declined")
         elif action == "maybe":
+            user_invitations.update(status="Maybe")
             alternate_date = request.POST.get("alternate_date")
             alternate_time = request.POST.get("alternate_time")
             suggested_datetime = f"{alternate_date} {alternate_time}"
