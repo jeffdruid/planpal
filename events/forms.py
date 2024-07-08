@@ -1,5 +1,6 @@
 from django import forms
 from .models import Event
+from datetime import datetime
 
 
 class EventForm(forms.ModelForm):
@@ -23,5 +24,5 @@ class EventForm(forms.ModelForm):
         self.fields["title"].initial = "Default Title"
         self.fields["description"].initial = "Default Description"
         self.fields["location"].initial = "Default Location"
-        self.fields["proposed_date"].initial = "2022-01-01T00:00"
+        self.fields["proposed_date"].initial = datetime.now()
         self.fields["status"].initial = "Pending"
