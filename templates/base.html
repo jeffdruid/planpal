@@ -34,7 +34,7 @@
                     <ul>
                         {% for notification in recent_notifications %}
                             <li class="notification-item {% if not notification.read %}unread{% endif %}">
-                                <a href="{{ notification.event.get_absolute_url }}" class="notification-link">
+                                <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
                                     <span class="notification-title">{{ notification.message }}</span>
                                     <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
                                 </a>
@@ -43,14 +43,14 @@
                             <li class="notification-item">No notifications</li>
                         {% endfor %}
                         {% if notification_count > 8 %}
-                            <li class="notification-item">...</li>
+                            <li class="notification-item">More notifications available...</li>
                         {% endif %}
                     </ul>
                     <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
                 </div>
                 {{ user.first_name }} {{ user.last_name }} 
             </div>                                    
-        {% endif %}
+            {% endif %}
         </nav>
     </header>
     <main>
