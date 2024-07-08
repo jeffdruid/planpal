@@ -41,7 +41,7 @@
         {% endif %}
     </div>
     <div class="event-availability">
-        <h3>Availability</h3>
+        <h3 style="color:black">Availability</h3>
         <ul>
             {% for invitation in invitations %}
             {% empty %}
@@ -51,15 +51,10 @@
                 <li>
                     {{ invitation.user.username|capfirst }}: 
                     <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
-                    {% if invitation.read %}
-                        <span class="read-status">✓</span>
-                    {% else %}
-                        <span class="unread-status">✓</span>
-                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
-        <h3>Suggested Alternative Dates</h3>
+        <h3 style="color:black">Suggested Alternative Dates</h3>
         <ul>
             {% with suggested_dates=invitations|dictsort:"suggested_date" %}
                 {% if suggested_dates %}

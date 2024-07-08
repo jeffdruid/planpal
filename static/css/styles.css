@@ -618,6 +618,7 @@ a.edit-btn:hover {
 .unread-status {
     color: rgb(191, 191, 191);
     font-weight: 900;
+    margin: auto 5px;
 }
 
 

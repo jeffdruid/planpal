@@ -30,9 +30,9 @@ class EventForm(forms.ModelForm):
 
     def clean_proposed_date(self):
         proposed_date = self.cleaned_data.get("proposed_date")
-        # commented out for testing purposes
-        # if proposed_date < timezone.now():
-        #     raise forms.ValidationError(
-        #         "The proposed date cannot be in the past."
-        #     )
+        # Check if the proposed date is in the past
+        if proposed_date < timezone.now():
+            raise forms.ValidationError(
+                "The proposed date cannot be in the past."
+            )
         return proposed_date

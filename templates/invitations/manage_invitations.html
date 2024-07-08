@@ -18,6 +18,11 @@
         {% for invitation in invitations %}
         <li style="color: white;">
             <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.email }} - <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
+            {% if invitation.read %}
+                <span class="read-status">✓</span>
+            {% else %}
+                <span class="unread-status">✓</span>
+            {% endif %}
         </li>
         {% empty %}
         <li>No invitations found.</li>

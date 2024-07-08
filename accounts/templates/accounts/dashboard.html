@@ -12,7 +12,9 @@
                 <li>
                     <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong> - {{ item.event.proposed_date|date:"F j, Y" }} - <span class="status {{ item.event.status|lower }}">{{ item.event.status }}</span>
                     {% if item.unread %}
-                        <span class="unread-status">(Unread)</span>
+                        <span class="unread-status">
+                            <i class="fas fa-envelope"></i>
+                        </span>
                     {% endif %}
                 </li>
             {% empty %}
