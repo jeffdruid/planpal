@@ -34,15 +34,25 @@ def create_event(request):
 def edit_event(request, event_id):
     event = get_object_or_404(Event, id=event_id, created_by=request.user)
     previous_status = event.status
+    previous_title = event.title
+    previous_description = event.description
+    previous_proposed_date = event.proposed_date
+    previous_location = event.location
+
     if request.method == "POST":
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             updated_event = form.save(commit=False)
-            if updated_event.status != previous_status:
-                updated_event.save()
+            has_changes = (
+                updated_event.status != previous_status
+                or updated_event.title != previous_title
+                or updated_event.description != previous_description
+                or updated_event.proposed_date != previous_proposed_date
+                or updated_event.location != previous_location
+            )
+            updated_event.save()
+            if has_changes:
                 notify_event_updated(event)
-            else:
-                updated_event.save()
             return redirect("dashboard")
     else:
         form = EventForm(instance=event)
