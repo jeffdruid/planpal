@@ -1,13 +1,24 @@
 // Load the notification dropdown when the bell icon is clicked
 $(document).ready(function() {
-    $('#notificationBell').on('click', function() {
-        $('#notificationDropdown').toggle();
+    $("#notificationBell").click(function(e) {
+        e.preventDefault();
+        $("#notificationDropdown").toggle();
     });
 
-    // Close the dropdown if clicked outside
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest('#notificationBell').length) {
-            $('#notificationDropdown').hide();
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.notification-dropdown, #notificationBell').length) {
+            $("#notificationDropdown").hide();
+        }
+    });
+
+    $("#profileLink").click(function(e) {
+        e.preventDefault();
+        $("#profileDropdown").toggle();
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('#profileDropdown, #profileLink').length) {
+            $("#profileDropdown").hide();
         }
     });
 });

@@ -19,37 +19,49 @@
                 <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a></li>
-                    <li><a href="{% url 'profile' %}" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">{{ user }}</a></li>
-                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    <li><a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'create_event' %}active{% endif %}">Create Event</a></li>
+                    <li><a href="#" class="logout-btn">Friends</a></li>
                 {% else %}
                     <li><a href="{% url 'account_login' %}" class="{% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">Login</a></li>
                     <li><a href="{% url 'account_signup' %}" class="{% if request.resolver_match.url_name == 'account_signup' %}active{% endif %}">Sign Up</a></li>
                 {% endif %}
             </ul>
             {% if user.is_authenticated %}
-            <div class="user-info">
-                <i class="fas fa-bell" id="notificationBell"></i>
-                <span class="notification-count" id="notificationCount">{{ unread_count }}</span>
-                <div class="notification-dropdown" id="notificationDropdown">
-                    <ul>
-                        {% for notification in recent_unread_notifications %}
-                            <li class="notification-item {% if not notification.read %}unread{% endif %}">
-                                <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
-                                    <span class="notification-title">{{ notification.message }}</span>
-                                    <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
-                                </a>
-                            </li>
-                        {% empty %}
-                            <li class="notification-item">No notifications</li>
-                        {% endfor %}
-                        {% if unread_count > 8 %}
-                            <li class="notification-item">...</li>
-                        {% endif %}
-                    </ul>
-                    <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
-                </div>
-                <span>{{ user.first_name }} {{ user.last_name }}</span>
-            </div>                                    
+                <ul class="nav-links">
+                    <div class="user-info">
+                        <div class="dropdown">
+                            <i class="fas fa-bell" id="notificationBell"></i>
+                            <span class="notification-count" id="notificationCount">{{ unread_count }}</span>
+                            <div class="dropdown-content notification-dropdown" id="notificationDropdown">
+                                <ul>
+                                    {% for notification in recent_unread_notifications %}
+                                        <li class="notification-item {% if not notification.read %}unread{% endif %}">
+                                            <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
+                                                <span class="notification-title">{{ notification.message }}</span>
+                                                <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
+                                            </a>
+                                        </li>
+                                    {% empty %}
+                                        <li class="notification-item">No notifications</li>
+                                    {% endfor %}
+                                    {% if unread_count > 8 %}
+                                        <li class="notification-item">...</li>
+                                    {% endif %}
+                                </ul>
+                                <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
+                            </div>
+                        </div>
+                    </div>  
+                    <li class="profile-dropdown">
+                        <a href="#" id="profileLink" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                            <i class="fas fa-user" id="userProfileIcon"></i> - {{ user }}
+                        </a>
+                        <div class="profile-dropdown-content" id="profileDropdown">
+                            <a href="{% url 'profile' %}">Profile</a>
+                            <a href="{% url 'account_logout' %}">Logout</a>
+                        </div>
+                    </li>
+                </ul>
             {% endif %}
         </nav>
     </header>
