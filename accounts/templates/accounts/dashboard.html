@@ -80,7 +80,8 @@
                         url: '{% url "event_details" item.event.id %}'
                     },
                 {% endfor %}
-            ]
+            ],
+            timeFormat: 'h:mma' 
         });
 
         var deleteModal = document.getElementById("deleteModal");

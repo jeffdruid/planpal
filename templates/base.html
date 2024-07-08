@@ -19,7 +19,7 @@
                 <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a></li>
-                    <li><a href="{% url 'profile' %}" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Profile</a></li>
+                    <li><a href="{% url 'profile' %}" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">{{ user }}</a></li>
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'account_login' %}" class="{% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">Login</a></li>
@@ -48,7 +48,7 @@
                     </ul>
                     <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
                 </div>
-                {{ user.first_name }} {{ user.last_name }} 
+                <span>{{ user.first_name }} {{ user.last_name }}</span>
             </div>                                    
             {% endif %}
         </nav>
