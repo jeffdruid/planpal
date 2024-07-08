@@ -67,9 +67,12 @@ def event_details(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     invitations = Invitation.objects.filter(event=event)
 
-    # Mark the invitations as read if the user opens the event details
+    # Mark the invitations and notifications as read if the user opens the event details
     user_invitations = invitations.filter(user=request.user)
     user_invitations.update(read=True)
+    Notification.objects.filter(
+        event=event, user=request.user, read=False
+    ).update(read=True)
 
     current_date = timezone.now().date()
     current_time = timezone.now().time()
