@@ -606,6 +606,21 @@ a.edit-btn:hover {
     border: none;
 }
 
+.status.maybe {
+    color: orange;
+}
+
+.read-status {
+    color: rgb(0, 200, 255);
+    font-weight: 900;
+}
+
+.unread-status {
+    color: rgb(191, 191, 191);
+    font-weight: 900;
+}
+
+
 .response-buttons .accept-btn {
     background-color: green;
     color: white;

@@ -20,8 +20,6 @@
             <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
             <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
         </div>
-        {% comment %} uncomment the following lines to enable the accept/deny/maybe buttons for testing {% endcomment %}
-        {% comment %} {% endif %} {% endcomment %}
         {% else %}
         <br>
         <div class="response-buttons">
@@ -40,7 +38,6 @@
             </form>
             <button class="btn maybe-btn" onclick="openAlternateDateModal()">Maybe</button>
         </div>
-        {% comment %} comment the following lines to enable the accept/deny/maybe buttons for testing {% endcomment %}
         {% endif %}
     </div>
     <div class="event-availability">
@@ -51,7 +48,15 @@
             <li>No invitations sent.</li>
             {% endfor %}
             {% for invitation in event.invitations.all %}
-                <li>{{ invitation.user.username|capfirst }}: <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span> {% if invitation.read %}<span class="read-status">(Read)</span>{% else %}<span class="unread-status">(Unread)</span>{% endif %}</li>
+                <li>
+                    {{ invitation.user.username|capfirst }}: 
+                    <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
+                    {% if invitation.read %}
+                        <span class="read-status">✓</span>
+                    {% else %}
+                        <span class="unread-status">✓</span>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
         <h3>Suggested Alternative Dates</h3>
