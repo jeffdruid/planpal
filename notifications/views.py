@@ -5,13 +5,13 @@ from .models import Notification
 
 @login_required
 def notifications(request):
-    notifications = Notification.objects.filter(user=request.user).order_by(
-        "-created_at"
-    )
+    all_notifications = Notification.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
     return render(
         request,
         "notifications/notifications.html",
-        {"notifications": notifications},
+        {"notifications": all_notifications},
     )
 
 
