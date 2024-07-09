@@ -1,3 +1,4 @@
+<!-- base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,8 +54,9 @@
                         </div>
                     </div>  
                     <li class="profile-dropdown">
-                        <a href="#" id="profileLink" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
-                            <i class="fas fa-user" id="userProfileIcon"></i> - {{ user }}
+                        <a id="profileLink" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                            <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="Profile Picture" class="profile-picture" id="userProfileIcon" style="max-width:30px">
+                            {% comment %} - {{ user }} {% endcomment %}
                         </a>
                         <div class="profile-dropdown-content" id="profileDropdown">
                             <a href="{% url 'profile' %}">Profile</a>
@@ -72,5 +74,6 @@
         <p>&copy; 2024 Event Planner</p>
     </footer>
     <script src="{% static 'js/scripts.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

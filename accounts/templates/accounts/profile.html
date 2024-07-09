@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center; color: #000;">User Profile</h2>
+<h2>User Profile</h2>
+{% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 <div class="profile-container">
     <form method="post" action="">
         {% csrf_token %}
@@ -19,7 +27,60 @@
             <label for="last_name">Last Name:</label>
             <input type="text" id="last_name" name="last_name" value="{{ user_data.last_name }}" required>
         </div>
+        <div class="form-group">
+            <label for="profile_picture">Profile Picture:</label>
+            <div class="profile-picture-container">
+                <img id="selectedProfilePicture" src="{% static 'images/profile_pictures/' %}{{ user_data.profile_picture }}" alt="Selected Profile Picture">
+                <button type="button" class="btn" onclick="openProfilePictureModal()">Change</button>
+                <input type="hidden" name="profile_picture" id="profilePictureInput" value="{{ user_data.profile_picture }}">
+            </div>
+        </div>
         <button type="submit" class="btn-submit">Update Profile</button>
     </form>
 </div>
+
+<!-- Modal for selecting profile picture -->
+<div id="profilePictureModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeProfilePictureModal()">&times;</span>
+        <h2>Select Profile Picture</h2>
+        <div class="profile-picture-options">
+            {% for choice in profile_form.profile_picture.field.choices %}
+                <label class="profile-picture-option">
+                    <input type="radio" name="profile_picture_modal" value="{{ choice.0 }}" {% if user_data.profile_picture == choice.0 %}checked{% endif %}>
+                    <img src="{% static 'images/profile_pictures/' %}{{ choice.0 }}" alt="{{ choice.1 }}" style="max-width: 50px;">
+                </label>
+            {% endfor %}
+        </div>
+        <button type="button" class="btn-submit" onclick="selectProfilePicture()">Select</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function openProfilePictureModal() {
+        document.getElementById("profilePictureModal").style.display = "block";
+    }
+
+    function closeProfilePictureModal() {
+        document.getElementById("profilePictureModal").style.display = "none";
+    }
+
+    function selectProfilePicture() {
+        const selectedPicture = document.querySelector('input[name="profile_picture_modal"]:checked').value;
+        const selectedPictureImg = document.querySelector('input[name="profile_picture_modal"]:checked').nextElementSibling.src;
+        document.getElementById("selectedProfilePicture").src = selectedPictureImg;
+        document.getElementById("profilePictureInput").value = selectedPicture;
+        closeProfilePictureModal();
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById("profilePictureModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}

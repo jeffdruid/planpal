@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -8,6 +8,9 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.timezone import now
 from events.models import Event
 from invitations.models import Invitation
+from django.contrib import messages
+from .models import UserProfile
+from .forms import ProfilePictureForm
 
 
 @login_required
@@ -92,20 +95,37 @@ def home(request):
 
 @login_required
 def profile(request):
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
     if request.method == "POST":
-        user = request.user
-        user.first_name = request.POST["first_name"]
-        user.last_name = request.POST["last_name"]
-        user.save()
-        messages.success(request, "Profile updated successfully.")
-        return redirect("dashboard")
+        profile_form = ProfilePictureForm(request.POST, instance=user_profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            request.user.first_name = request.POST.get("first_name")
+            request.user.last_name = request.POST.get("last_name")
+            request.user.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("profile")
+        else:
+            for field, errors in profile_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        profile_form = ProfilePictureForm(instance=user_profile)
 
     user_data = {
         "username": request.user.username,
         "first_name": request.user.first_name,
         "last_name": request.user.last_name,
+        "profile_picture": user_profile.profile_picture,
     }
-    return render(request, "accounts/profile.html", {"user_data": user_data})
+
+    context = {
+        "user_data": user_data,
+        "profile_form": profile_form,
+    }
+
+    return render(request, "accounts/profile.html", context)
 
 
 def custom_login(request):
