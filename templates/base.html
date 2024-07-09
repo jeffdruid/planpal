@@ -54,8 +54,8 @@
                         </div>
                     </div>  
                     <li class="profile-dropdown">
-                        <a id="profileLink" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
-                            <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="Profile Picture" class="profile-picture" id="userProfileIcon" style="max-width:30px">
+                        <a id="profileLink" class="{% if request.resolver_match.url_name == 'profile' %}active-profile{% endif %}">
+                            <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="Profile Picture" class="profile-picture" id="userProfileIcon">
                             {% comment %} - {{ user }} {% endcomment %}
                         </a>
                         <div class="profile-dropdown-content" id="profileDropdown">

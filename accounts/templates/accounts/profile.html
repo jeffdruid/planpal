@@ -47,12 +47,11 @@
         <div class="profile-picture-options">
             {% for choice in profile_form.profile_picture.field.choices %}
                 <label class="profile-picture-option">
-                    <input type="radio" name="profile_picture_modal" value="{{ choice.0 }}" {% if user_data.profile_picture == choice.0 %}checked{% endif %}>
+                    <input onclick="selectProfilePicture()" type="radio" name="profile_picture_modal" value="{{ choice.0 }}" {% if user_data.profile_picture == choice.0 %}checked{% endif %}>
                     <img src="{% static 'images/profile_pictures/' %}{{ choice.0 }}" alt="{{ choice.1 }}" style="max-width: 50px;">
                 </label>
             {% endfor %}
         </div>
-        <button type="button" class="btn-submit" onclick="selectProfilePicture()">Select</button>
     </div>
 </div>
 
