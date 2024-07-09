@@ -32,7 +32,15 @@
                     <div class="user-info">
                         <div class="dropdown">
                             <i class="fas fa-bell" id="notificationBell"></i>
+                            {% if unread_count > 0 %}
                             <span class="notification-count" id="notificationCount">{{ unread_count }}</span>
+                            {% else %}
+                            <span class="notification-count" id="notificationCount" style="display: none;">{{ unread_count }}</span>
+                            {% endif %}
+                        
+
+
+                            {% comment %} <span class="notification-count" id="notificationCount">{{ unread_count }}</span> {% endcomment %}
                             <div class="dropdown-content notification-dropdown" id="notificationDropdown">
                                 <ul>
                                     {% for notification in recent_unread_notifications %}

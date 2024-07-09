@@ -488,6 +488,11 @@ a.edit-btn:hover {
     background-color: #4caf50;
 }
 
+#profileLink,
+.profile-dropdown {
+    margin-right: 2rem;
+}
+
 .profile-dropdown-content {
     top: 3rem;
     right: 10px;
