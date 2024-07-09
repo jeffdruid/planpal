@@ -21,7 +21,7 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a></li>
                     <li><a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'create_event' %}active{% endif %}">Create Event</a></li>
-                    <li><a href="#" class="logout-btn">Friends</a></li>
+                    <li><a href="{% url 'friends_page' %}" class="{% if request.resolver_match.url_name == 'friends_page' %}active{% endif %}">Friends</a></li>
                 {% else %}
                     <li><a href="{% url 'account_login' %}" class="{% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">Login</a></li>
                     <li><a href="{% url 'account_signup' %}" class="{% if request.resolver_match.url_name == 'account_signup' %}active{% endif %}">Sign Up</a></li>

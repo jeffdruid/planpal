@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+<h2>Friends</h2>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="friend-search">
+    <form method="get" action="{% url 'friends_page' %}">
+        {{ search_form.as_p }}
+        <button type="submit" class="btn-submit">Search</button>
+    </form>
+</div>
+
+{% if search_results %}
+    <h3>Search Results</h3>
+    <ul>
+        {% for user in search_results %}
+            <li>
+                {{ user.username }} - {{ user.first_name }} {{ user.last_name }}
+                {% if not user in friends %}
+                    <a href="{% url 'send_friend_request' user.id %}">Add Friend</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<h3>Friends</h3>
+<ul>
+    {% for friendship in friends %}
+        <li>
+            {% if friendship.from_user == user %}
+                {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
+                <a href="{% url 'view_profile' friendship.to_user.id %}">View Profile</a>
+                <a href="{% url 'delete_friend' friendship.to_user.id %}">Delete Friend</a>
+            {% else %}
+                {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
+                <a href="{% url 'view_profile' friendship.from_user.id %}">View Profile</a>
+                <a href="{% url 'delete_friend' friendship.from_user.id %}">Delete Friend</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>You have no friends yet.</li>
+    {% endfor %}
+</ul>
+
+<h3>Pending Friend Requests</h3>
+<ul>
+    {% for request in pending_requests %}
+        <li>
+            {{ request.from_user.username }} - {{ request.from_user.first_name }} {{ request.from_user.last_name }}
+            <a href="{% url 'respond_friend_request' request.id 'accept' %}">Accept</a>
+            <a href="{% url 'respond_friend_request' request.id 'decline' %}">Decline</a>
+        </li>
+    {% empty %}
+        <li>No pending friend requests.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,6 +1,7 @@
 # accounts/forms.py
 from django import forms
 from .models import UserProfile
+from django.contrib.auth.models import User
 
 
 class ProfilePictureForm(forms.ModelForm):
@@ -25,3 +26,13 @@ class ProfilePictureForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ["profile_picture"]
+
+
+class FriendSearchForm(forms.Form):
+    # commented out for now
+    search_query = forms.CharField(
+        max_length=100, label="Search Friends", required=False
+    )
+    # user = forms.ModelChoiceField(
+    #     queryset=User.objects.all(), label="Select User", required=False
+    # )

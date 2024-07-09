@@ -378,7 +378,7 @@ a.edit-btn:hover {
 
 /* Notification Dropdown */
 #notificationCount {
-    margin-right: 1rem;
+    margin-right: 0;
 }
 
 .notification-dropdown {
@@ -482,17 +482,31 @@ a.edit-btn:hover {
 }
 
 /* Profile Dropdown */
+
+/* removed for now */
+/* .active-profile {
+    border: 10px solid #4CAF50;
+    margin: 0px -12px;
+    background-color: #4caf50;
+} */
+
+#profileLink,
+.profile-dropdown {
+    margin-right: 2rem;
+}
+
 .profile-dropdown-content {
     top: 3rem;
-    right: 0;
+    right: 10px;
     display: none;
     position: absolute;
-    background-color: #000;
+    background-color: #fff;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
+#profileDropdown>a,
 .profile-dropdown-content a {
     color: black;
     padding: 12px 16px;
@@ -502,7 +516,14 @@ a.edit-btn:hover {
 }
 
 .profile-dropdown-content a:hover {
-    background-color: #f1ff;
+    background-color: #f1f1f1;
+}
+
+#userProfileIcon {
+    max-width: 50px;
+    position: absolute;
+    right: 20px;
+    top: 0;
 }
 
 .notification-dropdown ul li {
@@ -526,6 +547,51 @@ a.edit-btn:hover {
     color: white;
     border-radius: 50%;
     padding: 5px 9px;
+}
+
+.profile-picture-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    justify-items: center;
+}
+
+.profile-picture-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile-picture-option input {
+    display: none;
+}
+
+.profile-picture-option img:hover {
+    scale: 1.2;
+    filter: brightness(0.8);
+}
+
+.profile-picture-container img {
+    max-width: 30px;
+}
+
+
+.profile-picture-container button {
+    margin-top: 10px;
+}
+
+#profilePictureModal>div>button {
+    margin-top: 1rem;
+}
+
+#selectedProfilePicture {
+    max-width: 75px;
+    margin-right: -3rem;
+}
+
+.profile-container>form>button {
+    padding: 4px 10px;
 }
 
 
@@ -618,6 +684,7 @@ a.edit-btn:hover {
 .unread-status {
     color: rgb(191, 191, 191);
     font-weight: 900;
+    margin: auto 5px;
 }
 
 
