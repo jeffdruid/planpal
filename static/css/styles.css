@@ -378,7 +378,7 @@ a.edit-btn:hover {
 
 /* Notification Dropdown */
 #notificationCount {
-    margin-right: 1rem;
+    margin-right: 0;
 }
 
 .notification-dropdown {
@@ -482,11 +482,13 @@ a.edit-btn:hover {
 }
 
 /* Profile Dropdown */
-.active-profile {
+
+/* removed for now */
+/* .active-profile {
     border: 10px solid #4CAF50;
     margin: 0px -12px;
     background-color: #4caf50;
-}
+} */
 
 #profileLink,
 .profile-dropdown {

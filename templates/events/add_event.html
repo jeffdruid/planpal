@@ -7,8 +7,59 @@
 <form method="post" action="" class="event-form">
     {% csrf_token %}
     <div class="form-group">
-        {{ form.as_p }}
+        {{ form.title.label_tag }} {{ form.title }}
+        {{ form.description.label_tag }} {{ form.description }}
+        {{ form.proposed_date.label_tag }} {{ form.proposed_date }}
+        {{ form.status.label_tag }} {{ form.status }}
+    </div>
+    <div class="form-group">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" value="{{ form.location.value }}" required>
+        <a id="mapLink" href="#" target="_blank">View on Map</a>
     </div>
         <button type="submit" class="btn-submit">Add Event</button>
 </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function initAutocomplete() {
+        const locationInput = document.getElementById('location');
+        const autocomplete = new google.maps.places.Autocomplete(locationInput);
+
+        autocomplete.addListener('place_changed', function() {
+            const place = autocomplete.getPlace();
+            const mapLink = document.getElementById('mapLink');
+            if (place.geometry) {
+                const locationName = place.name || '';
+                const locationAddress = place.formatted_address || '';
+                const combinedLocation = `${locationName}, ${locationAddress}`.trim();
+
+                locationInput.value = combinedLocation;
+                mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(combinedLocation)}`;
+                mapLink.style.display = 'inline';
+            } else {
+                mapLink.href = '#';
+                mapLink.style.display = 'none';
+            }
+        });
+    }
+
+    function updateMapLink() {
+        const location = document.getElementById('location').value;
+        const mapLink = document.getElementById('mapLink');
+        if (location) {
+            mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+            mapLink.style.display = 'inline';
+        } else {
+            mapLink.href = '#';
+            mapLink.style.display = 'none';
+        }
+    }
+
+    window.onload = function() {
+        initAutocomplete();
+        updateMapLink();
+    };
+</script>
 {% endblock %}

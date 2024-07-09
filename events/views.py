@@ -44,6 +44,11 @@ def edit_event(request, event_id):
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             updated_event = form.save(commit=False)
+            # Concatenate place name and address
+            place_name = request.POST.get("place_name")
+            location = form.cleaned_data.get("location")
+            if place_name:
+                updated_event.location = f"{place_name}, {location}"
             has_changes = (
                 updated_event.status != previous_status
                 or updated_event.title != previous_title
