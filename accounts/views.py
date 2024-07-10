@@ -11,6 +11,8 @@ from invitations.models import Invitation
 from .models import UserProfile, Friendship
 from .forms import FriendSearchForm, ProfilePictureForm
 from django.db.models import Q
+from notifications.models import Notification
+from django.urls import reverse
 
 
 @login_required
@@ -170,15 +172,19 @@ def friends_page(request):
         (Q(from_user=current_user) | Q(to_user=current_user))
         & Q(status="accepted")
     )
-    pending_requests = Friendship.objects.filter(
+    pending_requests_received = Friendship.objects.filter(
         Q(to_user=current_user) & Q(status="pending")
+    )
+    pending_requests_sent = Friendship.objects.filter(
+        Q(from_user=current_user) & Q(status="pending")
     )
 
     context = {
         "search_form": search_form,
         "search_results": search_results,
         "friends": friends,
-        "pending_requests": pending_requests,
+        "pending_requests_received": pending_requests_received,
+        "pending_requests_sent": pending_requests_sent,
     }
     return render(request, "accounts/friends.html", context)
 
@@ -187,17 +193,46 @@ def friends_page(request):
 def send_friend_request(request, user_id):
     to_user = get_object_or_404(User, id=user_id)
     from_user = request.user
-    if (
-        not Friendship.objects.filter(
-            from_user=from_user, to_user=to_user
-        ).exists()
-        and not Friendship.objects.filter(
-            from_user=to_user, to_user=from_user
-        ).exists()
-    ):
+    friendship = Friendship.objects.filter(
+        Q(from_user=from_user, to_user=to_user)
+        | Q(from_user=to_user, to_user=from_user)
+    ).first()
+
+    if friendship:
+        if friendship.status == "accepted":
+            messages.error(request, "You are already friends.")
+        elif friendship.status == "pending":
+            messages.error(request, "Friend request already sent.")
+        elif (
+            friendship.status == "declined" and friendship.to_user == from_user
+        ):
+            friendship.status = "pending"
+            friendship.from_user = from_user
+            friendship.to_user = to_user
+            friendship.save()
+            Notification.objects.create(
+                user=to_user,
+                event=None,
+                type="friend_request_received",
+                message=f"{from_user.username} has sent you a friend request.",
+                url=reverse("friends_page"),
+            )
+            messages.success(request, "Friend request sent successfully.")
+        else:
+            messages.error(request, "Unable to send friend request.")
+    else:
         Friendship.objects.create(
             from_user=from_user, to_user=to_user, status="pending"
         )
+        Notification.objects.create(
+            user=to_user,
+            event=None,
+            type="friend_request_received",
+            message=f"{from_user.username} has sent you a friend request.",
+            url=reverse("friends_page"),
+        )
+        messages.success(request, "Friend request sent successfully.")
+
     return redirect("friends_page")
 
 
@@ -206,8 +241,10 @@ def respond_friend_request(request, request_id, response):
     friend_request = get_object_or_404(Friendship, id=request_id)
     if response == "accept":
         friend_request.status = "accepted"
+        messages.success(request, "Friend request accepted.")
     elif response == "decline":
         friend_request.status = "declined"
+        messages.success(request, "Friend request declined.")
     friend_request.save()
     return redirect("friends_page")
 
@@ -220,6 +257,7 @@ def delete_friend(request, user_id):
         (Q(from_user=current_user) & Q(to_user=friend))
         | (Q(from_user=friend) & Q(to_user=current_user))
     ).delete()
+    messages.success(request, "Friend deleted successfully.")
     return redirect("friends_page")
 
 
