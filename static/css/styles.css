@@ -824,3 +824,63 @@ a.edit-btn:hover {
 .profile-container .btn-submit:hover {
     background-color: #45a049;
 }
+
+/* Friends Page */
+.friends-page-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.friends-list,
+.friend-search,
+.pending-requests {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 18rem;
+}
+
+.friends-list ul,
+.friend-search ul,
+.pending-requests ul {
+    list-style: none;
+    padding: 0;
+}
+
+.friends-list li,
+.friend-search li,
+.pending-requests li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.friends-list li:last-child,
+.friend-search li:last-child,
+.pending-requests li:last-child {
+    border-bottom: none;
+}
+
+.btn-delete-friend {
+    background: #ff6666;
+    color: #fff;
+    border: none;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 1rem;
+}
+
+.btn-submit {
+    background: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-top: 1rem;
+}
