@@ -102,6 +102,13 @@ footer {
     border-color: #c3e6cb;
 }
 
+/* TODO - Error message */
+body>main>form>div>ul>li,
+.error-list {
+    color: red;
+    font-size: larger;
+}
+
 /* Dashboard */
 .dashboard-container {
     display: flex;

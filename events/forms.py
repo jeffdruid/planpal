@@ -25,7 +25,11 @@ class EventForm(forms.ModelForm):
         self.fields["title"].initial = "Default Title"
         self.fields["description"].initial = "Default Description"
         self.fields["location"].initial = "Default Location"
-        self.fields["proposed_date"].initial = timezone.now()
+        self.fields["proposed_date"].initial = (
+            timezone.now()
+            # add 1 hour (for testing)
+            + timezone.timedelta(hours=1)
+        )
         self.fields["status"].initial = "Pending"
 
     def clean_proposed_date(self):

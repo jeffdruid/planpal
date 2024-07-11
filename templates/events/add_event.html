@@ -7,22 +7,26 @@
 <form method="post" action="" class="event-form">
     {% csrf_token %}
     <div class="form-group">
-        {{ form.as_p }}
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        {{ form.title.label_tag }} {{ form.title }}
+        {{ form.description.label_tag }} {{ form.description }}
+        {{ form.proposed_date.label_tag }} {{ form.proposed_date }}
+        {{ form.status.label_tag }} {{ form.status }}
     </div>
     <div class="form-group">
         <label for="location">Location:</label>
         <input type="text" id="location" name="location" value="{{ form.location.value }}" required>
         <a id="mapLink" href="#" target="_blank">View on Map</a>
     </div>
-    {% if form.non_field_errors %}
+    {% comment %} {% if form.non_field_errors %}
         <div class="error-message">
             <ul>
                 {% for error in form.non_field_errors %}
-                    <li>{{ error }}</li>
+                    <li style="font-weight: bold">{{ error }}</li>
                 {% endfor %}
             </ul>
         </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
     {% for field in form %}
         {% if field.errors %}
             <div class="error-message">
