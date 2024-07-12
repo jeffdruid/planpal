@@ -830,8 +830,11 @@ a.edit-btn:hover {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 2rem;
-    padding: 1rem;
+    gap: 1rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 90%;
+    height: 50rem;
 }
 
 .friends-list,
@@ -839,10 +842,11 @@ a.edit-btn:hover {
 .pending-requests {
     flex: 1;
     background: #f9f9f9;
-    padding: 1rem;
+    padding: 2rem;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: 18rem;
+    min-height: 90%;
+    width: 30rem;
 }
 
 .friends-list ul,
@@ -869,7 +873,7 @@ a.edit-btn:hover {
     background: #ff6666;
     color: #fff;
     border: none;
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem 0.5rem;
     cursor: pointer;
     border-radius: 3px;
     margin-left: 1rem;
@@ -883,4 +887,15 @@ a.edit-btn:hover {
     cursor: pointer;
     border-radius: 3px;
     margin-top: 1rem;
+}
+
+#id_search_query {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+div.friend-search>form>button {
+    margin-top: 0;
 }
