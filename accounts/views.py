@@ -147,7 +147,8 @@ def custom_login(request):
 def friends_page(request):
     current_user = request.user
 
-    # Handle friend search
+    search_query = ""
+    search_results = []
     if "search_query" in request.GET or "user" in request.GET:
         search_form = FriendSearchForm(request.GET)
         if search_form.is_valid():
@@ -181,6 +182,7 @@ def friends_page(request):
 
     context = {
         "search_form": search_form,
+        "search_query": search_query,
         "search_results": search_results,
         "friends": friends,
         "pending_requests_received": pending_requests_received,
@@ -233,7 +235,9 @@ def send_friend_request(request, user_id):
         )
         messages.success(request, "Friend request sent successfully.")
 
-    return redirect("friends_page")
+    # Redirect with the current search query
+    search_query = request.GET.get("search_query", "")
+    return redirect(f"{reverse('friends_page')}?search_query={search_query}")
 
 
 @login_required

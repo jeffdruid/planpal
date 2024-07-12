@@ -8,7 +8,7 @@
 {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-            <li{% if message.tags %} style="font-size:larger; background-color: yellow; padding: 1rem 1.5rem;" class="{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+            <li{% if message.tags %} style="font-size:larger; background-color: yellow; padding: 1rem 1.5rem; list-style: none;" class="{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
         {% endfor %}
     </ul>
 {% endif %}
