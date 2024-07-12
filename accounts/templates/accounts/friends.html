@@ -63,8 +63,8 @@
             {% for request in pending_requests_received %}
                 <li>
                     {{ request.from_user.username }} - {{ request.from_user.first_name }} {{ request.from_user.last_name }}
-                    <a href="{% url 'respond_friend_request' request.id 'accept' %}">Accept</a>
-                    <a href="{% url 'respond_friend_request' request.id 'decline' %}">Decline</a>
+                    <a href="{% url 'respond_friend_request' request.id 'accept' %}"><i class="fa fa-check" style="color:green;"></i> Accept</a> -
+                    <a href="{% url 'respond_friend_request' request.id 'decline' %}"><i class="fa fa-times"style="color:red;"></i> Decline</a>
                 </li>
             {% empty %}
                 <li>No pending friend requests received.</li>
