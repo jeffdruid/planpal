@@ -5,6 +5,7 @@ from events.models import Event
 from .models import Invitation
 from django.contrib import messages
 from notifications.models import Notification
+from accounts.models import Friendship
 
 
 @login_required
@@ -34,8 +35,19 @@ def create_invitation(request, event_id):
         )
         return redirect("event_details", event_id=event_id)
 
+    # Fetching friends of the current user
+    friend_ids = Friendship.objects.filter(
+        from_user=request.user, status="accepted"
+    ).values_list("to_user_id", flat=True)
+    users = User.objects.filter(id__in=friend_ids)
+
+    no_friends = False
+    if not users.exists():
+        no_friends = True
+
+    # TODO - for testing purposes, we are including all users in the list of potential invitees
     # Uncomment the following line to include the current user in the list of potential invitees
-    users = User.objects.all()
+    # users = User.objects.all()
 
     # TODO - for testing purposes, we are including the current user in the list of potential invitees
     # Exclude the current user from the list of potential invitees
@@ -59,8 +71,15 @@ def create_invitation(request, event_id):
 
         messages.success(request, "Invitation sent successfully.")
         return redirect("manage_invitations", event_id=event_id)
+
+    context = {
+        "event": event,
+        "users": users,
+        "no_friends": no_friends,
+    }
+
     return render(
         request,
         "invitations/create_invitation.html",
-        {"event": event, "users": users},
+        context,
     )

@@ -13,18 +13,24 @@
     {% endfor %}
 </div>
 {% endif %}
-<form method="post" action="">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="user_id">Select User:</label>
-        <select id="user_id" name="user_id" required>
-            {% for user in users %}
-                <option value="{{ user.id }}">{{ user.username }} - {{ user.first_name }} {{ user.last_name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button type="submit" class="btn-submit" style="color:black;">Add Invitation</button>
-</form>
+
+{% if no_friends %}
+    <p style="text-align: center;">You have no friends to invite to this event.</p>
+    <p style="text-align: center;">You can add friends <a href="{% url 'friends_page' %}" style="color:white;">here</a></p>
+{% else %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="user_id">Select User:</label>
+            <select id="user_id" name="user_id" required>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }} - {{ user.first_name }} {{ user.last_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn-submit" style="color:black;">Add Invitation</button>
+    </form>
+{% endif %}
 <br>
 <br>
 <a href="{% url 'event_details' event.id %}" class="back-btn" style="color:white">Back to Event Details</a>
