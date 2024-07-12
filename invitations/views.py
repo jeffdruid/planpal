@@ -34,7 +34,13 @@ def create_invitation(request, event_id):
         )
         return redirect("event_details", event_id=event_id)
 
-    users = User.objects.all()  # Include all users, including the current user
+    # Uncomment the following line to include the current user in the list of potential invitees
+    users = User.objects.all()
+
+    # TODO - for testing purposes, we are including the current user in the list of potential invitees
+    # Exclude the current user from the list of potential invitees
+    # users = User.objects.exclude(id=request.user.id)
+
     if request.method == "POST":
         user_id = request.POST.get("user_id")
         user = get_object_or_404(User, id=user_id)
