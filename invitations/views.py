@@ -6,6 +6,7 @@ from .models import Invitation
 from django.contrib import messages
 from notifications.models import Notification
 from accounts.models import Friendship
+from django.db.models import Q
 
 
 @login_required
@@ -35,27 +36,35 @@ def create_invitation(request, event_id):
         )
         return redirect("event_details", event_id=event_id)
 
-    # Fetching friends of the current user
-    friend_ids = Friendship.objects.filter(
-        from_user=request.user, status="accepted"
-    ).values_list("to_user_id", flat=True)
-    users = User.objects.filter(id__in=friend_ids)
+    # Fetch both incoming and outgoing friendships
+    friends = Friendship.objects.filter(
+        Q(from_user=request.user, status="accepted")
+        | Q(to_user=request.user, status="accepted")
+    )
 
-    no_friends = False
-    if not users.exists():
-        no_friends = True
+    # Extract users who are friends of the current user
+    users = []
+    for friendship in friends:
+        if friendship.from_user == request.user:
+            users.append(friendship.to_user)
+        else:
+            users.append(friendship.from_user)
 
-    # TODO - for testing purposes, we are including all users in the list of potential invitees
-    # Uncomment the following line to include the current user in the list of potential invitees
-    # users = User.objects.all()
-
-    # TODO - for testing purposes, we are including the current user in the list of potential invitees
-    # Exclude the current user from the list of potential invitees
-    # users = User.objects.exclude(id=request.user.id)
+    if not users:
+        messages.info(request, "You have no friends to invite to this event.")
+        return redirect("friends_page")
 
     if request.method == "POST":
         user_id = request.POST.get("user_id")
         user = get_object_or_404(User, id=user_id)
+
+        # Check if the selected user is a friend
+        if user not in users:
+            messages.error(
+                request, "You can only invite friends to this event."
+            )
+            return redirect("create_invitation", event_id=event_id)
+
         if Invitation.objects.filter(event=event, user=user).exists():
             messages.error(request, "Invitation already exists for this user.")
             return redirect("create_invitation", event_id=event_id)
@@ -72,14 +81,8 @@ def create_invitation(request, event_id):
         messages.success(request, "Invitation sent successfully.")
         return redirect("manage_invitations", event_id=event_id)
 
-    context = {
-        "event": event,
-        "users": users,
-        "no_friends": no_friends,
-    }
-
     return render(
         request,
         "invitations/create_invitation.html",
-        context,
+        {"event": event, "users": users},
     )
