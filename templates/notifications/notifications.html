@@ -3,24 +3,26 @@
 {% block title %}Notifications{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center; color: #000;">Notifications</h2>
-<div class="notifications-list">
-    <ul>
-        {% for notification in notifications %}
-            <li>
-                {% if notification.type == 'friend_request_received' %}
-                    <a href="{% url 'friends_page' %}" class="notification-link">
-                        <span class="notification-title">{{ notification.message }}</span>
-                        <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
-                    </a>
-                {% else %}
-                    <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
-                        <span class="notification-title">{{ notification.message }}</span>
-                        <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
-                    </a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+<div class="container">
+    <h2 class="text-center mt-4 mb-4">Notifications</h2>
+    <div class="notifications-list">
+        <ul class="list-group">
+            {% for notification in notifications %}
+                <li class="list-group-item">
+                    {% if notification.type == 'friend_request_received' %}
+                        <a href="{% url 'friends_page' %}" class="notification-link">
+                            <h5 class="notification-title">{{ notification.message }}</h5>
+                            <p class="notification-time text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</p>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
+                            <h5 class="notification-title">{{ notification.message }}</h5>
+                            <p class="notification-time text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</p>
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}
