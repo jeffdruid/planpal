@@ -1,16 +1,28 @@
-{% extends 'base.html' %} {% block title %}Home{% endblock %}
-<p>here is the home page</p>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
 {% block content %}
-<h1>Welcome to the Event Planner</h1>
-{% if user.is_authenticated %}
-<p>Hello, {{ user.username }} !</p>
-<p><a href="{% url 'account_logout' %}">Logout</a></p>
-
-{% else %}
-<p>
-  <a href="{% url 'account_login' %}">Login</a> or
-  <a href="{% url 'account_signup' %}">Signup</a> to start planning your
-  events.
-</p>
-
-{% endif %} {% endblock %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h1>Welcome to the Event Planner</h1>
+                </div>
+                <div class="card-body">
+                    {% if user.is_authenticated %}
+                        <p class="card-text">Hello, {{ user.username }}!</p>
+                        <p><a href="{% url 'account_logout' %}" class="btn btn-primary">Logout</a></p>
+                    {% else %}
+                        <p class="card-text">
+                            <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a> or
+                            <a href="{% url 'account_signup' %}" class="btn btn-secondary">Signup</a> to start planning your events.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
