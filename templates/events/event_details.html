@@ -3,143 +3,173 @@
 {% block title %}Event Details{% endblock %}
 
 {% block content %}
-<div class="event-details-container">
-    <div class="event-details">
-        <span class="status-indicator status-{{ event.status|lower }}"></span>
-        <h2 style="text-align: center;">Event Details</h2>
-        <p><strong>Title:</strong> {{ event.title|title }}</p>
-        <p><strong>Date:</strong> {{ event.proposed_date|date:"F j, Y" }}</p>
-        <p><strong>Time:</strong> {{ event.proposed_date|time:"H:i" }}</p>
-        <p><strong>Description:</strong> {{ event.description|capfirst }}</p>
-        <p><strong>Location:</strong> <a href="https://www.google.com/maps/search/?api=1&query={{ event.location }}" target="_blank">{{ event.location|capfirst }}</a></p>
-        <p><strong>Status:</strong> {{ event.status|capfirst }}</p>
-        <p><strong>Created by:</strong> {{ event.created_by.username|capfirst }}</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Event Details</h2>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-{{ event.status|lower }} mb-3">{{ event.status|capfirst }}</span>
+                    <p><strong>Title:</strong> {{ event.title|title }}</p>
+                    <p><strong>Date:</strong> {{ event.proposed_date|date:"F j, Y" }}</p>
+                    <p><strong>Time:</strong> {{ event.proposed_date|time:"H:i" }}</p>
+                    <p><strong>Description:</strong> {{ event.description|capfirst }}</p>
+                    <p><strong>Location:</strong> <a href="https://www.google.com/maps/search/?api=1&query={{ event.location }}" target="_blank">{{ event.location|capfirst }}</a></p>
+                    <p><strong>Status:</strong> {{ event.status|capfirst }}</p>
+                    <p><strong>Created by:</strong> {{ event.created_by.username|capfirst }}</p>
 
-        {% if request.user == event.created_by %}
-        <div class="event-actions">
-            <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
-            <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
-        </div>
-        {% else %}
-        <br>
-        <div class="response-buttons">
-            <div class="response-message">
-                <p>How would you like to respond to this event?</p>
-            </div>
-            <form method="post" action="" class="inline-form">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="accept">
-                <button type="submit" class="btn accept-btn">Accept</button>
-            </form>
-            <form method="post" action="" class="inline-form">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="deny">
-                <button type="submit" class="btn deny-btn">Deny</button>
-            </form>
-            <button class="btn maybe-btn" onclick="openAlternateDateModal()">Maybe</button>
-        </div>
-        {% endif %}
-    </div>
-    <div class="event-availability">
-        <h3 style="color:black">Availability</h3>
-        <ul>
-            {% for invitation in invitations %}
-            {% empty %}
-            <li>No invitations sent.</li>
-            {% endfor %}
-            {% for invitation in event.invitations.all %}
-                <li>
-                    {{ invitation.user.username|capfirst }}: 
-                    <span class="status {{ invitation.status|lower }}">{{ invitation.status }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-        <h3 style="color:black">Suggested Alternative Dates</h3>
-        <ul>
-            {% with suggested_dates=invitations|dictsort:"suggested_date" %}
-                {% if suggested_dates %}
-                    {% for invitation in suggested_dates %}
-                        {% if invitation.suggested_date %}
-                            <li>{{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}</li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if not suggested_dates %}
-                        <li>No alternate dates suggested.</li>
+                    {% if request.user == event.created_by %}
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'edit_event' event.id %}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                        <button class="btn btn-danger delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i> Delete</button>
+                    </div>
+                    {% else %}
+                    <div class="mt-4">
+                        <p>How would you like to respond to this event?</p>
+                        <div class="d-flex justify-content-around">
+                            <form method="post" action="" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="accept">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            <form method="post" action="" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="deny">
+                                <button type="submit" class="btn btn-danger">Deny</button>
+                            </form>
+                            <button class="btn btn-secondary" onclick="openAlternateDateModal()">Maybe</button>
+                        </div>
+                    </div>
                     {% endif %}
-                {% else %}
-                    <li>No alternate dates suggested.</li>
-                {% endif %}
-            {% endwith %}
-        </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h3>Availability</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for invitation in event.invitations.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ invitation.user.username|capfirst }}
+                                <span class="badge bg-{{ invitation.status|lower }}">{{ invitation.status }}</span>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">No invitations sent.</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h3 class="mt-4">Suggested Alternative Dates</h3>
+                    <ul class="list-group">
+                        {% with suggested_dates=invitations|dictsort:"suggested_date" %}
+                            {% if suggested_dates %}
+                                {% for invitation in suggested_dates %}
+                                    {% if invitation.suggested_date %}
+                                        <li class="list-group-item">{{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not suggested_dates %}
+                                    <li class="list-group-item">No alternate dates suggested.</li>
+                                {% endif %}
+                            {% else %}
+                                <li class="list-group-item">No alternate dates suggested.</li>
+                            {% endif %}
+                        {% endwith %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="event-invitations">
+
     {% if request.user == event.created_by %}
-        <a href="{% url 'manage_invitations' event.id %}" class="invite-btn" style="color: white;">Manage Invitations</a>
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a href="{% url 'manage_invitations' event.id %}" class="btn btn-primary">Manage Invitations</a>
+        </div>
+    </div>
     {% endif %}
 </div>
 
 <!-- Modal for deleting an event -->
-<div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete this event?</p>
-        <form method="post" id="deleteForm">
-            {% csrf_token %}
-            <button type="submit" class="btn-submit">Delete</button>
-            <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
-        </form>
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this event?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" id="deleteForm">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Modal for suggesting alternate dates -->
-<div id="alternateDateModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Suggest an Alternate Date</h2>
-        <form method="post" action="">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="maybe">
-            <div class="form-group">
-                <label for="alternate_date">Alternate Date:</label>
-                <input type="date" id="alternate_date" name="alternate_date" value="{{ current_date|date:"Y-m-d" }}" required>
-                <label for="alternate_time">Time:</label>
-                <input type="time" id="alternate_time" name="alternate_time" value="{{ current_time|time:"H:i" }}" required>
+<div id="alternateDateModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suggest an Alternate Date</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <button type="submit" class="btn-submit">Submit</button>
-        </form>
+            <div class="modal-body">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="maybe">
+                    <div class="form-group">
+                        <label for="alternate_date">Alternate Date:</label>
+                        <input type="date" id="alternate_date" name="alternate_date" value="{{ current_date|date:"Y-m-d" }}" class="form-control" required>
+                        <label for="alternate_time">Time:</label>
+                        <input type="time" id="alternate_time" name="alternate_time" value="{{ current_time|time:"H:i" }}" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    var deleteModal = document.getElementById("deleteModal");
-    var deleteForm = document.getElementById("deleteForm");
-    var closeModalBtn = document.getElementsByClassName("close")[0];
+    $(document).ready(function() {
+        $('.delete-btn').click(function() {
+            var eventId = $(this).data('event-id');
+            $('#deleteForm').attr('action', '/events/' + eventId + '/delete/');
+            $('#deleteModal').modal('show');
+        });
+        
+        $('.close').click(function() {
+            $('#deleteModal').modal('hide');
+            $('#alternateDateModal').modal('hide');
+        });
 
-    $(".delete-btn").click(function() {
-        var eventId = $(this).data("event-id");
-        deleteForm.action = "/events/" + eventId + "/delete/";
-        deleteModal.style.display = "block";
+        window.onclick = function(event) {
+            if (event.target == $('#deleteModal')) {
+                $('#deleteModal').modal('hide');
+            }
+            if (event.target == $('#alternateDateModal')) {
+                $('#alternateDateModal').modal('hide');
+            }
+        };
     });
 
-    closeModalBtn.onclick = function() {
-        deleteModal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == deleteModal) {
-            deleteModal.style.display = "none";
-        }
-    }
-
-    function closeModal() {
-        deleteModal.style.display = "none";
-    }
-
     function openAlternateDateModal() {
-        document.getElementById("alternateDateModal").style.display = "block";
+        $('#alternateDateModal').modal('show');
     }
 </script>
-
 {% endblock %}

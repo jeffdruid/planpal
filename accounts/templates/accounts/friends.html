@@ -44,6 +44,15 @@
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
                     </form>
                     <br>
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %} 
                     <br>
                     {% if search_results %}
                         <h4>Search Results</h4>
