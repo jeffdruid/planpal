@@ -4,62 +4,94 @@
 
 {% block content %}
 
-<div class="dashboard-container">
-    <div class="upcoming-events">
-        <h3>Upcoming Events</h3>
-        <ul>
-            {% for item in upcoming_events_with_read_status %}
-                <li>
-                    <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong> - {{ item.event.proposed_date|date:"F j, Y" }} - <span class="status {{ item.event.status|lower }}">{{ item.event.status }}</span>
-                    {% if item.unread %}
-                        <span class="unread-status">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                    {% endif %}
-                </li>
-            {% empty %}
-                <li>No upcoming events.</li>
-                <br>
-            {% endfor %}
-        </ul>
-    </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Upcoming Events</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for item in upcoming_events_with_read_status %}
+                            <li>
+                                <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
+                                <br>
+                                {{ item.event.proposed_date|date:"F j, Y" }}
+                                <span class="badge badge-{{ item.event.status|lower }} ml-2">{{ item.event.status }}</span>
+                                {% if item.unread %}
+                                    <span class="badge badge-danger ml-2"><i class="fas fa-envelope"></i></span>
+                                {% endif %}
+                            </li>
+                            <hr>
+                        {% empty %}
+                            <li>No upcoming events.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Calendar</h3>
+                </div>
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
 
-    <div id="calendar"></div>
-
-    <div class="your-events">
-        <h3>Your Events</h3>
-        <ul>
-            {% for event in user_events %}
-                <li>
-                    <a href="{% url 'event_details' event.id %}" class="event-link">
-                        <strong>{{ event.title|upper }}</strong>
-                    </a>
-                    - {{ event.proposed_date|date:"F j, Y" }}
-                    <span class="status {{ event.status|lower }}">{{ event.status }}</span>
-                    <a href="{% url 'edit_event' event.id %}" class="edit-btn"><i class="fas fa-edit"></i></a>
-                    <button class="delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
-                </li>
-                <br>
-            {% empty %}
-            <li>You have not created any events.</li>
-            <br>
-            {% endfor %}
-        </ul>
-        <a href="{% url 'create_event' %}" class="add-btn">Create Event</a>
+        <div class="col-md-2">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Your Events</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for event in user_events %}
+                            <li>
+                                <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title|upper }}</a></strong>
+                                <br>
+                                {{ event.proposed_date|date:"F j, Y" }}
+                                <span class="badge badge-{{ event.status|lower }} ml-2">{{ event.status }}</span>
+                                <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-sm btn-outline-danger delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
+                            </li>
+                            <hr>
+                        {% empty %}
+                            <li>You have not created any events.</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'create_event' %}" class="btn btn-primary">Create Event</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Modal for deleting an event -->
 <div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete this event?</p>
-        <form method="post" id="deleteForm">
-            {% csrf_token %}
-            <button type="submit" class="btn-submit">Delete</button>
-            <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
-        </form>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this event?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" id="deleteForm">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -86,31 +118,19 @@
             timeFormat: 'h:mma' 
         });
 
-        var deleteModal = document.getElementById("deleteModal");
-        var deleteForm = document.getElementById("deleteForm");
-        var closeModalBtn = document.getElementsByClassName("close")[0];
+        // Modal functionality
+        var deleteModal = $('#deleteModal');
+        var deleteForm = $('#deleteForm');
 
-        $(".delete-btn").click(function() {
-            var eventId = $(this).data("event-id");
-            deleteForm.action = "/events/" + eventId + "/delete/";
-            deleteModal.style.display = "block";
+        $('.delete-btn').click(function() {
+            var eventId = $(this).data('event-id');
+            deleteForm.attr('action', '/events/' + eventId + '/delete/');
+            deleteModal.modal('show');
         });
 
-        closeModalBtn.onclick = function() {
-            deleteModal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == deleteModal) {
-                deleteModal.style.display = "none";
-            }
-        }
-
-        function closeModal() {
-            deleteModal.style.display = "none";
-        }
-
-        document.querySelector(".btn-cancel").addEventListener("click", closeModal);
+        $('#deleteModal .close, #deleteModal button[data-dismiss="modal"]').click(function() {
+            deleteModal.modal('hide');
+        });
     });
 </script>
 
