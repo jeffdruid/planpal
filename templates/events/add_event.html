@@ -3,46 +3,46 @@
 {% block title %}Add New Event{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center; color: white;">Add New Event</h2>
-<form method="post" action="" class="event-form">
-    {% csrf_token %}
-    <div class="form-group">
-        {% comment %} {{ form.as_p }} {% endcomment %}
-        {{ form.title.label_tag }} {{ form.title }}
-        {{ form.description.label_tag }} {{ form.description }}
-        {{ form.proposed_date.label_tag }} {{ form.proposed_date }}
-        {{ form.status.label_tag }} {{ form.status }}
-    </div>
-    <div class="form-group">
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" value="{{ form.location.value }}" required>
-        <a id="mapLink" href="#" target="_blank">View on Map</a>
-    </div>
-    {% comment %} {% if form.non_field_errors %}
-        <div class="error-message">
-            <ul>
-                {% for error in form.non_field_errors %}
-                    <li style="font-weight: bold">{{ error }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %} {% endcomment %}
-    {% for field in form %}
-        {% if field.errors %}
-            <div class="error-message">
-                <strong>{{ field.label }}:</strong>
-                <ul>
-                    {% for error in field.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
+<div class="container mt-5">
+    <h2 class="text-center text-white">Add New Event</h2>
+    <form method="post" action="" class="event-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {% comment %} {{ form.as_p }} {% endcomment %}
+            <div class="mb-3">
+                {{ form.title.label_tag }} {{ form.title }}
             </div>
-        {% endif %}
-    {% endfor %}
-    <button type="submit" class="btn-submit">Add Event</button>
-</form>
+            <div class="mb-3">
+                {{ form.description.label_tag }} {{ form.description }}
+            </div>
+            <div class="mb-3">
+                {{ form.proposed_date.label_tag }} {{ form.proposed_date }}
+            </div>
+            <div class="mb-3">
+                {{ form.status.label_tag }} {{ form.status }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{ form.location.value }}" class="form-control" required>
+            <a id="mapLink" href="#" target="_blank" class="btn btn-link mt-2">View on Map</a>
+        </div>
+        {% for field in form %}
+            {% if field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ field.label }}:</strong>
+                    <ul class="mb-0">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Add Event</button>
+    </form>
+</div>
 {% endblock %}
-
 
 {% block extra_js %}
 <script>
