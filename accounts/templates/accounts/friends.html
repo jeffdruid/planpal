@@ -3,82 +3,102 @@
 {% block title %}Friends{% endblock %}
 
 {% block content %}
-<h2>Friends</h2>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Friends List -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Friends</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for friendship in friends %}
+                            <li>
+                                {% if friendship.from_user == user %}
+                                    {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
+                                {% else %}
+                                    {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
+                                {% endif %}
+                                <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
+                                <button class="btn btn-sm btn-outline-danger delete-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
+                            </li>
+                            <hr>
+                        {% empty %}
+                            <li>You have no friends yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} style="font-size:larger; background-color: yellow; padding: 1rem 1.5rem; list-style: none;" class="{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-<div class="friends-page-container">
-    <div class="friends-list">
-        <h3>Friends</h3>
-        <ul>
-            {% for friendship in friends %}
-                <li>
-                    {% if friendship.from_user == user %}
-                        {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
-                        <a href="{% url 'view_profile' friendship.to_user.id %}">View Profile</a>
-                        <button class="btn-delete-friend" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
-                    {% else %}
-                        {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
-                        <a href="{% url 'view_profile' friendship.from_user.id %}">View Profile</a>
-                        <button class="btn-delete-friend" data-friend-id="{{ friendship.from_user.id }}"><i class="fa fa-trash"></i></button>
+        <!-- Friend Search -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Search for Friends</h3>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{% url 'friends_page' %}">
+                        {{ search_form.as_p }}
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                    </form>
+                    <br>
+                    <br>
+                    {% if search_results %}
+                        <h4>Search Results</h4>
+                        <ul class="list-unstyled">
+                            {% for user in search_results %}
+                                <li>
+                                    {{ user.username }} - {{ user.first_name }} {{ user.last_name }}
+                                    {% if user not in friends %}
+                                        <a href="{% url 'send_friend_request' user.id %}" class="btn btn-sm btn-outline-success ml-2">Add Friend</a>
+                                    {% endif %}
+                                </li>
+                                <hr>
+                            {% empty %}
+                                <li>No search results found.</li>
+                            {% endfor %}
+                        </ul>
                     {% endif %}
-                </li>
-            {% empty %}
-                <li>You have no friends yet.</li>
-            {% endfor %}
-        </ul>
-    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="friend-search">
-        <h3>Search for Friends</h3>
-        <form method="get" action="{% url 'friends_page' %}">
-            {{ search_form.as_p }}
-            <button type="submit" class="btn-submit"><i class="fa fa-search"></i> Search</button>
-        </form>
-        {% if search_results %}
-            <h3>Search Results</h3>
-            <ul>
-                {% for user in search_results %}
-                    <li>
-                        {{ user.username }} - {{ user.first_name }} {{ user.last_name }}
-                        {% if not user in friends %}
-                            <a href="{% url 'send_friend_request' user.id %}">Add Friend</a>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-
-    <div class="pending-requests">
-        <h3>Pending Friend Requests</h3>
-        <ul>
-            <li><strong>Received Requests:</strong></li>
-            {% for request in pending_requests_received %}
-                <li>
-                    {{ request.from_user.username }} - {{ request.from_user.first_name }} {{ request.from_user.last_name }}
-                    <a href="{% url 'respond_friend_request' request.id 'accept' %}"><i class="fa fa-check" style="color:green;"></i> Accept</a> -
-                    <a href="{% url 'respond_friend_request' request.id 'decline' %}"><i class="fa fa-times"style="color:red;"></i> Decline</a>
-                </li>
-            {% empty %}
-                <li>No pending friend requests received.</li>
-            {% endfor %}
-            <li><strong>Sent Requests:</strong></li>
-            {% for request in pending_requests_sent %}
-                <li>
-                    {{ request.to_user.username }} - {{ request.to_user.first_name }} {{ request.to_user.last_name }}
-                    <span>(Awaiting response)</span>
-                </li>
-            {% empty %}
-                <li>No pending friend requests sent.</li>
-            {% endfor %}
-        </ul>
+        <!-- Pending Requests -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Pending Friend Requests</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><strong>Received Requests:</strong></li>
+                        {% for request in pending_requests_received %}
+                            <li>
+                                {{ request.from_user.username }} - {{ request.from_user.first_name }} {{ request.from_user.last_name }}
+                                <a href="{% url 'respond_friend_request' request.id 'accept' %}" class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i> Accept</a>
+                                <a href="{% url 'respond_friend_request' request.id 'decline' %}" class="btn btn-sm btn-outline-danger"><i class="fa fa-times"></i> Decline</a>
+                            </li>
+                            <hr>
+                        {% empty %}
+                            <li>No pending friend requests received.</li>
+                        {% endfor %}
+                        <br>
+                        <li><strong>Sent Requests:</strong></li>
+                        {% for request in pending_requests_sent %}
+                            <li>
+                                {{ request.to_user.username }} - {{ request.to_user.first_name }} {{ request.to_user.last_name }}
+                                <span>(Awaiting response)</span>
+                            </li>
+                            <hr>
+                        {% empty %}
+                            <li>No pending friend requests sent.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -90,8 +110,8 @@
         <p>Are you sure you want to delete this friend?</p>
         <form method="post" id="deleteFriendForm">
             {% csrf_token %}
-            <button type="submit" class="btn-submit">Delete</button>
-            <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
         </form>
     </div>
 </div>
@@ -110,7 +130,7 @@
         document.getElementById('deleteFriendModal').style.display = 'none';
     }
 
-    document.querySelectorAll('.btn-delete-friend').forEach(button => {
+    document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function() {
             const friendId = this.dataset.friendId;
             openDeleteFriendModal(friendId);
@@ -119,7 +139,7 @@
 
     window.onclick = function(event) {
         const modal = document.getElementById('deleteFriendModal');
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = 'none';
         }
     }
