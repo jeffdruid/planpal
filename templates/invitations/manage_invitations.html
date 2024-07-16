@@ -19,7 +19,7 @@
             {% for invitation in invitations %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span>
-                        <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.email }}
+                        <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.first_name }} {{ invitation.user.last_name }}
                     </span>
                     <span>
                         <span class="badge bg-{{ invitation.status|lower }}">{{ invitation.status }}</span>
