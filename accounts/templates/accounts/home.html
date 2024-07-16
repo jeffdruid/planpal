@@ -13,11 +13,11 @@
                 <div class="card-body">
                     {% if user.is_authenticated %}
                         <p class="card-text">Hello, {{ user.username }}!</p>
-                        <p><a href="{% url 'account_logout' %}" class="btn btn-primary">Logout</a></p>
+                        <p><a href="{% url 'account_logout' %}" class="btn-link font-weight-bold">Logout</a></p>
                     {% else %}
                         <p class="card-text">
-                            <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a> or
-                            <a href="{% url 'account_signup' %}" class="btn btn-secondary">Signup</a> to start planning your events.
+                            <a href="{% url 'account_login' %}" class="btn-link font-weight-bold">Login</a> or
+                            <a href="{% url 'account_signup' %}" class="btn-link font-weight-bold">Signup</a> to start planning your events.
                         </p>
                     {% endif %}
                 </div>
