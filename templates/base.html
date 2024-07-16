@@ -6,81 +6,96 @@
     <title>{% block title %}Event Planner{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body class="c-app">
+    <header class="c-header c-header-light c-header-fixed">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="{% url 'home' %}">Event Planner</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'create_event' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'create_event' %}">Create Event</a>
+                        </li>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'friends_page' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'friends_page' %}">Friends</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                        </li>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'account_signup' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                {% if user.is_authenticated %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                {% if unread_count > 0 %}
+                                    <span class="badge badge-pill badge-danger">{{ unread_count }}</span>
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                {% for notification in recent_unread_notifications %}
+                                    <a class="dropdown-item" href="{% url 'mark_notification_read' notification.id %}">
+                                        {{ notification.message }}
+                                        <small class="text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</small>
+                                    </a>
+                                {% empty %}
+                                    <a class="dropdown-item" href="#">No notifications</a>
+                                {% endfor %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'notifications' %}">View All Notifications</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {% comment %} <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="Profile Picture"
+                                    class="c-avatar-img"> {% endcomment %}
+                                {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <main class="c-main">
+        <div class="container-fluid">
+            <div class="fade-in">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+    <footer class="c-footer">
+        <div>&copy; 2024 Event Planner</div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&libraries=places"></script>
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <ul class="nav-links">
-                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a></li>
-                    <li><a href="{% url 'create_event' %}" class="{% if request.resolver_match.url_name == 'create_event' %}active{% endif %}">Create Event</a></li>
-                    <li><a href="{% url 'friends_page' %}" class="{% if request.resolver_match.url_name == 'friends_page' %}active{% endif %}">Friends</a></li>
-                {% else %}
-                    <li><a href="{% url 'account_login' %}" class="{% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">Login</a></li>
-                    <li><a href="{% url 'account_signup' %}" class="{% if request.resolver_match.url_name == 'account_signup' %}active{% endif %}">Sign Up</a></li>
-                {% endif %}
-            </ul>
-            {% if user.is_authenticated %}
-                <ul class="nav-links">
-                    <div class="user-info">
-                        <div class="dropdown">
-                            <i class="fas fa-bell" id="notificationBell"></i>
-                            {% if unread_count > 0 %}
-                            <span class="notification-count" id="notificationCount">{{ unread_count }}</span>
-                            {% else %}
-                            <span class="notification-count" id="notificationCount" style="display: none;">{{ unread_count }}</span>
-                            {% endif %}
-                        
-
-
-                            {% comment %} <span class="notification-count" id="notificationCount">{{ unread_count }}</span> {% endcomment %}
-                            <div class="dropdown-content notification-dropdown" id="notificationDropdown">
-                                <ul>
-                                    {% for notification in recent_unread_notifications %}
-                                        <li class="notification-item {% if not notification.read %}unread{% endif %}">
-                                            <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
-                                                <span class="notification-title">{{ notification.message }}</span>
-                                                <span class="notification-time">{{ notification.created_at|date:"F j, Y, g:i a" }}</span>
-                                            </a>
-                                        </li>
-                                    {% empty %}
-                                        <li class="notification-item">No notifications</li>
-                                    {% endfor %}
-                                    {% if unread_count > 8 %}
-                                        <li class="notification-item">...</li>
-                                    {% endif %}
-                                </ul>
-                                <a href="{% url 'notifications' %}" class="view-all">View All Notifications</a>
-                            </div>
-                        </div>
-                    </div>  
-                    <li class="profile-dropdown">
-                        <a id="profileLink">
-                            <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="Profile Picture" class="profile-picture" id="userProfileIcon">
-                            {% comment %} - {{ user }} {% endcomment %}
-                        </a>
-                        <div class="profile-dropdown-content" id="profileDropdown">
-                            <a href="{% url 'profile' %}">Profile</a>
-                            <a href="{% url 'account_logout' %}">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            {% endif %}
-        </nav>
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    <footer>
-        <p>&copy; 2024 Event Planner</p>
-    </footer>
     <script src="{% static 'js/scripts.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
