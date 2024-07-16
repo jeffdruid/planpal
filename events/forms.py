@@ -24,7 +24,7 @@ class EventForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["title"].initial = "Default Title"
         self.fields["description"].initial = "Default Description"
-        self.fields["location"].initial = "Default Location"
+        self.fields["location"].initial = "The Spire of Dublin"
         self.fields["proposed_date"].initial = (
             timezone.now()
             # add 1 hour (for testing)
