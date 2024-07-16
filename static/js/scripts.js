@@ -1,5 +1,6 @@
 // Load the notification dropdown when the bell icon is clicked
 $(document).ready(function() {
+    // Toggle notification dropdown
     $("#notificationBell").click(function(e) {
         e.preventDefault();
         $("#notificationDropdown").toggle();
@@ -11,6 +12,7 @@ $(document).ready(function() {
         }
     });
 
+    // Toggle profile dropdown
     $("#profileLink").click(function(e) {
         e.preventDefault();
         $("#profileDropdown").toggle();
@@ -23,6 +25,7 @@ $(document).ready(function() {
     });
 });
 
+// Modal handling functions
 function respondToInvitation(response) {
     if (response === 'deny' || response === 'maybe') {
         document.getElementById('alternateDateModal').style.display = 'block';
