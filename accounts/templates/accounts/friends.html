@@ -20,7 +20,7 @@
                                 {% else %}
                                     {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
                                 {% endif %}
-                                <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
+                                <a href="{% url 'view_profile' friendship.from_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
                                 <button class="btn btn-sm btn-outline-danger delete-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
                             </li>
                             <hr>

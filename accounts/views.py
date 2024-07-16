@@ -267,15 +267,15 @@ def delete_friend(request, user_id):
 
 @login_required
 def view_profile(request, user_id):
-    user_profile = get_object_or_404(UserProfile, user__id=user_id)
-    user_data = {
-        "username": user_profile.user.username,
-        "first_name": user_profile.user.first_name,
-        "last_name": user_profile.user.last_name,
-        "profile_picture": user_profile.profile_picture,
-    }
+    friend_profile = get_object_or_404(UserProfile, user__id=user_id)
+    friend_user = friend_profile.user  # Retrieve User object from UserProfile
     context = {
-        "user_data": user_data,
+        "user_data": {
+            "username": friend_user.username,
+            "first_name": friend_user.first_name,
+            "last_name": friend_user.last_name,
+            "profile_picture": friend_profile.profile_picture,
+        },
         "view_only": True,
     }
     return render(request, "accounts/profile.html", context)

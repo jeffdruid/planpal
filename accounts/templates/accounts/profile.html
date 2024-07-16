@@ -4,59 +4,61 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-<h2>User Profile</h2>
-{% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-<div class="profile-container">
-    <form method="post" action="" {% if view_only %}style="display: none;"{% endif %}>
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="{{ user_data.username }}" disabled>
-        </div>
-        <div class="form-group">
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" value="{{ user_data.first_name }}" {% if view_only %}disabled{% endif %} required>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" value="{{ user_data.last_name }}" {% if view_only %}disabled{% endif %} required>
-        </div>
-        {% if not view_only %}
-        <div class="form-group">
-            <label for="profile_picture">Profile Picture:</label>
-            <div class="profile-picture-container">
-                <img id="selectedProfilePicture" src="{% static 'images/profile_pictures/' %}{{ user_data.profile_picture }}" alt="Selected Profile Picture">
-                <button type="button" class="btn" onclick="openProfilePictureModal()">Change</button>
-                <input type="hidden" name="profile_picture" id="profilePictureInput" value="{{ user_data.profile_picture }}">
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2>{{ user_data.username|title }}'s Profile</h2>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <form method="post" action="" {% if view_only %}style="display: block;"{% endif %}>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" value="{{ user_data.username }}" class="form-control" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" id="first_name" name="first_name" value="{{ user_data.first_name }}" class="form-control" {% if view_only %}disabled{% endif %} required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" id="last_name" name="last_name" value="{{ user_data.last_name }}" class="form-control" {% if view_only %}disabled{% endif %} required>
+                        </div>
+                        {% if not view_only %}
+                            <div class="form-group">
+                                <label for="profile_picture">Profile Picture:</label>
+                                <div class="profile-picture-container">
+                                    <img id="selectedProfilePicture" src="{% static 'images/profile_pictures/' %}{{ user_data.profile_picture }}" alt="Selected Profile Picture" class="img-thumbnail">
+                                    <button type="button" class="btn btn-sm btn-secondary ml-2" onclick="openProfilePictureModal()">Change</button>
+                                    <input type="hidden" name="profile_picture" id="profilePictureInput" value="{{ user_data.profile_picture }}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        {% endif %}
+                    </form>
+
+                    {% if view_only %}
+                        <hr>
+                        <div class="form-group">
+                            <label for="profile_picture">Profile Picture:</label>
+                            <br>
+                            <img src="{% static 'images/profile_pictures/' %}{{ user_data.profile_picture }}" alt="Profile Picture" class="img-thumbnail">
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <button type="submit" class="btn-submit">Update Profile</button>
-        {% endif %}
-    </form>
-    {% if view_only %}
-        <div class="form-group">
-            <label for="profile_picture" style="color: #000;">Profile Picture:</label>
-            <img src="{% static 'images/profile_pictures/' %}{{ user_data.profile_picture }}" alt="Profile Picture" style="max-width: 90px;">
-        </div>
-        <div class="form-group">
-            <label for="username" style="color: #000;">Username:</label>
-            <input type="text" id="username" name="username" value="{{ user_data.username }}" disabled>
-        </div>
-        <div class="form-group">
-            <label for="first_name" style="color: #000;">First Name:</label>
-            <input type="text" id="first_name" name="first_name" value="{{ user_data.first_name }}" {% if view_only %}disabled{% endif %} required>
-        </div>
-        <div class="form-group">
-            <label for="last_name" style="color: #000;">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" value="{{ user_data.last_name }}" {% if view_only %}disabled{% endif %} required>
-        </div>
-    {% endif %}
+    </div>
 </div>
 
 <!-- Modal for selecting profile picture -->
@@ -68,13 +70,12 @@
             {% for choice in profile_form.profile_picture.field.choices %}
                 <label class="profile-picture-option">
                     <input onclick="selectProfilePicture()" type="radio" name="profile_picture_modal" value="{{ choice.0 }}" {% if user_data.profile_picture == choice.0 %}checked{% endif %}>
-                    <img src="{% static 'images/profile_pictures/' %}{{ choice.0 }}" alt="{{ choice.1 }}" style="max-width: 50px;">
+                    <img src="{% static 'images/profile_pictures/' %}{{ choice.0 }}" alt="{{ choice.1 }}" class="img-thumbnail">
                 </label>
             {% endfor %}
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
