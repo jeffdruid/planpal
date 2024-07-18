@@ -4,29 +4,32 @@
 }
 
 /* Global styles */
-
-body {
+body,
+html {
     margin: 0;
     padding: 0;
+    font-family: var(--font-family-sans-serif);
+    background-color: var(--background);
+    color: var(--text);
+    height: 100%;
 }
 
 /* Root colors CoreUI */
 :root {
-    --blue: #007bff;
-    --indigo: #6610f2;
-    --purple: #6f42c1;
-    --pink: #e83e8c;
-    --red: #dc3545;
-    --orange: #fd7e14;
-    --yellow: #ffc107;
-    --green: #28a745;
-    --teal: #20c997;
-    --cyan: #17a2b8;
+    --primary: #07393C;
+    /* Midnight green */
+    --secondary: #2C666E;
+    /* Caribbean Current */
+    --accent: #90DDF0;
+    /* Non Photo blue */
+    --background: #FOEDEE;
+    /* Anti-flash white */
+    --text: #0A090C;
+    /* Night */
+    --heading-bg: #e9ecef;
     --white: #fff;
     --gray: #6c757d;
     --gray-dark: #343a40;
-    --primary: #007bff;
-    --secondary: #6c757d;
     --success: #28a745;
     --info: #17a2b8;
     --warning: #ffc107;
@@ -42,39 +45,79 @@ body {
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-:root .bg-primary {
-    background-color: #721c24 !important;
+/* Ensure full height layout */
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-:root .bg-secondary {
-    background-color: #ffc107 !important;
+.row {
+    flex: 1;
+    display: flex;
 }
 
-:root .btn-primary {
-    background-color: #155724 !important;
+/* Override specific CoreUI styles */
+.bg-primary {
+    background-color: var(--primary) !important;
 }
 
-:root .btn-secondary {
-    background-color: #e83e8c !important;
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.btn-secondary {
+    background-color: var(--secondary) !important;
+    border-color: var(--secondary) !important;
 }
 
 /* Navbar styling */
 header {
-    background-color: #a5babe;
+    background-color: var(--primary) !important;
+    color: var(--white) !important;
+    padding: .5rem !important;
+    margin-bottom: 1rem !important;
 }
 
-header {
-    padding: .5rem;
-    margin-bottom: 2rem;
+/* Navbar text color */
+header a,
+header .navbar-brand,
+header .nav-link {
+    color: var(--white) !important;
+}
+
+/* Ensure dropdown items in the navbar are visible */
+header .dropdown-menu {
+    background-color: var(--primary) !important;
+}
+
+header .dropdown-item {
+    color: var(--white) !important;
+}
+
+header .dropdown-item:hover {
+    background-color: var(--secondary) !important;
+}
+
+
+/* Card header styling */
+.card-header {
+    background-color: var(--heading-bg) !important;
+    color: var(--primary) !important;
 }
 
 /* Footer styling */
 footer {
-    /* background-color: #202020; */
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    color: #fff;
+    background-color: var(--dark) !important;
+    color: var(--white) !important;
+    padding: 1rem !important;
+    text-align: center !important;
+    margin-top: auto;
 }
 
 /* Messages Styling */
@@ -83,7 +126,6 @@ footer {
     border: 1px solid transparent;
     border-radius: .25rem;
 }
-
 
 .alert-error {
     color: #721c24;
@@ -98,16 +140,16 @@ footer {
 }
 
 /* Dashboard Styling */
-.container-fluid>div>div.col-md-8 {
+.container-fluid>.row>div {
     margin: 0;
-    padding: 0;
-
+    padding: 0.5rem;
+    /* Reduced padding */
 }
 
 #calendar {
     flex: 1;
     max-width: 100%;
-    max-height: 50%;
+    max-height: 100%;
     margin: 0;
     border: 1px solid #ddd;
     padding: 10px;
@@ -115,31 +157,31 @@ footer {
 }
 
 .fc-event.confirmed-event {
-    background-color: green;
-    border-color: green;
-    color: #fff;
+    background-color: var(--success) !important;
+    border-color: var(--success) !important;
+    color: var(--white) !important;
 }
 
 .fc-event.pending-event {
-    background-color: orange;
-    border-color: orange;
-    color: #fff;
+    background-color: var(--warning) !important;
+    border-color: var(--warning) !important;
+    color: var(--white) !important;
 }
 
 .fc-event.cancelled-event {
-    background-color: red;
-    border-color: red;
-    color: #fff;
-    text-decoration: line-through;
+    background-color: var(--danger) !important;
+    border-color: var(--danger) !important;
+    color: var(--white) !important;
+    text-decoration: line-through !important;
 }
 
 .event-link {
-    color: #000;
-    text-decoration: none;
+    color: var(--text) !important;
+    text-decoration: none !important;
 }
 
 .event-link:hover {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 .upcoming-events,
@@ -147,21 +189,21 @@ footer {
 form {
     padding: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    background-color: #fff;
+    background-color: var(--white);
     border-radius: 5px;
 }
 
-/* TODO */
+/* Status badges */
 .badge-confirmed {
-    background-color: green;
+    background-color: var(--success) !important;
 }
 
 .badge-pending {
-    background-color: orange !important;
+    background-color: var(--warning) !important;
 }
 
-.badge.cancelled {
-    background-color: red;
+.badge-cancelled {
+    background-color: var(--danger) !important;
 }
 
 .add-btn,
@@ -175,7 +217,7 @@ form {
 .form-group label {
     display: block;
     margin-bottom: .25rem;
-    color: #333;
+    color: var(--text) !important;
 }
 
 .form-group input,
@@ -196,17 +238,17 @@ form {
 
 .bg-accepted,
 .bg-confirmed {
-    background-color: green;
+    background-color: var(--success) !important;
 }
 
 .bg-maybe,
 .bg-pending {
-    background-color: orange;
+    background-color: var(--warning) !important;
 }
 
 .bg-declined,
 .bg-cancelled {
-    background-color: red;
+    background-color: var(--danger) !important;
 }
 
 /* Response Buttons */
@@ -257,10 +299,9 @@ form {
 }
 
 .profile-picture-option img:hover {
-    scale: 1.2;
+    transform: scale(1.2);
     filter: brightness(.8);
 }
-
 
 .profile-picture-container img {
     margin: 0;
@@ -288,25 +329,16 @@ form {
     margin-right: 2rem;
 }
 
-/* Ensure dropdown menus are within the viewport */
-
-/* Adjust the width and max-width of the dropdown menu */
 .dropdown-menu {
     max-width: 400px;
-    /* Adjust this value as needed */
     width: auto;
     word-wrap: break-word;
     overflow: hidden;
 }
 
-/* Ensure that the text inside the dropdown items is wrapped and not truncated */
 .dropdown-item {
     white-space: normal;
     word-wrap: break-word;
-}
-
-/* Add some padding to the dropdown items to make them look better */
-.dropdown-item {
     padding: 10px 15px;
 }
 
@@ -316,16 +348,15 @@ form {
     margin-top: 5px;
 }
 
-
 .notifications-list {
-    background-color: #fff;
+    background-color: var(--white);
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, .1);
     width: 100%;
     max-width: 100%;
     margin: 2rem auto;
-    color: #333;
+    color: var(--text);
 }
 
 .notifications-list ul {
@@ -343,7 +374,7 @@ form {
 
 .notifications-list ul li .notification-link {
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     display: flex;
     justify-content: space-between;
 }
