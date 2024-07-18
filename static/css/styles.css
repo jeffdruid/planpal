@@ -49,6 +49,12 @@ footer {
 }
 
 /* Dashboard Styling */
+.container-fluid>div>div.col-md-8 {
+    margin: 0;
+    padding: 0;
+
+}
+
 #calendar {
     flex: 1;
     max-width: 100%;
@@ -97,19 +103,16 @@ form {
 }
 
 /* TODO */
-.status.accepted,
-.status.confirmed {
-    color: green;
+.badge-confirmed {
+    background-color: green;
 }
 
-.status.maybe,
-.status.pending {
-    color: orange;
+.badge-pending {
+    background-color: orange !important;
 }
 
-.status.declined,
-.status.cancelled {
-    color: red;
+.badge.cancelled {
+    background-color: red;
 }
 
 .add-btn,
@@ -137,44 +140,36 @@ form {
 
 /* Event Details Styling */
 
-/* TODO */
-.status-indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+/* Status span */
+.card-body>span {
+    padding: .5rem;
 }
 
-.status-confirmed {
+.bg-accepted,
+.bg-confirmed {
     background-color: green;
 }
 
-.status-pending {
+.bg-maybe,
+.bg-pending {
     background-color: orange;
 }
 
-.status-cancelled {
+.bg-declined,
+.bg-cancelled {
     background-color: red;
 }
 
 /* Response Buttons */
-
-/* TODO */
-.response-buttons .accept-btn {
-    background-color: green;
-    color: #fff;
+.upcoming-events,
+.your-events,
+form {
+    box-shadow: none;
 }
 
-.response-buttons .deny-btn {
-    background-color: red;
-    color: #fff;
-}
-
-.response-buttons .maybe-btn {
-    background-color: orange;
-    color: #fff;
+/* Maybe Button */
+.card-body>div>div>div>button {
+    margin: 1rem;
 }
 
 /* Modal Styling */
