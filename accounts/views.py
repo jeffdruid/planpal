@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import UserProfile
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
-from django.utils.timezone import now
+from django.utils import timezone
 from events.models import Event
 from invitations.models import Invitation
 from .models import UserProfile, Friendship
@@ -20,7 +20,7 @@ def dashboard(request):
     current_user = request.user
 
     # Get current datetime
-    current_datetime = now()
+    current_datetime = timezone.now()
 
     # Get events created by the user
     user_events = Event.objects.filter(
