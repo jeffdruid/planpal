@@ -4,23 +4,20 @@ $(document).ready(function() {
     $("#notificationBell").click(function(e) {
         e.preventDefault();
         $("#notificationDropdown").toggle();
-    });
-
-    $(document).click(function(e) {
-        if (!$(e.target).closest('.notification-dropdown, #notificationBell').length) {
-            $("#notificationDropdown").hide();
-        }
+        $("#profileDropdown").hide(); // Hide profile dropdown when notification dropdown is opened
     });
 
     // Toggle profile dropdown
     $("#profileLink").click(function(e) {
         e.preventDefault();
         $("#profileDropdown").toggle();
+        $("#notificationDropdown").hide(); // Hide notification dropdown when profile dropdown is opened
     });
 
+    // Close dropdowns when clicking outside
     $(document).click(function(e) {
-        if (!$(e.target).closest('#profileDropdown, #profileLink').length) {
-            $("#profileDropdown").hide();
+        if (!$(e.target).closest('.dropdown-menu, #notificationBell, #profileLink').length) {
+            $(".dropdown-menu").hide();
         }
     });
 });
