@@ -17,7 +17,6 @@
                     <p><strong>Time:</strong> {{ event.proposed_date|time:"H:i" }}</p>
                     <p><strong>Description:</strong> {{ event.description|capfirst }}</p>
                     <p><strong>Location:</strong> <a href="https://www.google.com/maps/search/?api=1&query={{ event.location }}" target="_blank">{{ event.location|capfirst }}</a></p>
-                    <p><strong>Status:</strong> {{ event.status|capfirst }}</p>
                     <p><strong>Created by:</strong> {{ event.created_by.username|capfirst }}</p>
 
                     {% if request.user == event.created_by %}
@@ -29,17 +28,19 @@
                     <div class="mt-4">
                         <p>How would you like to respond to this event?</p>
                         <div class="d-flex justify-content-around">
-                            <form method="post" action="" class="d-inline">
-                                {% csrf_token %}
-                                <input type="hidden" name="action" value="accept">
-                                <button type="submit" class="btn btn-success">Accept</button>
-                            </form>
-                            <form method="post" action="" class="d-inline">
-                                {% csrf_token %}
-                                <input type="hidden" name="action" value="deny">
-                                <button type="submit" class="btn btn-danger">Deny</button>
-                            </form>
-                            <button class="btn btn-secondary" onclick="openAlternateDateModal()">Maybe</button>
+                            <div class="d-flex align-items-center">
+                                <form method="post" action="" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="accept">
+                                    <button type="submit" class="btn btn-success">Accept</button>
+                                </form>
+                                <form method="post" action="" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="deny">
+                                    <button type="submit" class="btn btn-danger">Deny</button>
+                                </form>
+                                <button class="btn btn-warning" onclick="openAlternateDateModal()">Maybe</button>
+                            </div>
                         </div>
                     </div>
                     {% endif %}
