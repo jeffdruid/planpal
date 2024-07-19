@@ -3,8 +3,8 @@
 {% block title %}Edit Event{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center text-white">Edit Event</h2>
+<div class="container mt-2"  id="edit-form">
+    <h3 class="text-center">Edit Event</h3>
     <form method="post" action="" class="event-form">
         {% csrf_token %}
         <div class="form-group">
@@ -42,7 +42,7 @@
         <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
     </form>
     <p class="text-center text-white mt-3">
-        <a href="{% url 'manage_invitations' event_id=event_id %}" class="text-white">Manage Invitations</a>
+        <a href="{% url 'manage_invitations' event_id=event_id %}">Manage Invitations</a>
     </p>
 </div>
 {% endblock %}

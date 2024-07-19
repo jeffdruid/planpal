@@ -3,12 +3,12 @@
 {% block title %}Event Details{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-2">
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white text-center">
-                    <h2>Event Details</h2>
+                    <h4>Event Details</h4>
                 </div>
                 <div class="card-body">
                     <span class="badge bg-{{ event.status|lower }} mb-3">{{ event.status|capfirst }}</span>
@@ -50,7 +50,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-secondary text-white">
-                    <h3>Availability</h3>
+                    <h4>Availability</h4>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
@@ -64,7 +64,7 @@
                         {% endfor %}
                     </ul>
 
-                    <h3 class="mt-4">Suggested Alternative Dates</h3>
+                    <h4 class="mt-4">Suggested Alternative Dates</h4>
                     <ul class="list-group">
                         {% for invitation in event.invitations.all %}
                             {% if invitation.suggested_date %}
