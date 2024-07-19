@@ -22,11 +22,11 @@ html {
     /* Caribbean Current */
     --accent: #90DDF0;
     /* Non Photo blue */
-    --background: #FOEDEE;
+    --background: #F0EDEE;
     /* Anti-flash white */
     --text: #0A090C;
     /* Night */
-    --heading-bg: #e9ecef;
+    --heading-bg: #eeeeee;
     --white: #fff;
     --gray: #6c757d;
     --gray-dark: #343a40;
@@ -82,6 +82,36 @@ html {
 btn-primary.focus,
 .btn-primary:focus {
     box-shadow: 0 0 0 .2rem rgba(7, 57, 60, 0.5);
+}
+
+.btn-outline-success:not(:disabled):not(.disabled):active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btn-outline-danger,
+.btn-outline-primary.focus,
+.btn-outline-primary:focus,
+.btn.focus,
+.btn:focus {
+    box-shadow: none;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-success:not(:disabled):not(.disabled):active,
+.btn-outline-success,
+.btn-outline-primary {
+    color: var(--secondary);
+    border-color: transparent;
+    border-bottom: 3px dotted var(--secondary);
+    background-color: transparent;
+}
+
+.btn-outline-danger {
+    border-color: transparent;
+}
+
+.btn-outline-success:hover,
+.btn-outline-primary:hover {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
 }
 
 /* Navbar styling */
@@ -237,7 +267,29 @@ form {
     border-radius: 3px;
 }
 
+#id_description {
+    height: 4rem;
+}
+
+body>main>div>div>div>form>button {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+    width: 25% !important;
+    margin: 0 auto;
+}
+
+
+#edit-form,
+#event-form {
+    width: 40%;
+}
+
 /* Event Details Styling */
+body>main>div>div>div.container {
+    background-color: var(--white);
+    padding: 2rem;
+    /* width: 60% !important; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
 
 /* Status span */
 .card-body>span {
@@ -327,12 +379,22 @@ form {
     border: none;
 }
 
+#profile-card {
+    background-color: transparent;
+    box-shadow: none;
+}
+
 /* Friends Styling */
 #id_search_query {
     width: 100%;
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 3px;
+}
+
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+
 }
 
 /* Notification Styling */
