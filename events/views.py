@@ -107,42 +107,42 @@ def event_details(request, event_id):
     return render(request, "events/event_details.html", context)
 
 
-@login_required
-def invite_guests(request, event_id):
-    event = get_object_or_404(Event, id=event_id)
+# @login_required
+# def invite_guests(request, event_id):
+#     event = get_object_or_404(Event, id=event_id)
 
-    # Check if the logged-in user is the creator of the event
-    if request.user != event.created_by:
-        messages.error(
-            request,
-            "You are not authorized to send invitations for this event.",
-        )
-        return redirect("event_details", event_id=event_id)
+#     # Check if the logged-in user is the creator of the event
+#     if request.user != event.created_by:
+#         messages.error(
+#             request,
+#             "You are not authorized to send invitations for this event.",
+#         )
+#         return redirect("event_details", event_id=event_id)
 
-    users = User.objects.all()  # Include all users, including the current user
-    if request.method == "POST":
-        user_id = request.POST.get("user_id")
-        user = get_object_or_404(User, id=user_id)
-        if Invitation.objects.filter(event=event, user=user).exists():
-            messages.error(request, "Invitation already exists for this user.")
-            return redirect("create_invitation", event_id=event_id)
-        Invitation.objects.create(event=event, user=user, status="Pending")
+#     users = User.objects.all()  # Include all users, including the current user
+#     if request.method == "POST":
+#         user_id = request.POST.get("user_id")
+#         user = get_object_or_404(User, id=user_id)
+#         if Invitation.objects.filter(event=event, user=user).exists():
+#             messages.error(request, "Invitation already exists for this user.")
+#             return redirect("create_invitation", event_id=event_id)
+#         Invitation.objects.create(event=event, user=user, status="Pending")
 
-        # Create notification for the invited user
-        Notification.objects.create(
-            user=user,
-            event=event,
-            type="event_created",
-            message=f"You have been invited to the event '{event.title}'.",
-        )
+#         # Create notification for the invited user
+#         Notification.objects.create(
+#             user=user,
+#             event=event,
+#             type="event_created",
+#             message=f"You have been invited to the event '{event.title}'.",
+#         )
 
-        messages.success(request, "Invitation sent successfully.")
-        return redirect("manage_invitations", event_id=event_id)
-    return render(
-        request,
-        "invitations/create_invitation.html",
-        {"event": event, "users": users},
-    )
+#         messages.success(request, "Invitation sent successfully.")
+#         return redirect("create_invitation", event_id=event_id)
+#     return render(
+#         request,
+#         "invitations/create_invitation.html",
+#         {"event": event, "users": users},
+#     )
 
 
 @login_required
