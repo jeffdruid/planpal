@@ -17,11 +17,13 @@
                             <li>
                                 {% if friendship.from_user == user %}
                                     {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
+                                    <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
+                                    <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
                                 {% else %}
                                     {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
+                                    <a href="{% url 'view_profile' friendship.from_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
+                                    <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.from_user.id }}"><i class="fa fa-trash"></i></button>
                                 {% endif %}
-                                <a href="{% if friendship.from_user == user %}{% url 'view_profile' friendship.to_user.id %}{% else %}{% url 'view_profile' friendship.from_user.id %}{% endif %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
-                                <button class="btn btn-sm btn-outline-danger delete-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
                             </li>
                             <hr>
                         {% empty %}
@@ -112,45 +114,27 @@
 </div>
 
 <!-- Modal for deleting a friend -->
-<div id="deleteFriendModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete this friend?</p>
-        <form method="post" id="deleteFriendForm">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-        </form>
+<div id="deleteFriendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this friend?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" id="deleteFriendForm">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    function openDeleteFriendModal(friendId) {
-        const form = document.getElementById('deleteFriendForm');
-        form.action = `/delete_friend/${friendId}/`;
-        document.getElementById('deleteFriendModal').style.display = 'block';
-    }
-
-    function closeModal() {
-        document.getElementById('deleteFriendModal').style.display = 'none';
-    }
-
-    document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const friendId = this.dataset.friendId;
-            openDeleteFriendModal(friendId);
-        });
-    });
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('deleteFriendModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    }
-</script>
 {% endblock %}

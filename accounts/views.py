@@ -257,11 +257,16 @@ def respond_friend_request(request, request_id, response):
 def delete_friend(request, user_id):
     current_user = request.user
     friend = get_object_or_404(User, id=user_id)
-    Friendship.objects.filter(
-        (Q(from_user=current_user) & Q(to_user=friend))
-        | (Q(from_user=friend) & Q(to_user=current_user))
-    ).delete()
-    messages.success(request, "Friend deleted successfully.")
+    friendships = Friendship.objects.filter(
+        Q(from_user=current_user, to_user=friend)
+        | Q(from_user=friend, to_user=current_user)
+    )
+    if friendships.exists():
+        friendships.delete()
+        messages.success(request, "Friend deleted successfully.")
+    else:
+        messages.error(request, "Friendship does not exist.")
+
     return redirect("friends_page")
 
 
