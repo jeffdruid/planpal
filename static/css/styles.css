@@ -16,7 +16,7 @@ html {
 
 /* Root colors CoreUI */
 :root {
-    --primary: #07393C;
+    --primary: rgb(7, 57, 60);
     /* Midnight green */
     --secondary: #2C666E;
     /* Caribbean Current */
@@ -74,6 +74,14 @@ html {
 .btn-secondary {
     background-color: var(--secondary) !important;
     border-color: var(--secondary) !important;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-primary.dropdown-toggle:focus,
+btn-primary.focus,
+.btn-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba(7, 57, 60, 0.5);
 }
 
 /* Navbar styling */
@@ -272,6 +280,10 @@ form {
     padding-top: 60px;
 }
 
+.modal-backdrop.show {
+    z-index: auto;
+}
+
 .modal-content {
     margin: 5% auto;
     padding: 20px;
@@ -329,8 +341,12 @@ form {
     margin-right: 2rem;
 }
 
+#notificationDropdown {
+    width: 500px !important;
+}
+
 .dropdown-menu {
-    max-width: 400px;
+    max-width: 500px;
     width: auto;
     word-wrap: break-word;
     overflow: hidden;
