@@ -16,13 +16,21 @@
                         {% for friendship in friends %}
                             <li>
                                 {% if friendship.from_user == user %}
-                                    {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
-                                    <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
-                                    <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
+                                        <div>
+                                            <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
+                                            <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
                                 {% else %}
-                                    {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
-                                    <a href="{% url 'view_profile' friendship.from_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
-                                    <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.from_user.id }}"><i class="fa fa-trash"></i></button>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
+                                        <div>
+                                            <a href="{% url 'view_profile' friendship.from_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
+                                            <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.from_user.id }}"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
                                 {% endif %}
                             </li>
                             <hr>
@@ -61,10 +69,12 @@
                         <ul class="list-unstyled">
                             {% for user in search_results %}
                                 <li>
-                                    {{ user.username }} - {{ user.first_name }} {{ user.last_name }}
-                                    {% if user not in friends %}
-                                        <a href="{% url 'send_friend_request' user.id %}" class="btn btn-sm btn-outline-success ml-2">Add Friend</a>
-                                    {% endif %}
+                                    <div class="d-flex justify-content-between mt-3">
+                                        {{ user.username }} - {{ user.first_name }} {{ user.last_name }}
+                                        {% if user not in friends %}
+                                            <a href="{% url 'send_friend_request' user.id %}" class="btn btn-sm btn-outline-success ml-2">Add Friend</a>
+                                        {% endif %}
+                                    </div>
                                 </li>
                                 <hr>
                             {% empty %}
