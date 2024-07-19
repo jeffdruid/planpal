@@ -79,7 +79,7 @@ def create_invitation(request, event_id):
         )
 
         messages.success(request, "Invitation sent successfully.")
-        return redirect("manage_invitations", event_id=event_id)
+        return redirect("create_invitation", event_id=event_id)
 
     return render(
         request,
