@@ -3,7 +3,6 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2 col-md-3">
@@ -72,8 +71,8 @@
 </div>
 
 <!-- Modal for deleting an event -->
-<div id="deleteModal" class="modal">
-    <div class="modal-dialog">
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Confirm Delete</h5>
@@ -94,44 +93,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            editable: false,
-            timeZone: 'local',
-            events: [
-                {% for item in upcoming_events_with_read_status %}
-                    {
-                        title: '{{ item.event.title }}',
-                        start: '{{ item.event.proposed_date|date:"c" }}',  // ISO 8601 format
-                        className: '{{ item.event.status|lower }}-event',
-                        url: '{% url "event_details" item.event.id %}'
-                    },
-                {% endfor %}
-            ],
-            timeFormat: 'h:mma' 
-        });
-
-        // Modal functionality
-        var deleteModal = $('#deleteModal');
-        var deleteForm = $('#deleteForm');
-
-        $('.delete-btn').click(function() {
-            var eventId = $(this).data('event-id');
-            deleteForm.attr('action', '/events/' + eventId + '/delete/');
-            deleteModal.modal('show');
-        });
-
-        $('#deleteModal .close, #deleteModal button[data-dismiss="modal"]').click(function() {
-            deleteModal.modal('hide');
-        });
-    });
-</script>
 
 {% endblock %}
