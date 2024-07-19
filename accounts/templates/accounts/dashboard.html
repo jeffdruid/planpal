@@ -94,4 +94,18 @@
     </div>
 </div>
 
+<script>
+    // Define the calendar events
+    window.calendarEvents = [
+        {% for item in upcoming_events_with_read_status %}
+            {
+                title: '{{ item.event.title }}',
+                start: '{{ item.event.proposed_date|date:"c" }}',  // ISO 8601 format
+                className: '{{ item.event.status|lower }}-event',
+                url: '{% url "event_details" item.event.id %}'
+            },
+        {% endfor %}
+    ];
+</script>
+
 {% endblock %}

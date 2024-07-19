@@ -24,6 +24,21 @@ $(document).ready(function() {
         }
     });
 
+    // FullCalendar setup
+    if ($('#calendar').length) {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: false,
+            timeZone: 'local',
+            events: window.calendarEvents, // Load events from a global variable
+            timeFormat: 'h:mma'
+        });
+    }
+
     // Event delete modal functionality
     var deleteModal = $('#deleteModal');
     var deleteForm = $('#deleteForm');

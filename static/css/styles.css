@@ -16,7 +16,7 @@ html {
 
 /* Root colors CoreUI */
 :root {
-    --primary: rgb(7, 57, 60);
+    --primary: #07393c;
     /* Midnight green */
     --secondary: #2C666E;
     /* Caribbean Current */
