@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-2 col-md-3">
+        <div class="col-lg-3 scrollable-column">
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h3 class="mb-0">Upcoming Events</h3>
@@ -31,7 +31,7 @@
             </div>
         </div>
         
-        <div class="col-lg-8 col-md-6">
+        <div class="col-lg-6">
             <div class="card mb-4">
                 {% comment %} <div class="card-header bg-primary text-white">
                     <h3 class="mb-0">Calendar</h3>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-lg-2 col-md-3">
+        <div class="col-lg-3 scrollable-column">
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h3 class="mb-0">Your Events</h3>
@@ -97,12 +97,12 @@
 <script>
     // Define the calendar events
     window.calendarEvents = [
-        {% for item in upcoming_events_with_read_status %}
+        {% for event in user_events %}
             {
-                title: '{{ item.event.title }}',
-                start: '{{ item.event.proposed_date|date:"c" }}',  // ISO 8601 format
-                className: '{{ item.event.status|lower }}-event',
-                url: '{% url "event_details" item.event.id %}'
+                title: '{{ event.title }}',
+                start: '{{ event.proposed_date|date:"c" }}',  // ISO 8601 format
+                className: '{{ event.status|lower }}-event',
+                url: '{% url "event_details" event.id %}'
             },
         {% endfor %}
     ];

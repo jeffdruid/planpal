@@ -22,19 +22,24 @@ def dashboard(request):
     # Get current datetime
     current_datetime = timezone.now()
 
-    # Get events created by the user
-    user_events = Event.objects.filter(
-        created_by=current_user, proposed_date__gte=current_datetime
-    ).order_by("proposed_date")
+    # Get all events created by the user
+    user_events = Event.objects.filter(created_by=current_user).order_by(
+        "proposed_date"
+    )
 
-    # Get events the user is invited to
+    # Get future events the user is invited to
     invited_events = Event.objects.filter(
         invitations__user=current_user, proposed_date__gte=current_datetime
     ).order_by("proposed_date")
 
-    # Combine both querysets
+    # Combine both querysets for upcoming events
     upcoming_events = (
-        (user_events | invited_events).distinct().order_by("proposed_date")
+        (
+            user_events.filter(proposed_date__gte=current_datetime)
+            | invited_events
+        )
+        .distinct()
+        .order_by("proposed_date")
     )
 
     # Prepare the list of upcoming events with their read status

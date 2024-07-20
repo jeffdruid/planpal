@@ -57,6 +57,11 @@ html {
     display: flex;
 }
 
+.scrollable-column {
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+}
+
 /* Override specific CoreUI styles */
 .bg-primary {
     background-color: var(--primary) !important;
