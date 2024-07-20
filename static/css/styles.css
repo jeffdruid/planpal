@@ -151,6 +151,11 @@ header .dropdown-item {
     color: var(--white) !important;
 }
 
+.nav-link:hover {
+    font-weight: 900;
+    text-decoration: underline;
+}
+
 header .dropdown-item:hover {
     background-color: var(--secondary) !important;
 }
