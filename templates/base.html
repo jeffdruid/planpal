@@ -20,7 +20,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav mx-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
                             <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
@@ -41,39 +41,43 @@
                     {% endif %}
                 </ul>
                 {% if user.is_authenticated %}
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="notificationBell" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell"></i>
-                                {% if unread_count > 0 %}
-                                    <span class="badge badge-pill badge-danger">{{ unread_count }}</span>
-                                {% endif %}
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationBell" id="notificationDropdown">
-                                {% for notification in recent_unread_notifications %}
-                                    <a class="dropdown-item" href="{% url 'mark_notification_read' notification.id %}">
-                                        {{ notification.message }}
-                                        <small class="text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</small>
-                                    </a>
-                                {% empty %}
-                                    <a class="dropdown-item" href="#">No notifications</a>
-                                {% endfor %}
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'notifications' %}">View All Notifications</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="profileLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ user.username }}
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileLink" id="profileDropdown">
-                                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                {% endif %}
+                <ul class="navbar-nav d-flex">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileLink" id="profileDropdown">
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+                {% endif %} 
             </div>
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav ml-auto d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="notificationBell" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell"></i>
+                            {% if unread_count > 0 %}
+                                <span class="badge badge-pill badge-danger">{{ unread_count }}</span>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationBell" id="notificationDropdown">
+                            {% for notification in recent_unread_notifications %}
+                                <a class="dropdown-item" href="{% url 'mark_notification_read' notification.id %}">
+                                    {{ notification.message }}
+                                    <small class="text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</small>
+                                </a>
+                            {% empty %}
+                                <a class="dropdown-item" href="#">No notifications</a>
+                            {% endfor %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'notifications' %}">View All Notifications</a>
+                        </div>
+                    </li>
+                </ul>
+            {% endif %}
         </nav>
     </header>
     <main class="c-main">
