@@ -58,8 +58,16 @@ html {
 }
 
 .scrollable-column {
-    max-height: 100vh !important;
-    overflow-y: auto !important;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.overflow-auto {
+    overflow: auto;
 }
 
 /* Override specific CoreUI styles */
