@@ -152,8 +152,7 @@ header .dropdown-item {
 }
 
 .nav-link:hover {
-    font-weight: 900;
-    text-decoration: underline;
+    filter: brightness(.5);
 }
 
 header .dropdown-item:hover {
@@ -420,9 +419,7 @@ form {
 
 /* Notification Styling */
 #profileLink,
-.profile-dropdown {
-    margin-right: 2rem;
-}
+.profile-dropdown {}
 
 #notificationDropdown {
     width: auto !important;
@@ -487,12 +484,12 @@ form {
 
 #notificationBell {
     margin-right: 10px;
+    padding-top: .9rem;
     display: flex;
     justify-content: flex-end;
 }
 
 #notificationBell:hover {
-    scale: 1.2;
     text-decoration: none;
 }
 
@@ -517,4 +514,8 @@ form {
     body>main>div>div>div.container {
         padding: 1rem 0.5rem;
     }
+}
+
+.active {
+    border-bottom: 1px solid var(--gray);
 }

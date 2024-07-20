@@ -20,18 +20,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% if user.is_authenticated %}
                 <ul class="navbar-nav mx-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item {% if request.resolver_match.url_name == 'create_event' %}active{% endif %}">
-                            <a class="nav-link" href="{% url 'create_event' %}">Create Event</a>
-                        </li>
-                        <li class="nav-item {% if request.resolver_match.url_name == 'friends_page' %}active{% endif %}">
-                            <a class="nav-link" href="{% url 'friends_page' %}">Friends</a>
-                        </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'create_event' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'create_event' %}">Create Event</a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'friends_page' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'friends_page' %}">Friends</a>
+                    </li>
                     {% else %}
+                    <ul class="navbar-nav mx-auto justify-content-end">
                         <li class="nav-item {% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">
                             <a class="nav-link" href="{% url 'account_login' %}">Login</a>
                         </li>
