@@ -516,6 +516,18 @@ form {
     }
 }
 
+/* TODO */
 .active {
     border-bottom: 1px solid var(--gray);
+}
+
+.fc-tooltip {
+    display: none;
+    position: absolute;
+    z-index: 10001;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
