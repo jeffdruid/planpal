@@ -1,7 +1,6 @@
 /* Reset CSS */
 * {
     box-sizing: border-box;
-    filter: brightness(.9) !important;
 }
 
 /* Global styles */
@@ -400,6 +399,16 @@ form {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.fc-tooltip .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--text);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
 /* Profile Styling */
 .profile-picture-options {
     display: grid;
@@ -550,5 +559,12 @@ form {
 
     body>main>div>div>div.container {
         padding: 1rem 0.5rem;
+    }
+}
+
+/* Animations  */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
