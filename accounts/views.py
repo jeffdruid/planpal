@@ -23,24 +23,24 @@ def dashboard(request):
     current_datetime = timezone.now()
 
     # Get all events created by the user
-    user_events = Event.objects.filter(created_by=current_user).order_by(
-        "proposed_date"
-    )
-
-    # Get future events the user is invited to
-    invited_events = Event.objects.filter(
-        invitations__user=current_user, proposed_date__gte=current_datetime
+    user_created_events = Event.objects.filter(
+        created_by=current_user
     ).order_by("proposed_date")
 
-    # Combine both querysets for upcoming events
-    upcoming_events = (
-        (
-            user_events.filter(proposed_date__gte=current_datetime)
-            | invited_events
-        )
+    # Get all events the user is invited to
+    invited_events = Event.objects.filter(
+        invitations__user=current_user
+    ).order_by("proposed_date")
+
+    # Combine both querysets for the calendar
+    all_events = (
+        (user_created_events | invited_events)
         .distinct()
         .order_by("proposed_date")
     )
+
+    # Combine both querysets for upcoming events
+    upcoming_events = all_events.filter(proposed_date__gte=current_datetime)
 
     # Prepare the list of upcoming events with their read status
     upcoming_events_with_read_status = []
@@ -54,7 +54,8 @@ def dashboard(request):
 
     context = {
         "upcoming_events_with_read_status": upcoming_events_with_read_status,
-        "user_events": user_events,
+        "user_events": user_created_events,  # List of events created by the user
+        "all_events": all_events,  # List of all events for the calendar
     }
     return render(request, "accounts/dashboard.html", context)
 

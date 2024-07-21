@@ -118,7 +118,7 @@
 <script>
     // Define the calendar events
     window.calendarEvents = [
-        {% for event in user_events %}
+        {% for event in all_events %}
             {
                 title: '{{ event.title }}',
                 start: '{{ event.proposed_date|date:"c" }}',  // ISO 8601 format
