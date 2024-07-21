@@ -17,6 +17,7 @@
                             <li>
                                 {% if friendship.from_user == user %}
                                     <div class="d-flex justify-content-between mt-3">
+                                        <img src="{{ friendship.from_user.userprofile.profile_picture.url if friendship.from_user == user else friendship.to_user.userprofile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" width="50" height="50">
                                         {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
                                         <div>
                                             <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
