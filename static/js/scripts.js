@@ -63,6 +63,8 @@ $(document).ready(function() {
             },
             editable: false,
             timeZone: 'local',
+            height: 'auto',
+            contentHeight: 500,
             events: window.calendarEvents, // Load events from a global variable
             timeFormat: 'h:mma',
             eventMouseover: function(event, jsEvent) {
@@ -99,6 +101,20 @@ $(document).ready(function() {
             }
         });
     }
+
+    // https://stackoverflow.com/questions/47710304/how-to-change-row-height-in-fullcalendar
+    
+    // Modify contentHeight based on window size
+    function adjustCalendarContentHeight() {
+        var contentHeight = $(window).width() < 992 ? 300 : 500; // Use 300px for screens smaller than 768px
+        $('#calendar').fullCalendar('option', 'contentHeight', contentHeight);
+    }
+
+    adjustCalendarContentHeight(); // Adjust on document ready
+
+    $(window).resize(function() {
+        adjustCalendarContentHeight(); // Adjust on window resize
+    });
 
     // Event delete modal functionality
     var deleteModal = $('#deleteModal');

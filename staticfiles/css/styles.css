@@ -482,6 +482,7 @@ button.btn.btn-warning {
 
 .card {
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    min-height: 50%;
 
 }
 
@@ -559,6 +560,15 @@ button.btn.btn-warning {
 
 #notificationBell:hover {
     text-decoration: none;
+}
+
+.bg-gray.bg-gray {
+    background-color: var(--heading-bg) !important;
+    font-weight: 900;
+}
+
+.notification-title {
+    font-weight: 100;
 }
 
 /* Media Queries */
@@ -681,20 +691,21 @@ button.btn.btn-warning {
     #alternateDateForm {
         padding: 0;
     }
+}
 
-    /* Animations  */
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
+/* Animations  */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
+}
 
-    form.d-inline {
-        margin-left: -15px !important;
-    }
+form.d-inline {
+    margin-left: -15px !important;
+}
 
-    body>main>div>div>div.container {
-        background-color: transparent;
-        padding: 0rem;
-        box-shadow: none;
-    }
+body>main>div>div>div.container {
+    background-color: transparent;
+    padding: 0rem;
+    box-shadow: none;
+}

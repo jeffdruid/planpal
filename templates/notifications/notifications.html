@@ -5,10 +5,10 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center mt-4 mb-4">Notifications</h2>
-    <div class="notifications-list">
+    <div class="notifications-list scrollable-column">
         <ul class="list-group">
-            {% for notification in notifications %}
-                <li class="list-group-item">
+            {% for notification in notifications|dictsort:'read' %}
+                <li class="list-group-item {% if not notification.read %}bg-gray{% endif %}">
                     {% if notification.type == 'friend_request_received' %}
                         <a href="{% url 'friends_page' %}" class="notification-link">
                             <h5 class="notification-title">{{ notification.message }}</h5>
