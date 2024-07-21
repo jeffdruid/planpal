@@ -14,19 +14,20 @@
                     <ul class="list-unstyled">
                         {% for item in upcoming_events_with_read_status %}
                             <li class="{% if item.response_status == 'Declined' %}text-muted-declined{% endif %}">
-                                <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
+                                <strong ><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
                                 <br>
                                 {{ item.event.proposed_date|date:"F j, Y" }}
-                                <span class="badge badge-{{ item.event.status|lower }} ml-2">{{ item.event.status }}</span>
+                                {% comment %} <span class="badge badge-{{ item.event.status|lower }} ml-2">{{ item.event.status }}</span> {% endcomment %}
+                                <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"> </span> 
                                 {% if item.response_status == "Accepted" %}
-                                    <span class="badge badge-success ml-2"><i class="fas fa-check"></i></span>
+                                    <span class="ml-2"><i class="fas fa-check"></i></span>
                                 {% elif item.response_status == "Declined" %}
-                                    <span class="badge badge-danger ml-2"><i class="fas fa-times"></i></span>
+                                    <span class="ml-2"><i class="fas fa-times"></i></span>
                                 {% elif item.response_status == "Maybe" %}
-                                    <span class="badge badge-warning ml-2"><i class="fas fa-question"></i></span>
+                                    <span class="ml-2"><i class="fas fa-question"></i></span>
                                 {% endif %}
                                 {% if item.unread %}
-                                    <span class="badge badge-danger ml-2"><i class="fas fa-envelope"></i></span>
+                                    <span class="ml-2"><i class="fas fa-envelope"></i></span>
                                 {% endif %}
                             </li>
                             <hr>

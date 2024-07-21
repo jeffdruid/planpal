@@ -378,6 +378,12 @@ body>main>div>div>div.container {
     background-color: var(--danger) !important;
 }
 
+#badge-icon {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+}
+
 /* Response Buttons */
 .upcoming-events,
 .your-events,
