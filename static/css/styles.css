@@ -183,6 +183,7 @@ button:focus {
     height: 0;
     opacity: 0;
     display: none;
+    margin-bottom: 1rem;
 }
 
 /* Card header styling */
@@ -365,7 +366,7 @@ form {
 }
 
 /* Maybe Button */
-.card-body>div>div>div>button {
+button.btn.btn-warning {
     margin: 1rem;
 }
 
@@ -542,6 +543,12 @@ form {
 
 /* Media Queries */
 @media (max-width: 992px) {
+
+    .active {
+        list-style: square;
+        border: none;
+    }
+
     .navbar-toggler {
         order: 2;
     }
@@ -549,6 +556,7 @@ form {
     #navbarSupportedContent {
         padding-top: 2rem;
         border-top: 2px solid var(--white);
+        margin-bottom: 1rem;
     }
 
     .nav-link:hover {
@@ -561,36 +569,87 @@ form {
         background-color: var(--primary) !important;
         box-shadow: none;
     }
-}
 
-.active {
-    list-style: square;
-    border: none;
-}
-
-#notificationBell {
-    order: 1;
-    margin-right: 1rem;
-}
-
-#notificationDropdown,
-#profileDropdown {
-    margin-bottom: 2rem;
-}
-
-#edit-form,
-#event-form {
-    width: 100% !important;
-    margin-bottom: 2rem;
-}
-
-body>main>div>div>div.container {
-    padding: 1rem 0.5rem;
-}
-
-/* Animations  */
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+    body>main>div>div>div.container {
+        background-color: transparent;
+        padding: 2rem;
+        box-shadow: none;
     }
-}
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    h4,
+    h3,
+    h2 {
+        font-size: 1rem;
+    }
+
+    p,
+    a,
+    label,
+    li,
+    h5,
+    .form-group input,
+    .form-group select,
+    .form-group textarea .form-group,
+    .list-unstyled li,
+    .fc-tooltip {
+        font-size: .75rem;
+    }
+
+    .card {
+        margin-bottom: 2rem;
+    }
+
+    .container-fluid,
+    .container,
+    .col-lg-3 {
+        padding: 5px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    body>main>div>div>div.container-fluid>div>div.col-lg-6.d-flex.flex-column>div>div,
+    .form,
+    .notifications-list,
+    .list-group-item {
+        padding: 0;
+    }
+
+    .notifications-list ul li {
+        margin: 0;
+        padding: 5px;
+    }
+
+    .btn,
+    #calendar {
+        font-size: .5rem;
+    }
+
+    .list-group-item {
+        padding: .75rem .5rem;
+    }
+
+    #notificationBell {
+        order: 1;
+        margin-right: 1rem;
+    }
+
+    #edit-form,
+    #event-form {
+        width: 100% !important;
+        margin-bottom: 2rem;
+    }
+
+    body>main>div>div>div.container {
+        padding: 1rem 0.5rem;
+    }
+
+    /* Animations  */
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
