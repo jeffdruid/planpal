@@ -124,8 +124,9 @@
                 start: '{{ event.proposed_date|date:"c" }}',  // ISO 8601 format
                 className: '{{ event.status|lower }}-event',
                 url: '{% url "event_details" event.id %}',
+                location: '{{ event.location }}',
                 description: '{{ event.description }}',
-                location: '{{ event.location }}'
+                creator: '{{ event.created_by.username }}'
             },
         {% endfor %}
     ];

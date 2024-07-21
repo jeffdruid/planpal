@@ -71,7 +71,7 @@ $(document).ready(function() {
                                 'Date: ' + moment(event.start).format('MMMM Do YYYY') + '<br>' +
                                 'Time: ' + moment(event.start).format('h:mm a') + '<br>' +
                                 'Location: ' + event.location + '<br>' +
-                                'Description: ' + event.description + '<br>'
+                                'Description: ' + event.description + '<br>' +
                                 'Created by: ' + event.creator +
                               '</div>';
                 $("body").append(tooltip);
