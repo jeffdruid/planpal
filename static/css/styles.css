@@ -256,6 +256,18 @@ footer {
     text-decoration: line-through !important;
 }
 
+.fc-event-declined.fc-event-declined {
+    background-color: #ccc !important;
+    color: #666 !important;
+    text-decoration: line-through;
+    border-color: #ccc !important;
+}
+
+.text-muted-declined {
+    text-decoration: line-through;
+    filter: grayscale(1);
+}
+
 .event-link {
     color: var(--text) !important;
     text-decoration: none !important;
@@ -285,6 +297,11 @@ form {
 
 .badge-cancelled {
     background-color: var(--danger) !important;
+}
+
+.badge-declined {
+    background-color: #ccc !important;
+    color: #666 !important;
 }
 
 .add-btn,

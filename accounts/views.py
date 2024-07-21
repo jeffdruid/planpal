@@ -42,20 +42,37 @@ def dashboard(request):
     # Combine both querysets for upcoming events
     upcoming_events = all_events.filter(proposed_date__gte=current_datetime)
 
-    # Prepare the list of upcoming events with their read status
+    # Prepare the list of upcoming events with their read status and response status
     upcoming_events_with_read_status = []
     for event in upcoming_events:
-        unread_invitations = Invitation.objects.filter(
-            event=event, user=current_user, read=False
-        ).exists()
+        invitation = Invitation.objects.filter(
+            event=event, user=current_user
+        ).first()
+        unread = invitation.read == False if invitation else False
+        response_status = invitation.status if invitation else None
         upcoming_events_with_read_status.append(
-            {"event": event, "unread": unread_invitations}
+            {
+                "event": event,
+                "unread": unread,
+                "response_status": response_status,
+            }
+        )
+
+    # Prepare the list of all events for the calendar
+    all_events_with_status = []
+    for event in all_events:
+        invitation = Invitation.objects.filter(
+            event=event, user=current_user
+        ).first()
+        response_status = invitation.status if invitation else None
+        all_events_with_status.append(
+            {"event": event, "response_status": response_status}
         )
 
     context = {
         "upcoming_events_with_read_status": upcoming_events_with_read_status,
         "user_events": user_created_events,  # List of events created by the user
-        "all_events": all_events,  # List of all events for the calendar
+        "all_events_with_status": all_events_with_status,  # List of all events for the calendar
     }
     return render(request, "accounts/dashboard.html", context)
 

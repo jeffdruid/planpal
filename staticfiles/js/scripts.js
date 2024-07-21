@@ -67,32 +67,27 @@ $(document).ready(function() {
             timeFormat: 'h:mma',
             eventMouseover: function(event, jsEvent) {
                 var tooltip = '<div class="fc-tooltip">' +
-                                '<div class="spinner"></div>' +
+                                '<strong>' + event.title + '</strong><br>' +
+                                'Date: ' + moment(event.start).format('MMMM Do YYYY') + '<br>' +
+                                'Time: ' + moment(event.start).format('h:mm a') + '<br>' +
+                                'Location: ' + event.location + '<br>' +
+                                'Description: ' + event.description + '<br>' +
+                                'Created by: ' + event.creator +
                               '</div>';
                 $("body").append(tooltip);
-                $('.fc-tooltip').css({
-                    top: jsEvent.pageY + 10,
-                    left: jsEvent.pageX + 20,
-                    position: 'absolute',
-                    zIndex: 10001,
-                    background: '#fff',
-                    padding: '10px',
-                    border: '1px solid #ccc',
-                    borderRadius: '3px',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                }).fadeIn('500').fadeTo('10', 1.9);
-
-                // Simulate a delay for loading content
-                setTimeout(function() {
-                    $('.fc-tooltip').html(
-                        '<strong>' + event.title + '</strong><br>' +
-                        'Date: ' + moment(event.start).format('MMMM Do YYYY') + '<br>' +
-                        'Time: ' + moment(event.start).format('h:mm a') + '<br>' +
-                        'Location: ' + event.location + '<br>' +
-                        'Description: ' + event.description + '<br>' +
-                        'Created by: ' + event.creator
-                    );
-                }, 1000);  // Adjust the delay as needed
+                $(this).mouseover(function(e) {
+                    $('.fc-tooltip').css({
+                        top: jsEvent.pageY + 10,
+                        left: jsEvent.pageX + 20,
+                        position: 'absolute',
+                        zIndex: 10001,
+                        background: '#fff',
+                        padding: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '3px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                    }).fadeIn('500').fadeTo('10', 1.9);
+                });
             },
             eventMouseout: function(event, jsEvent) {
                 $('.fc-tooltip').remove();

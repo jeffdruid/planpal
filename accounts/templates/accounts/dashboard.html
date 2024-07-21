@@ -13,11 +13,18 @@
                 <div class="card-body overflow-auto">
                     <ul class="list-unstyled">
                         {% for item in upcoming_events_with_read_status %}
-                            <li>
+                            <li class="{% if item.response_status == 'Declined' %}text-muted-declined{% endif %}">
                                 <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
                                 <br>
                                 {{ item.event.proposed_date|date:"F j, Y" }}
                                 <span class="badge badge-{{ item.event.status|lower }} ml-2">{{ item.event.status }}</span>
+                                {% if item.response_status == "Accepted" %}
+                                    <span class="badge badge-success ml-2"><i class="fas fa-check"></i></span>
+                                {% elif item.response_status == "Declined" %}
+                                    <span class="badge badge-danger ml-2"><i class="fas fa-times"></i></span>
+                                {% elif item.response_status == "Maybe" %}
+                                    <span class="badge badge-warning ml-2"><i class="fas fa-question"></i></span>
+                                {% endif %}
                                 {% if item.unread %}
                                     <span class="badge badge-danger ml-2"><i class="fas fa-envelope"></i></span>
                                 {% endif %}
@@ -107,6 +114,7 @@
                 <p id="eventTime"></p>
                 <p id="eventLocation"></p>
                 <p id="eventDescription"></p>
+                <p id="eventCreator"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -118,15 +126,15 @@
 <script>
     // Define the calendar events
     window.calendarEvents = [
-        {% for event in all_events %}
+        {% for item in all_events_with_status %}
             {
-                title: '{{ event.title }}',
-                start: '{{ event.proposed_date|date:"c" }}',  // ISO 8601 format
-                className: '{{ event.status|lower }}-event',
-                url: '{% url "event_details" event.id %}',
-                location: '{{ event.location }}',
-                description: '{{ event.description }}',
-                creator: '{{ event.created_by.username }}'
+                title: '{{ item.event.title }}',
+                start: '{{ item.event.proposed_date|date:"c" }}',  // ISO 8601 format
+                className: '{{ item.event.status|lower }}-event {% if item.response_status == "Declined" %} fc-event-declined{% endif %}',
+                url: '{% url "event_details" item.event.id %}',
+                location: '{{ item.event.location }}',
+                description: '{{ item.event.description }}',
+                creator: '{{ item.event.created_by.username }}'
             },
         {% endfor %}
     ];
