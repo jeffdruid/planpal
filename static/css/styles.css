@@ -70,6 +70,10 @@ html {
     overflow: auto;
 }
 
+.active {
+    border-bottom: 1px solid var(--gray);
+}
+
 /* Override specific CoreUI styles */
 .bg-primary {
     background-color: var(--primary) !important;
@@ -157,6 +161,17 @@ header .dropdown-item {
 
 header .dropdown-item:hover {
     background-color: var(--secondary) !important;
+}
+
+.navbar-toggler,
+button:focus {
+    outline: none;
+    border: 3px solid transparent;
+}
+
+.navbar-toggler:hover {
+    background-color: var(--white);
+    transition: .3s;
 }
 
 /* Card header styling */
@@ -363,6 +378,17 @@ form {
     max-width: 500px;
 }
 
+.fc-tooltip {
+    display: none;
+    position: absolute;
+    z-index: 10001;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* Profile Styling */
 .profile-picture-options {
     display: grid;
@@ -514,20 +540,4 @@ form {
     body>main>div>div>div.container {
         padding: 1rem 0.5rem;
     }
-}
-
-/* TODO */
-.active {
-    border-bottom: 1px solid var(--gray);
-}
-
-.fc-tooltip {
-    display: none;
-    position: absolute;
-    z-index: 10001;
-    background: #fff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
