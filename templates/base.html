@@ -70,9 +70,12 @@
                                     {{ notification.message }}
                                     <small class="text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</small>
                                 </a>
-                            {% empty %}
+                                {% empty %}
                                 <a class="dropdown-item" href="#">No notifications</a>
                             {% endfor %}
+                            {% if unread_count > 8 %}
+                                <a class="dropdown-item" href="{% url 'notifications' %}">View More ...</a>
+                            {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'notifications' %}">View All Notifications</a>
                         </div>

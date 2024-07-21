@@ -599,6 +599,10 @@ button.btn.btn-warning {
         font-size: .75rem;
     }
 
+    .notification-time {
+        font-size: .4rem;
+    }
+
     .card {
         margin-bottom: 2rem;
     }
@@ -616,6 +620,10 @@ button.btn.btn-warning {
     .notifications-list,
     .list-group-item {
         padding: 0;
+    }
+
+    .notifications-list ul li .notification-link {
+        padding: 10px;
     }
 
     .notifications-list ul li {
@@ -646,10 +654,11 @@ button.btn.btn-warning {
     body>main>div>div>div.container {
         padding: 1rem 0.5rem;
     }
+}
 
-    /* Animations  */
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
+/* Animations  */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
+}
