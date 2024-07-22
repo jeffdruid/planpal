@@ -25,12 +25,39 @@ function openAlternateDateModal() {
     $('#alternateDateModal').modal('show');
 }
 
+function updateNotifications(unread_count) {
+    console.log("Updating notification count...");
+    if (unread_count > 0) {
+        $("#notificationBell .badge").text(unread_count).show();
+    } else {
+        $("#notificationBell .badge").text('').hide();
+    }
+}
+
+function fetchNotifications() {
+    console.log("Fetching notifications...");
+    $.ajax({
+        url: '/notifications/get-notifications/',  // Ensure this matches the Django URL pattern
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log("Notifications fetched successfully:", data);
+            updateNotifications(data.unread_count);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching notifications:", xhr.status, xhr.statusText);
+            console.log("Response:", xhr.responseText);
+        }
+    });
+}
+
 $(document).ready(function() {
     // Toggle notification dropdown
     $("#notificationBell").click(function(e) {
         e.preventDefault();
         toggleDropdown("notificationDropdown");
         document.getElementById("profileDropdown").style.display = 'none'; // Hide profile dropdown when notification dropdown is opened
+        fetchNotifications();
     });
 
     // Toggle profile dropdown
@@ -169,4 +196,8 @@ $(document).ready(function() {
         event.preventDefault();
         $(this).unbind('submit').submit();
     });
+
+    // Fetch notifications every 30 seconds
+    setInterval(fetchNotifications, 10000);
+    console.log("Notifications will be fetched every 10 seconds");
 });

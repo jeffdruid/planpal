@@ -8,4 +8,9 @@ urlpatterns = [
         views.mark_notification_read,
         name="mark_notification_read",
     ),
+    path(
+        "get-notifications/",
+        views.get_notifications,
+        name="get_notifications",
+    ),
 ]
