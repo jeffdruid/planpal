@@ -29,20 +29,14 @@ def mark_notification_read(request, notification_id):
 
 @login_required
 def get_notifications(request):
-    notifications = Notification.objects.filter(
+    unread_count = Notification.objects.filter(
         user=request.user, read=False
-    ).order_by("-created_at")
-    notifications_list = [
-        {
-            "id": notification.id,
-            "message": notification.message,
-            "created_at": notification.created_at.strftime(
-                "%B %d, %Y, %I:%M %p"
-            ),
-        }
-        for notification in notifications
-    ]
-    unread_count = notifications.count()
+    ).count()
+    notifications = list(
+        Notification.objects.filter(user=request.user, read=False).values(
+            "id", "message", "created_at"
+        )
+    )
     return JsonResponse(
-        {"notifications": notifications_list, "unread_count": unread_count}
+        {"unread_count": unread_count, "notifications": notifications}
     )

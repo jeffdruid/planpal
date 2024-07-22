@@ -25,12 +25,14 @@ function openAlternateDateModal() {
     $('#alternateDateModal').modal('show');
 }
 
-function updateNotifications(unread_count) {
+function updateNotificationCount(unread_count) {
     console.log("Updating notification count...");
     if (unread_count > 0) {
         $("#notificationBell .badge").text(unread_count).show();
+        console.log("Unread notifications:", unread_count);
     } else {
         $("#notificationBell .badge").text('').hide();
+        console.log("No unread notifications");
     }
 }
 
@@ -42,7 +44,7 @@ function fetchNotifications() {
         dataType: 'json',
         success: function(data) {
             console.log("Notifications fetched successfully:", data);
-            updateNotifications(data.unread_count);
+            updateNotificationCount(data.unread_count);
         },
         error: function(xhr, status, error) {
             console.error("Error fetching notifications:", xhr.status, xhr.statusText);

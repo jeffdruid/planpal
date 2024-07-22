@@ -258,9 +258,12 @@ def send_friend_request(request, user_id):
         )
         messages.success(request, "Friend request sent successfully.")
 
-    # Redirect with the current search query
+    # Redirect with the current search queryS
     search_query = request.GET.get("search_query", "")
-    return redirect(f"{reverse('friends_page')}?search_query={search_query}")
+    return redirect(
+        f"{reverse('friends_page')}?search_query={search_query}",
+        search_query=search_query,
+    )
 
 
 @login_required
