@@ -24,9 +24,10 @@ TODO - Update table of contents
    - [Ajax](#ajax)
    - [Tippy.js](#tippyjs)
    - [Moment.js](#momentjs)
-   - [Google Maps JavaScript API](#google-maps-javascript-api)
 3. [User Stories](#user-stories)
-4. [Flowchart](#flowchart)
+4. [Wireframes](#wireframes)
+   - [Site Map](#site-map)
+   - [Database Schema](#database-schema)
 5. [Features](#features)
    - [Scraping and Validation](#scraping-and-validation)
 6. [Troubleshooting](#troubleshooting)
@@ -43,6 +44,7 @@ TODO - Update table of contents
 9. [UI Improvements](#ui-improvements)
    - [Implementation of the colorama Library](#implementation-of-the-colorama-library)
 10. [Future Improvements](#futures-improvements)
+   - [Google Maps JavaScript API](#google-maps-javascript-api)
 11. [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
@@ -60,9 +62,16 @@ TODO - Update table of contents
 ## Technologies Used
 
 - [Django](https://www.djangoproject.com/)
+- [SQLite](https://www.sqlite.org/)
 - [Bootstrap](https://getbootstrap.com/)
 - [jQuery](https://jquery.com/)
 - [FullCalendar](https://fullcalendar.io/)
+- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)
+- [Font Awesome](https://fontawesome.com/)
+- [Ajax](https://api.jquery.com/jquery.ajax/)
+- [Tippy.js](https://atomiks.github.io/tippyjs/)
+- [Moment.js](https://momentjs.com/)
+
 
 ### Django
 Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It is used to build the server-side functionality of the Social Event Planner, including handling HTTP requests, database operations, and user authentication.
@@ -94,9 +103,6 @@ Tippy.js is a lightweight, highly customizable tooltip and popover library. It i
 ### Moment.js
 Moment.js is a JavaScript library for parsing, validating, manipulating, and displaying dates and times. It is used in conjunction with FullCalendar to handle date and time formatting.
 
-### Google Maps JavaScript API
-The Google Maps JavaScript API is used to embed maps into the web pages and provide location-based services, such as displaying event locations on a map.
-
 ### User Stories:
 
 <!-- TODO - Create table of user stories -->
@@ -124,6 +130,78 @@ User Story 7: Dashboard
 #### database schema
 
 ![data base schema](<database model.png>)
+
+### Features
+TODO - Add features screenshots
+
+#### User Authentication
+- Sign Up: Users can create a new account using their email address and a password.
+- Login: Registered users can log in using their email and password.
+- Logout: Users can securely log out of their accounts.
+- Password Reset: Users can reset their password via email if they forget it.
+- Account Management: Users can update their profile information, including changing their password.
+
+#### Event Creation and Management
+- Create Event: Users can create new events by providing details such as title, date, time, location, and description.
+- Edit Event: Users can edit the details of their events.
+- Delete Event: Users can delete their events, which will also notify all invited participants.
+- View Event Details: Users can view detailed information about an event, including the list of invited participants and their responses.
+
+#### Invitation System
+- Send Invitations: Event creators can invite friends to their events.
+- Manage Invitations: Users can view and manage invitations they have sent or received.
+- Respond to Invitations: Invited users can accept, decline, or mark their response as "maybe".
+
+#### Notification System
+- Real-Time Notifications: Users receive notifications for event updates, invitations, and responses.
+- Read/Unread Status: Notifications can be marked as read or unread.
+- Notification Center: A dropdown menu shows the most recent notifications with links to relevant actions.
+
+#### Friend Management
+- Add Friends: Users can send friend requests to other users.
+- Manage Friend Requests: Users can view and respond to incoming friend requests.
+- View Friends: Users can view a list of their friends and access their profiles.
+- Remove Friends: Users can unfriend someone from their friend list.
+
+#### Calendar Integration
+- Interactive Calendar: Events are displayed in a calendar view, allowing users to see their schedule at a glance.
+- Event Tooltips: Hovering over an event shows a tooltip with detailed information about the event.
+- Color-Coded Events: Events are color-coded based on their status (confirmed, pending, cancelled).
+- Event Status Indicators: Additional indicators for user responses (accepted, declined, maybe).
+
+#### Location Services
+- Google Places Autocomplete: Integrated autocomplete for event location input, enhancing user experience and accuracy.
+
+#### User Dashboard
+- Upcoming Events: A list of upcoming events that the user is either hosting or invited to.
+- Your Events: A separate list showing events created by the user.
+- Event Management Tools: Quick access to edit or delete events from the dashboard.
+
+#### Dynamic Data Integration
+- Real-Time Data Updates: Data on the dashboard, calendar, and notifications are dynamically updated without requiring a page refresh.
+- Ajax Integration: Used for submitting forms and updating the UI in real-time.
+
+#### Error Handling
+- User-Friendly Error Messages: Clear and concise error messages are displayed for validation errors and other issues.
+- Fallback Mechanisms: Ensures the application continues to function smoothly in case of minor issues.
+
+#### Responsive Design
+- Mobile-Friendly: The application is designed to be fully responsive and works well on mobile devices.
+- Adaptive UI Elements: Elements such as dropdowns, modals, and forms adapt to different screen sizes for an optimal user experience.
+
+#### Security Features
+- CSRF Protection: Cross-Site Request Forgery protection is enabled to secure forms.
+- Password Hashing: User passwords are securely hashed using Django’s built-in mechanisms.
+SSL/TLS: Ensures data is encrypted during transmission.
+
+#### Additional Features
+- Progress Indicators: Loading spinners and progress bars provide feedback during data fetching and processing.
+- Reporting: Detailed reports on event participation and user activity.
+
+
+### Future Improvements
+#### Google Maps JavaScript API
+- The Google Maps JavaScript API would be used to embed maps into the web pages and provide location-based services, such as displaying event locations on a map.
 
 ### Credits
 
