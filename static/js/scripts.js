@@ -38,7 +38,7 @@ function fetchNotifications() {
             let currentUnreadCount = data.unread_count;
 
             if (currentUnreadCount > previousUnreadCount) {
-                // alert("You have a new notification!");
+                alert("You have a new notification!");
                 console.log("New notification detected!");
                 updateNotifications(data.notifications, currentUnreadCount - previousUnreadCount);
             }
