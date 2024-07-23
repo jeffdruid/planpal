@@ -102,10 +102,6 @@ function updateNotifications(notifications, newNotificationCount) {
 }
 
 $(document).ready(function() {
-    console.log("Document ready. Setting up notification fetch interval.");
-    // Fetch notifications every 10 seconds
-    setInterval(fetchNotifications, 10000);
-    console.log("Notifications will be fetched every 10 seconds");
 
     $("#notificationBell").click(function(e) {
         e.preventDefault();
@@ -253,9 +249,12 @@ $(document).ready(function() {
         $(this).unbind('submit').submit();
     });
 
-    // Fetch notifications every 10 seconds
-    if (typeof userIsLoggedIn !== 'undefined' && userIsLoggedIn) {
+    // Fetch notifications every 10 seconds if user is authenticated
+    if (userIsAuthenticated) {
+        console.log("User is authenticated.");
         setInterval(fetchNotifications, 10000);
+    } else {
+        console.log("User is not authenticated.");
     }
-    console.log("Notifications will be fetched every 10 seconds");
+        
 });
