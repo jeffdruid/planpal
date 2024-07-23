@@ -138,14 +138,16 @@ TODO - Add features screenshots
 - Sign Up: Users can create a new account using their email address and a password.
 - Login: Registered users can log in using their email and password.
 - Logout: Users can securely log out of their accounts.
+<!-- TODO -->
 - Password Reset: Users can reset their password via email if they forget it.
+<!-- TODO -->
 - Account Management: Users can update their profile information, including changing their password.
 
 #### Event Creation and Management
 - Create Event: Users can create new events by providing details such as title, date, time, location, and description.
 - Edit Event: Users can edit the details of their events.
-- Delete Event: Users can delete their events, which will also notify all invited participants.
-- View Event Details: Users can view detailed information about an event, including the list of invited participants and their responses.
+- Delete Event: Users can delete their events, which will also delete all associated invitations and responses.
+- View Event Details: Users can view detailed information about an event, including the list of invited participants and their responses, and suggested dates/times.
 
 #### Invitation System
 - Send Invitations: Event creators can invite friends to their events.
@@ -178,10 +180,11 @@ TODO - Add features screenshots
 - Event Management Tools: Quick access to edit or delete events from the dashboard.
 
 #### Dynamic Data Integration
-- Real-Time Data Updates: Data on the dashboard, calendar, and notifications are dynamically updated without requiring a page refresh.
-- Ajax Integration: Used for submitting forms and updating the UI in real-time.
+- Real-Time Data Updates: Notifications are dynamically updated without requiring a page refresh.
+- Ajax Integration: Used for updating the notification count and notification dropdown without reloading the page.
 
 #### Error Handling
+<!-- TODO - Improve error handling -->
 - User-Friendly Error Messages: Clear and concise error messages are displayed for validation errors and other issues.
 - Fallback Mechanisms: Ensures the application continues to function smoothly in case of minor issues.
 
@@ -195,13 +198,20 @@ TODO - Add features screenshots
 SSL/TLS: Ensures data is encrypted during transmission.
 
 #### Additional Features
-- Progress Indicators: Loading spinners and progress bars provide feedback during data fetching and processing.
+- Progress Indicators: Loading spinners provide feedback during data fetching and processing.
 - Reporting: Detailed reports on event participation and user activity.
 
 
 ### Future Improvements
 #### Google Maps JavaScript API
 - The Google Maps JavaScript API would be used to embed maps into the web pages and provide location-based services, such as displaying event locations on a map.
+
+#### Dynamic Data Integration
+- Real-Time Data Updates: Data on the dashboard, calendar, and event responses could be updated in real-time using WebSockets or other technologies.
+
+#### Filtering and Sorting
+- Enhanced Filtering: Users could filter events based on criteria such as date, location, or event type.
+- Sorting Options: Additional sorting options could be added to the event list, such as by date, title, or status.
 
 ### Credits
 
