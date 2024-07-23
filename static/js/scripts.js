@@ -25,16 +25,7 @@ function openAlternateDateModal() {
     $('#alternateDateModal').modal('show');
 }
 
-function updateNotificationCount(unread_count) {
-    console.log("Updating notification count...");
-    if (unread_count > 0) {
-        $("#notificationBell .badge").text(unread_count).show();
-        console.log("Unread notifications:", unread_count);
-    } else {
-        $("#notificationBell .badge").text('').hide();
-        console.log("No unread notifications");
-    }
-}
+let previousUnreadCount = initialUnreadCount;
 
 function fetchNotifications() {
     console.log("Fetching notifications...");
@@ -44,19 +35,80 @@ function fetchNotifications() {
         dataType: 'json',
         success: function(data) {
             console.log("Notifications fetched successfully:", data);
-            updateNotificationCount(data.unread_count);
+            let currentUnreadCount = data.unread_count;
+
+            if (currentUnreadCount > previousUnreadCount) {
+                // alert("You have a new notification!");
+                console.log("New notification detected!");
+                updateNotifications(data.notifications, currentUnreadCount - previousUnreadCount);
+            }
+
+            // Update the unread count badge
+            let badge = $("#notificationBell .badge");
+            badge.text(currentUnreadCount > 0 ? currentUnreadCount : '');
+            if (currentUnreadCount > 0) {
+                badge.css('display', 'inline-block');
+                badge.css('opacity', 0);
+                badge.animate({opacity: 1}, 300);
+            } else {
+                badge.css('display', 'none');
+            }
+
+            previousUnreadCount = currentUnreadCount;
         },
         error: function(xhr, status, error) {
             console.error("Error fetching notifications:", xhr.status, xhr.statusText);
-            console.log("Response:", xhr.responseText);
+            // console.log("Response:", xhr.responseText);
         }
     });
 }
 
+function updateNotifications(notifications, newNotificationCount) {
+    console.log("Updating notifications dropdown...");
+    let dropdownMenu = $("#notificationDropdown");
+
+    // Remove "No notifications" if present
+    dropdownMenu.find('a.dropdown-item:contains("No notifications")').remove();
+
+    // Add new notifications to the dropdown
+    notifications.slice(0, newNotificationCount).forEach(function(notification) {
+        let notificationUrl;
+        if (notification.type === "event") {
+            notificationUrl = `/notifications/notifications/mark-read/${notification.id}/`;
+        } else if (notification.type === "friend_request_received") {
+            notificationUrl = `/notifications/notifications/mark-read/${notification.id}/`;
+        } else {
+            notificationUrl = `/notifications/notifications/mark-read/${notification.id}/`;
+        }
+
+        let notificationItem = `
+            <a class="dropdown-item" href="${notificationUrl}">
+                ${notification.message}
+                <small class="text-muted">${notification.created_at}</small>
+            </a>`;
+        dropdownMenu.prepend(notificationItem);
+    });
+
+    // Ensure "View All Notifications" is always present
+    if (!dropdownMenu.find('a[href="/notifications/"]').length) {
+        dropdownMenu.append('<div class="dropdown-divider"></div><a class="dropdown-item" href="/notifications/">View All Notifications</a>');
+    }
+
+    // Handle display state when there are no notifications
+    if (notifications.length === 0) {
+        dropdownMenu.append('<a class="dropdown-item" href="#">No notifications</a>');
+    }
+}
+
 $(document).ready(function() {
-    // Toggle notification dropdown
+    console.log("Document ready. Setting up notification fetch interval.");
+    // Fetch notifications every 10 seconds
+    setInterval(fetchNotifications, 10000);
+    console.log("Notifications will be fetched every 10 seconds");
+
     $("#notificationBell").click(function(e) {
         e.preventDefault();
+        console.log("Notification bell clicked.");
         toggleDropdown("notificationDropdown");
         document.getElementById("profileDropdown").style.display = 'none'; // Hide profile dropdown when notification dropdown is opened
         fetchNotifications();
@@ -65,6 +117,7 @@ $(document).ready(function() {
     // Toggle profile dropdown
     $("#profileLink").click(function(e) {
         e.preventDefault();
+        console.log("Profile link clicked.");
         toggleDropdown("profileDropdown");
         document.getElementById("notificationDropdown").style.display = 'none'; // Hide notification dropdown when profile dropdown is opened
     });
@@ -199,7 +252,7 @@ $(document).ready(function() {
         $(this).unbind('submit').submit();
     });
 
-    // Fetch notifications every 30 seconds
+    // Fetch notifications every 10 seconds
     setInterval(fetchNotifications, 10000);
     console.log("Notifications will be fetched every 10 seconds");
 });

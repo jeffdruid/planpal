@@ -30,7 +30,7 @@ class ProfilePictureForm(forms.ModelForm):
 
 class FriendSearchForm(forms.Form):
     # commented out for testing purposes
-    # search_query = forms.CharField(max_length=100, label="", required=False)
-    user = forms.ModelChoiceField(
-        queryset=User.objects.all(), label="Select User", required=False
-    )
+    search_query = forms.CharField(max_length=100, label="", required=False)
+    # user = forms.ModelChoiceField(
+    #     queryset=User.objects.all(), label="Select User", required=False
+    # )
