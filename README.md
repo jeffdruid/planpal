@@ -25,6 +25,14 @@ TODO - Update table of contents
    - [Tippy.js](#tippyjs)
    - [Moment.js](#momentjs)
 3. [User Stories](#user-stories)
+   - [User Story 1: User Authentication](#user-story-1-user-authentication)
+   - [User Story 2: Event Creation](#user-story-2-event-creation)
+   - [User Story 3: Invitation System](#user-story-3-invitation-system)
+   - [User Story 4: Availability](#user-story-4-availability)
+   - [User Story 5: Friendship System](#user-story-5-friendship-system)
+   - [User Story 6: Notification System](#user-story-6-notification-system)
+   - [User Story 7: Dashboard](#user-story-7-dashboard)
+   - [User Story 8: Profile Management](#user-story-8-profile-management)
 4. [Wireframes](#wireframes)
    - [Site Map](#site-map)
    - [Database Schema](#database-schema)
@@ -103,25 +111,90 @@ Tippy.js is a lightweight, highly customizable tooltip and popover library. It i
 ### Moment.js
 Moment.js is a JavaScript library for parsing, validating, manipulating, and displaying dates and times. It is used in conjunction with FullCalendar to handle date and time formatting.
 
-### User Stories:
+## User Stories:
 
 <!-- TODO - Create table of user stories -->
 
-User Story 1: User Authentication
+### User Story 1: User Authentication
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to sign up for the event planner platform                                                                                         | I have successfully created an account and logged in     |
+| I want to log in to my account                                                                                                           | I can access my dashboard with my user credentials        |
+| I want to log out of my account                                                                                                          | I am redirected to the homepage and my session is ended   |
 
-User Story 2: Event Creation
+### User Story 2: Event Creation
 
-User Story 3: Invitation System
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to create a new event                                                                                                             | I have filled in the event details and it appears on my calendar and event list |
+| I want to edit an event I created                                                                                                        | I can update the event details and see the changes reflected |
+| I want to use Google Places Autocomplete for event location                                                                              | I can easily select a location using autocomplete suggestions |
+| I want to delete an event I created                                                                                                      | The event is removed from my event list and calendar     |
 
-User Story 4: Availability Polling
+### User Story 3: Invitation System
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to invite friends to my event                                                                                                     | My friends receive an invitation and can RSVP            |
+| I want to select friends from a list to send invitations                                                                                 | I can easily choose friends from my friend list to invite |
+| I want to accept an event invitation                                                                                                     | My RSVP status is updated to 'Accepted'                  |
+| I want to decline an event invitation                                                                                                    | My RSVP status is updated to 'Declined' and the event is grayed out |
+| I want to see the status of my event invitations                                                                                         | I can see who has accepted, declined, or not responded to my invitations |
+| I want to manage invitations and see who has viewed and responded                                                                        | I can track invitation views and responses in real-time  |
 
-User Story 5: Consensus Building
 
-User Story 6: Notification System
+### User Story 4: Availability
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to see the availability of other users for an event                                                                               | I can view the availability of invited users for an event |
+| I want to suggest alternate dates for events                                                                                             | I can propose new dates for events and see responses     |
 
-User Story 7: Dashboard
+### User Story 5: Friendship System
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to search for friends on the platform                                                                                             | I can find and send friend requests to other users       |
+| I want to accept or decline friend requests                                                                                              | I can manage incoming friend requests from other users   |
+| I want to see a list of my friends                                                                                                       | All my friends are displayed in a list with their profile pictures |
+| I want to view a friend's profile                                                                                                        | I can click on a friend and see their profile details     |
+| I want to remove a friend                                                                                                                | The friend is removed from my friend list                 |
+| I want to confirm before removing a friend                                                                                               | A confirmation modal appears when I attempt to remove a friend |
+| I want to see a list of sent friend requests                                                                                             | I can track all the friend requests I have sent          |
+| I want to see a list of received friend requests                                                                                         | I can view and manage all the friend requests I have received |
 
-### Wireframes:
+### User Story 6: Notification System
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to see notifications of new events or updates                                                                                     | New notifications appear in my notification dropdown     |
+| I want to mark a notification as read                                                                                                    | The notification is marked as read and the unread count decreases |
+| I want to see all my notifications                                                                                                      | I can view a list of all my past notifications            |
+| I want to receive real-time updates for new notifications                                                                                | I get alerts and the notification count updates without refreshing the page |
+
+
+### User Story 7: Dashboard
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to see a list of my upcoming events                                                                                                | All my future events are displayed in the upcoming events list |
+| I want to see a list of events I have created                                                                                            | All events I have created are displayed in a separate list |
+| I want to view past events                                                                                                               | Past events are visible on my calendar                    |
+| I want to see a calendar view of all events                                                                                              | All events I am invited to or have created are displayed on the calendar |
+| I want to see tooltips with event details when hovering over calendar events                                                             | Tooltips appear with event details when I hover over events on the calendar |
+| I want to see a loading spinner while event details tooltip loads                                                                        | A spinner is displayed while event details are being loaded |
+| I want to view the details of an event                                                                                                   | I can click on an event and see all its details          |
+| I want to see color-coded event statuses                                                                                                 | Different event statuses are displayed in various colors for easy identification |
+| I want to edit and delete events I have created                                                                                         | I can modify or remove my events directly from the dashboard |
+| I want to confirm before deleting an event                                                                                              | A confirmation modal appears when I attempt to delete an event |
+
+
+### User Story 8: Profile Management
+| As a user...                                                                                                                             | I know I'm done when...                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| I want to manage my profile information                                                                                                  | I can update my profile details and profile picture      |
+TODO
+| I want to change my password                                                                                                             | I can update my password and log in with the new credentials |
+| I want to reset my password if I forget it                                                                                               | I can request a password reset via email                 |
+| I want to delete my account                                                                                                              | My account is permanently deleted and all data is removed |
+
+
+## Wireframes:
 
 #### Site Map
 
@@ -131,7 +204,7 @@ User Story 7: Dashboard
 
 ![data base schema](<database model.png>)
 
-### Features
+## Features
 TODO - Add features screenshots
 
 #### User Authentication
@@ -202,7 +275,7 @@ SSL/TLS: Ensures data is encrypted during transmission.
 - Reporting: Detailed reports on event participation and user activity.
 
 
-### Future Improvements
+## Future Improvements
 #### Google Maps JavaScript API
 - The Google Maps JavaScript API would be used to embed maps into the web pages and provide location-based services, such as displaying event locations on a map.
 
@@ -213,7 +286,7 @@ SSL/TLS: Ensures data is encrypted during transmission.
 - Enhanced Filtering: Users could filter events based on criteria such as date, location, or event type.
 - Sorting Options: Additional sorting options could be added to the event list, such as by date, title, or status.
 
-### Credits
+## Credits
 
 - [Database Relationship Diagrams Design Tool](https://dbdiagram.io/)
 
