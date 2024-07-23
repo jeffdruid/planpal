@@ -254,6 +254,8 @@ $(document).ready(function() {
     });
 
     // Fetch notifications every 10 seconds
-    setInterval(fetchNotifications, 10000);
+    if (typeof userIsLoggedIn !== 'undefined' && userIsLoggedIn) {
+        setInterval(fetchNotifications, 10000);
+    }
     console.log("Notifications will be fetched every 10 seconds");
 });
