@@ -202,7 +202,7 @@ TODO
 
 #### database schema
 
-![data base schema](<database model.png>)
+![data base schema](static/images/database-model.png)
 
 ## Features
 TODO - Add features screenshots
