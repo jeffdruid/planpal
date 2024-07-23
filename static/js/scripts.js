@@ -49,7 +49,8 @@ function fetchNotifications() {
             if (currentUnreadCount > 0) {
                 badge.css('display', 'inline-block');
                 badge.css('opacity', 0);
-                badge.animate({opacity: 1}, 300);
+                badge.css('opacity', 1);
+                // badge.animate({opacity: 1}, 300);
             } else {
                 badge.css('display', 'none');
             }
