@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Friends{% endblock %}
 
@@ -16,16 +17,18 @@
                         {% for friendship in friends %}
                             <li>
                                 {% if friendship.from_user == user %}
-                                    <div class="d-flex justify-content-between mt-3">
-                                        {{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <img src="{% static 'images/profile_pictures/' %}{{ friendship.to_user.userprofile.profile_picture }}" alt="{{ friendship.to_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ friendship.from_user.userprofile.profile_picture }}'">
+                                        <span>{{ friendship.to_user.username }} - {{ friendship.to_user.first_name }} {{ friendship.to_user.last_name }}</span>
                                         <div>
                                             <a href="{% url 'view_profile' friendship.to_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
                                             <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.to_user.id }}"><i class="fa fa-trash"></i></button>
                                         </div>
                                     </div>
                                 {% else %}
-                                    <div class="d-flex justify-content-between mt-3">
-                                        {{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <img src="{% static 'images/profile_pictures/' %}{{ friendship.from_user.userprofile.profile_picture }}" alt="{{ friendship.from_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ friendship.to_user.userprofile.profile_picture }}'">
+                                        <span>{{ friendship.from_user.username }} - {{ friendship.from_user.first_name }} {{ friendship.from_user.last_name }}</span>
                                         <div>
                                             <a href="{% url 'view_profile' friendship.from_user.id %}" class="btn btn-sm btn-outline-primary ml-2">View Profile</a>
                                             <button class="btn btn-sm btn-outline-danger delete-friend-btn" data-friend-id="{{ friendship.from_user.id }}"><i class="fa fa-trash"></i></button>
@@ -62,7 +65,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {% endif %} 
+                    {% endif %}
                     <br>
                     {% if search_results %}
                         <h4>Search Results</h4>
@@ -70,6 +73,7 @@
                             {% for user in search_results %}
                                 <li>
                                     <div class="d-flex justify-content-between mt-3">
+                                        <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="{{ user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
                                         {{ user.username }} - {{ user.first_name }} {{ user.last_name }}
                                         {% if user not in friends %}
                                             <a href="{% url 'send_friend_request' user.id %}" class="btn btn-sm btn-outline-success ml-2">Add Friend</a>
@@ -97,9 +101,14 @@
                         <li><strong>Received Requests:</strong></li>
                         {% for request in pending_requests_received %}
                             <li>
-                                {{ request.from_user.username }} - {{ request.from_user.first_name }} {{ request.from_user.last_name }}
-                                <a href="{% url 'respond_friend_request' request.id 'accept' %}" class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i> Accept</a>
-                                <a href="{% url 'respond_friend_request' request.id 'decline' %}" class="btn btn-sm btn-outline-danger"><i class="fa fa-times"></i> Decline</a>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <img src="{% static 'images/profile_pictures/' %}{{ request.from_user.userprofile.profile_picture }}" alt="{{ request.from_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ request.to_user.userprofile.profile_picture }}'">
+                                    <span>{{ request.from_user.username }} - {{ request.from_user.first_name }} {{ request.from_user.last_name }}</span>
+                                    <div>
+                                        <a href="{% url 'respond_friend_request' request.id 'accept' %}" class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i> Accept</a>
+                                        <a href="{% url 'respond_friend_request' request.id 'decline' %}" class="btn btn-sm btn-outline-danger"><i class="fa fa-times"></i> Decline</a>
+                                    </div>
+                                </div>
                             </li>
                             <hr>
                         {% empty %}
@@ -109,8 +118,11 @@
                         <li><strong>Sent Requests:</strong></li>
                         {% for request in pending_requests_sent %}
                             <li>
-                                {{ request.to_user.username }} - {{ request.to_user.first_name }} {{ request.to_user.last_name }}
-                                <span>(Awaiting response)</span>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <img src="{% static 'images/profile_pictures/' %}{{ request.to_user.userprofile.profile_picture }}" alt="{{ request.to_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ request.from_user.userprofile.profile_picture }}'">
+                                    <span>{{ request.to_user.username }} - {{ request.to_user.first_name }} {{ request.to_user.last_name }}</span>
+                                    <span>(Awaiting response)</span>
+                                </div>
                             </li>
                             <hr>
                         {% empty %}
