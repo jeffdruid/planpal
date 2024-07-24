@@ -291,6 +291,7 @@ SSL/TLS: Ensures data is encrypted during transmission.
 ## Credits
 
 - [Database Relationship Diagrams Design Tool](https://dbdiagram.io/)
+- [Site Map Design Tool - Balsamiq](https://balsamiq.com/)
 
 ### Useful Links
 
