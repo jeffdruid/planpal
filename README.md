@@ -151,7 +151,6 @@ Moment.js is a JavaScript library for parsing, validating, manipulating, and dis
 | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | I want to search for friends on the platform                                                                                             | I can find and send friend requests to other users       |
 | I want to accept or decline friend requests                                                                                              | I can manage incoming friend requests from other users   |
-TODO
 | I want to see a list of my friends                                                                                                       | All my friends are displayed in a list with their profile pictures |
 | I want to view a friend's profile                                                                                                        | I can click on a friend and see their profile details     |
 | I want to remove a friend                                                                                                                | The friend is removed from my friend list                 |
@@ -187,9 +186,9 @@ TODO
 | As a user...                                                                                                                             | I know I'm done when...                                   |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | I want to manage my profile information                                                                                                  | I can update my profile details and profile picture      |
-TODO
 | I want to change my password                                                                                                             | I can update my password and log in with the new credentials |
-| I want to reset my password if I forget it                                                                                               | I can request a password reset via email                 |
+| I want to reset my password if I forget it                                                                                               | I can request a password reset via email  
+TODO               |
 | I want to delete my account                                                                                                              | My account is permanently deleted and all data is removed |
 
 
@@ -213,7 +212,6 @@ TODO - Add features screenshots
 - Logout: Users can securely log out of their accounts.
 <!-- TODO -->
 - Password Reset: Users can reset their password via email if they forget it.
-<!-- TODO -->
 - Account Management: Users can update their profile information, including changing their password.
 
 #### Event Creation and Management
