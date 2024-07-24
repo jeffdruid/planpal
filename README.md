@@ -113,8 +113,6 @@ Moment.js is a JavaScript library for parsing, validating, manipulating, and dis
 
 ## User Stories:
 
-<!-- TODO - Create table of user stories -->
-
 ### User Story 1: User Authentication
 | As a user...                                                                                                                             | I know I'm done when...                                   |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
@@ -292,6 +290,7 @@ SSL/TLS: Ensures data is encrypted during transmission.
 
 - [Database Relationship Diagrams Design Tool](https://dbdiagram.io/)
 - [Site Map Design Tool - Balsamiq](https://balsamiq.com/)
+- [Default Profile Picture SVG](https://en.m.wikipedia.org/wiki/File:Default_pfp.svg)
 
 ### Useful Links
 
