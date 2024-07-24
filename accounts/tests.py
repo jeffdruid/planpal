@@ -5,6 +5,7 @@ from accounts.models import UserProfile, Friendship
 from events.models import Event
 from invitations.models import Invitation
 from django.utils import timezone
+from accounts.forms import ProfilePictureForm, FriendSearchForm
 
 
 class AccountsTestCase(TestCase):
@@ -139,3 +140,25 @@ class AccountsTestCase(TestCase):
             response.status_code, 302
         )  # Check if the status code is 302 (redirect)
         print("Delete friend tested successfully.")
+
+    def test_profile_picture_form(self):
+        """Test to ensure the ProfilePictureForm works correctly."""
+        print("Testing ProfilePictureForm...")
+        form_data = {"profile_picture": "p1.png"}
+        form = ProfilePictureForm(data=form_data)
+        self.assertTrue(
+            form.is_valid()
+        )  # Form should be valid with correct data
+        self.assertEqual(form.cleaned_data["profile_picture"], "p1.png")
+        print("ProfilePictureForm tested successfully.")
+
+    def test_friend_search_form(self):
+        """Test to ensure the FriendSearchForm works correctly."""
+        print("Testing FriendSearchForm...")
+        form_data = {"search_query": "test"}
+        form = FriendSearchForm(data=form_data)
+        self.assertTrue(
+            form.is_valid()
+        )  # Form should be valid with correct data
+        self.assertEqual(form.cleaned_data["search_query"], "test")
+        print("FriendSearchForm tested successfully.")
