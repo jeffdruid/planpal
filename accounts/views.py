@@ -13,9 +13,11 @@ from .forms import FriendSearchForm, ProfilePictureForm
 from django.db.models import Q
 from notifications.models import Notification
 from django.urls import reverse
+from django.views.decorators.cache import cache_control
 
 
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def dashboard(request):
     current_user = request.user
 
@@ -119,6 +121,7 @@ def home(request):
 
 
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def profile(request):
     user_profile = get_object_or_404(UserProfile, user=request.user)
 
@@ -167,6 +170,7 @@ def custom_login(request):
 
 
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def friends_page(request):
     current_user = request.user
 
@@ -297,6 +301,7 @@ def delete_friend(request, user_id):
 
 
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def view_profile(request, user_id):
     friend_profile = get_object_or_404(UserProfile, user__id=user_id)
     friend_user = friend_profile.user  # Retrieve User object from UserProfile
