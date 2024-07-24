@@ -153,6 +153,7 @@ Moment.js is a JavaScript library for parsing, validating, manipulating, and dis
 | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | I want to search for friends on the platform                                                                                             | I can find and send friend requests to other users       |
 | I want to accept or decline friend requests                                                                                              | I can manage incoming friend requests from other users   |
+TODO
 | I want to see a list of my friends                                                                                                       | All my friends are displayed in a list with their profile pictures |
 | I want to view a friend's profile                                                                                                        | I can click on a friend and see their profile details     |
 | I want to remove a friend                                                                                                                | The friend is removed from my friend list                 |
@@ -197,11 +198,12 @@ TODO
 ## Wireframes:
 
 #### Site Map
+TODO - Add sections to the site map?
+- The site map visually outlines the structure of the website, showing the relationships between different pages and sections. It provides an overview of how users will navigate through the platform, ensuring an intuitive user experience.
+![site map](static/images/site-map.png)
 
-![site map](site-map.png)
-
-#### database schema
-
+#### Database Schema
+- The database schema diagram illustrates the data model used in the application. It includes the tables, their relationships, and key fields, ensuring data integrity and efficient data management.
 ![data base schema](static/images/database-model.png)
 
 ## Features
@@ -293,3 +295,4 @@ SSL/TLS: Ensures data is encrypted during transmission.
 ### Useful Links
 
 - [Python Django Web Framework - Full Course for Beginners](https://www.youtube.com/watch?v=F5mRW0jo-U4&t=302s)
+
