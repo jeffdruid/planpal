@@ -13,6 +13,7 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("login/", views.custom_login, name="account_login"),
     path("signup/", views.signup, name="account_signup"),
+    path("signup/", views.signup, name="signup"),
     path("friends/", views.friends_page, name="friends_page"),
     path(
         "send_friend_request/<int:user_id>/",
