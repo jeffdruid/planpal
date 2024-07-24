@@ -8,8 +8,12 @@ class PreventBackAfterLogoutMiddleware:
 
     def __call__(self, request):
         if not request.user.is_authenticated:
-            if request.path != reverse("account_login"):
-                return redirect(reverse("account_login"))
+            if not request.user.is_authenticated:
+                if request.path not in [
+                    reverse("account_login"),
+                    reverse("account_signup"),
+                ]:
+                    return redirect(reverse("account_login"))
         else:
             request.session["logged_in"] = True
 
