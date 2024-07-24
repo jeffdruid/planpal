@@ -134,17 +134,3 @@ class EventsTestCase(TestCase):
             form.errors["proposed_date"],
         )
         print("Event form clean proposed date tested successfully.")
-
-
-# Run the tests and print a summary report
-if __name__ == "__main__":
-    result = EventsTestCase().run()
-    print("\nTest Summary Report")
-    print("===================")
-    print(f"Total tests run: {result.testsRun}")
-    print(f"Errors: {len(result.errors)}")
-    print(f"Failures: {len(result.failures)}")
-    if result.wasSuccessful():
-        print("All tests passed successfully!")
-    else:
-        print("Some tests failed. Please check the errors and failures above.")
