@@ -131,8 +131,16 @@ def profile(request):
             profile_form.save()
             request.user.first_name = request.POST.get("first_name")
             request.user.last_name = request.POST.get("last_name")
+            request.user.email = request.POST.get("email")
+            password = request.POST.get("password")
+            if password:
+                request.user.set_password(
+                    password
+                )  # Use set_password to hash the password
             request.user.save()
-            messages.success(request, "Profile updated successfully.")
+            messages.success(
+                request, "Profile updated successfully. Please log in again."
+            )
             return redirect("profile")
         else:
             for field, errors in profile_form.errors.items():
@@ -146,11 +154,16 @@ def profile(request):
         "first_name": request.user.first_name,
         "last_name": request.user.last_name,
         "profile_picture": user_profile.profile_picture,
+        "date_joined": request.user.date_joined,
+        "last_login": request.user.last_login,
+        "email": request.user.email,
+        "password": "update your password",
     }
 
     context = {
         "user_data": user_data,
         "profile_form": profile_form,
+        "view_only": False,
     }
 
     return render(request, "accounts/profile.html", context)
@@ -311,7 +324,10 @@ def view_profile(request, user_id):
             "first_name": friend_user.first_name,
             "last_name": friend_user.last_name,
             "profile_picture": friend_profile.profile_picture,
+            "date_joined": friend_user.date_joined,
+            "last_login": friend_user.last_login,
+            "email": friend_user.email,
         },
-        "view_only": True,
+        "view_only": request.user.id != user_id,
     }
     return render(request, "accounts/profile.html", context)
