@@ -104,17 +104,25 @@
 </div>
 
 <!-- Modal for selecting profile picture -->
-<div id="profilePictureModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-content">
-        <span class="close" onclick="closeProfilePictureModal()">&times;</span>
-        <h2>Select Profile Picture</h2>
-        <div class="profile-picture-options">
-            {% for choice in profile_form.profile_picture.field.choices %}
-                <label class="profile-picture-option">
-                    <input onclick="selectProfilePicture()" type="radio" name="profile_picture_modal" value="{{ choice.0 }}" {% if user_data.profile_picture == choice.0 %}checked{% endif %}>
-                    <img src="{% static 'images/profile_pictures/' %}{{ choice.0 }}" alt="{{ choice.1 }}" class="img-thumbnail">
-                </label>
-            {% endfor %}
+<div id="profilePictureModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profilePictureModalLabel">Select Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-picture-options">
+                    {% for choice in profile_form.profile_picture.field.choices %}
+                        <label class="profile-picture-option">
+                            <input onclick="selectProfilePicture()" type="radio" name="profile_picture_modal" value="{{ choice.0 }}" {% if user_data.profile_picture == choice.0 %}checked{% endif %}>
+                            <img src="{% static 'images/profile_pictures/' %}{{ choice.0 }}" alt="{{ choice.1 }}" class="img-thumbnail">
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -126,7 +134,7 @@
             <div class="modal-header">
                 <h2 class="modal-title">This feature is not available yet</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="close" onclick="closeDeleteAccountModal()">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -159,11 +167,11 @@
     }
 
     function openProfilePictureModal() {
-        document.getElementById("profilePictureModal").style.display = "block";
+        $('#profilePictureModal').modal('show');
     }
 
     function closeProfilePictureModal() {
-        document.getElementById("profilePictureModal").style.display = "none";
+        $('#profilePictureModal').modal('hide');
     }
 
     function selectProfilePicture() {
@@ -174,10 +182,11 @@
         closeProfilePictureModal();
     }
 
+    // Close the modal when clicking outside of it
     window.onclick = function(event) {
-        const modal = document.getElementById("profilePictureModal");
-        if (event.target == modal) {
-            modal.style.display = "none";
+        const profilePictureModal = $('#profilePictureModal');
+        if (event.target == profilePictureModal[0]) {
+            closeProfilePictureModal();
         }
     }
 
@@ -190,7 +199,7 @@
     }
 
     function deleteAccount() {
-        message = "This feature is not available yet";
+        const message = "This feature is not available yet";
         alert(message);
         closeDeleteAccountModal();
         // Perform account deletion logic here
