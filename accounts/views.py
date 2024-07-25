@@ -182,6 +182,10 @@ def custom_login(request):
     return render(request, "accounts/login.html")
 
 
+def custom_password_reset(request):
+    return render(request, "accounts/password_reset.html")
+
+
 @login_required
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def friends_page(request):
