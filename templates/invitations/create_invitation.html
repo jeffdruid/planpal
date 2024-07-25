@@ -23,21 +23,22 @@
         <form method="post" action="">
             {% csrf_token %}
             <ul class="list-unstyled" style="margin: 0 5rem;">
+                <p class="mt-4">Your Friends:</p>
                 {% for user in users %}
                 <li>
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="{{ user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
                         <span style="margin-right:auto;">{{ user.username }} - {{ user.first_name }} {{ user.last_name }}</span>
-                        <div>
+                        {% comment %} <div>
                             <button type="submit" class="btn btn-primary mt-3">Add Invitation</button>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                 </li>
                 <hr>
             {% empty %}
                 <li>No users found.</li>
             {% endfor %}
-            {% comment %} <div class="form-group mt-4 mb-5">
+            <div class="form-group mt-4 mb-5">
                 <label for="user_id">Select User:</label>
                 <select id="user_id" name="user_id" class="form-control" required>
                     {% for user in users %}
@@ -47,7 +48,7 @@
             </div>
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary mt-3">Add Invitation</button>
-            </div> {% endcomment %}
+            </div>
             {% endif %}
             <div class="text-center mt-4">
                 <a href="{% url 'manage_invitations' event.id %}">Manage Invitations</a>

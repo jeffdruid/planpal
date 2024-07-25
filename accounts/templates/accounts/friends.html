@@ -99,7 +99,8 @@
                 <div class="card-body">
                     <ul class="list-unstyled">
                         <li><strong>Received Requests:</strong></li>
-                        {% for request in pending_requests_received %}
+                        <div class="scrollable-column"> 
+                            {% for request in pending_requests_received %}
                             <li>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <img src="{% static 'images/profile_pictures/' %}{{ request.from_user.userprofile.profile_picture }}" alt="{{ request.from_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ request.to_user.userprofile.profile_picture }}'">
@@ -113,10 +114,20 @@
                             <hr>
                         {% empty %}
                             <li>No pending friend requests received.</li>
-                        {% endfor %}
-                        <br>
-                        <li><strong>Sent Requests:</strong></li>
-                        {% for request in pending_requests_sent %}
+                            {% endfor %}
+                        </div>
+                            <br>
+                            <li><strong>Sent Requests:</strong></li>
+                            <div class="scrollable-column">
+                                {% for request in pending_requests_sent %}
+                                <li>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <img src="{% static 'images/profile_pictures/' %}{{ request.to_user.userprofile.profile_picture }}" alt="{{ request.to_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ request.from_user.userprofile.profile_picture }}'">
+                                    <span>{{ request.to_user.username }} - {{ request.to_user.first_name }} {{ request.to_user.last_name }}</span>
+                                    <span>(Awaiting response)</span>
+                                </div>
+                            </li>
+                            <hr>
                             <li>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <img src="{% static 'images/profile_pictures/' %}{{ request.to_user.userprofile.profile_picture }}" alt="{{ request.to_user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;" onerror="this.onerror=null; this.src='{% static 'images/profile_pictures/' %}{{ request.from_user.userprofile.profile_picture }}'">
@@ -125,9 +136,10 @@
                                 </div>
                             </li>
                             <hr>
-                        {% empty %}
+                            {% empty %}
                             <li>No pending friend requests sent.</li>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </ul>
                 </div>
             </div>
