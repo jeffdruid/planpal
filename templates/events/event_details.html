@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Event Details{% endblock %}
 
@@ -56,7 +57,8 @@
                     <ul class="list-group">
                         {% for invitation in event.invitations.all %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ invitation.user.username|capfirst }}
+                                <img src="{% static 'images/profile_pictures/' %}{{ invitation.user.userprofile.profile_picture }}" alt="{{ invitation.user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
+                                <span style="margin-right:auto;"> {{ invitation.user.username|capfirst }} </span>
                                 <span class="badge bg-{{ invitation.status|lower }}">{{ invitation.status }}</span>
                             </li>
                         {% empty %}
@@ -68,7 +70,10 @@
                     <ul class="list-group">
                         {% for invitation in event.invitations.all %}
                             {% if invitation.suggested_date %}
-                                <li class="list-group-item">{{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}</li>
+                                <li class="list-group-item">
+                                    <img src="{% static 'images/profile_pictures/' %}{{ invitation.user.userprofile.profile_picture }}" alt="{{ invitation.user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
+                                    {{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}
+                                </li>
                             {% endif %}
                         {% empty %}
                             <li class="list-group-item">No alternate dates suggested.</li>

@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Manage Invitations{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center text-dark">Manage Invitations for {{ event.title }}</h2>
+<div class="container card mt-5" style="max-width: 800px;">
+    <h2 class="text-center card-header text-dark">Manage Invitations for {{ event.title }}</h2>
     {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -14,11 +15,12 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form class="invitation-list mt-4">
-        <ul class="list-group">
+    <form class="invitation-list">
+        <ul class="list-group mt-5 mb-5">
             {% for invitation in invitations %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>
+                    <img src="{% static 'images/profile_pictures/' %}{{ invitation.user.userprofile.profile_picture }}" alt="{{ invitation.user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
+                    <span style="margin-right:auto;">
                         <strong>{{ invitation.user.username }}</strong> - {{ invitation.user.first_name }} {{ invitation.user.last_name }}
                     </span>
                     <span>
@@ -37,9 +39,9 @@
         <div class="text-center mt-4">
             <a href="{% url 'create_invitation' event.id %}" class="btn btn-primary">Add New Invitation</a>
         </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'event_details' event.id %}" >Back to Event Details</a>
+        </div>
     </form>
-    <div class="text-center mt-4">
-        <a href="{% url 'event_details' event.id %}" >Back to Event Details</a>
-    </div>
 </div>
 {% endblock %}
