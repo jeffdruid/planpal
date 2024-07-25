@@ -272,6 +272,42 @@ SSL/TLS: Ensures data is encrypted during transmission.
 - Progress Indicators: Loading spinners provide feedback during data fetching and processing.
 - Reporting: Detailed reports on event participation and user activity.
 
+## MoSCoW Prioritization
+TODO - Add MoSCoW Prioritization
+### Must Have
+
+| Feature                          | Description                                                                                       |
+|----------------------------------|---------------------------------------------------------------------------------------------------|
+| User Authentication              | Users must be able to sign up, log in, and log out. Unique usernames and emails are required.     |
+| Event Creation                   | Users must create new events with title, description, date, and location (Google Places API).     |
+| Invitation System                | Users must invite friends to events and see invitation status. Friends must RSVP.                |
+| Dashboard                        | Users must see upcoming, past events, calendar view, edit/delete events, color-coded status, and modals for deletion/alternate dates.  |
+| Friendship System                | Users must search for friends, send friend requests, view friends’ profiles, and remove friends. Friends’ profile pictures must be shown. |
+| Notification System              | Users must receive notifications for events, updates, and friend requests. Notifications must update in real-time with alerts. |
+
+### Should Have
+
+| Feature                          | Description                                                                                       |
+|----------------------------------|---------------------------------------------------------------------------------------------------|
+| User Profile Management          | Users should update profile information, profile picture, change password, and reset password.    |
+| Event Management                 | Users should suggest alternate event dates and see responses.                                     |
+| Home Page                        | Should introduce the event planner platform and provide a call to action.                         |
+
+### Could Have
+
+| Feature                          | Description                                                                                       |
+|----------------------------------|---------------------------------------------------------------------------------------------------|
+| Advanced Search and Filtering    | Users could filter events by type, location, date range, and search by keyword.                   |
+| Enhanced Notifications           | Users could receive email notifications and customize settings.                                   |
+| Analytics and Reporting          | Users could view analytics on event participation and friend interactions.                        |
+
+### Won't Have (for now)
+
+| Feature                          | Description                                                                                       |
+|----------------------------------|---------------------------------------------------------------------------------------------------|
+| Integration with Social Media    | Integration for event sharing and friend invitations on social media platforms.                   |
+| Monetization Features            | Features like paid events, ticketing, or advertisements.                                          |
+| Gamification                     | Points, badges, or rewards for event participation and friend interactions.                       |
 
 ## Future Improvements
 #### Google Maps JavaScript API
