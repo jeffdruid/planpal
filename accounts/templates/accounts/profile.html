@@ -52,7 +52,7 @@
                                 </div>
                                 <small class="form-text text-muted">Leave blank if you don't want to change your password.</small>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 <label for="profile_picture">Profile Picture:</label>
                                 <div class="profile-picture-container">
                                     <img id="selectedProfilePicture" src="{% static 'images/profile_pictures/' %}{{ user_data.profile_picture }}" alt="Selected Profile Picture" class="img-thumbnail">
@@ -70,7 +70,15 @@
                             </div>
                         {% endif %}
                         {% if not view_only %}
+                            <br class = "mb-5 mt-5">
                             <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'dashboard' %}'">Cancel</button>
+                            <br>
+                            <hr class="mt-5">
+                            <button type="button" class="btn btn-danger float-right" onclick="openDeleteAccountModal()">Delete Account</button>
+                            <small class="form-text text-muted">Deleting your account will permanently remove all your data.</small>
+                            <small class="form-text text-muted">You will be logged out after deleting your account.</small>
+                            <input type="hidden" name="delete_account" value="False">
                         {% endif %}
                         
                         {% if view_only %}
@@ -96,7 +104,7 @@
 </div>
 
 <!-- Modal for selecting profile picture -->
-<div id="profilePictureModal" class="modal">
+<div id="profilePictureModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-content">
         <span class="close" onclick="closeProfilePictureModal()">&times;</span>
         <h2>Select Profile Picture</h2>
@@ -110,6 +118,28 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for confirming account deletion -->
+<div id="deleteAccountModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">This feature is not available yet</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="close" onclick="closeDeleteAccountModal()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete your account?</p> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="deleteAccount()">Yes, Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -149,6 +179,22 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
+    }
+
+    function openDeleteAccountModal() {
+        $('#deleteAccountModal').modal('show');
+    }
+
+    function closeDeleteAccountModal() {
+        $('#deleteAccountModal').modal('hide');
+    }
+
+    function deleteAccount() {
+        message = "This feature is not available yet";
+        alert(message);
+        closeDeleteAccountModal();
+        // Perform account deletion logic here
+        // Redirect or perform any necessary actions after deletion
     }
 </script>
 {% endblock %}
