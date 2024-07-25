@@ -132,14 +132,27 @@ def profile(request):
             request.user.last_name = request.POST.get("last_name")
             request.user.email = request.POST.get("email")
             password = request.POST.get("password")
-            if password:
+            confirm_password = request.POST.get("confirm_password")
+            if password and password == confirm_password:
                 request.user.set_password(
                     password
                 )  # Use set_password to hash the password
+            elif password and password != confirm_password:
+                messages.error(request, "Passwords do not match.")
+                return redirect("profile")
             request.user.save()
-            messages.success(
-                request, "Profile updated successfully. Please log in again."
-            )
+            if password and password == confirm_password:
+                request.user.set_password(password)
+                messages.success(
+                    request,
+                    "Profile updated successfully. Please log in again.",
+                )
+            elif password and password != confirm_password:
+                messages.error(request, "Passwords do not match.")
+                return redirect("profile")
+            else:
+                request.user.save()
+                messages.success(request, "Profile updated successfully.")
             return redirect("profile")
         else:
             for field, errors in profile_form.errors.items():
@@ -156,7 +169,6 @@ def profile(request):
         "date_joined": request.user.date_joined,
         "last_login": request.user.last_login,
         "email": request.user.email,
-        "password": "update your password",
     }
 
     context = {
@@ -334,10 +346,6 @@ def delete_friend(request, user_id):
         Q(user=friend) | Q(event__created_by=friend)
     )
     invitations.delete()
-
-    # Assuming you have models for suggested alternate dates and availability:
-    # SuggestedDate.objects.filter(Q(user=friend) | Q(event__created_by=friend)).delete()
-    # Availability.objects.filter(Q(user=friend) | Q(event__created_by=friend)).delete()
 
     messages.success(
         request, "Friend and all associated data deleted successfully."
