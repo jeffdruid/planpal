@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import UserProfile
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils import timezone
@@ -304,16 +303,45 @@ def respond_friend_request(request, request_id, response):
 def delete_friend(request, user_id):
     current_user = request.user
     friend = get_object_or_404(User, id=user_id)
+
+    # Delete friendships
     friendships = Friendship.objects.filter(
         Q(from_user=current_user, to_user=friend)
         | Q(from_user=friend, to_user=current_user)
     )
-    if friendships.exists():
-        friendships.delete()
-        messages.success(request, "Friend deleted successfully.")
-    else:
-        messages.error(request, "Friendship does not exist.")
+    friendships.delete()
 
+    # Delete notifications related to the friend
+    notifications = Notification.objects.filter(
+        Q(user=current_user, event__created_by=friend)
+        | Q(user=friend, event__created_by=current_user)
+        | Q(
+            user=current_user,
+            type="friend_request_received",
+            event__isnull=True,
+        )
+        | Q(user=friend, type="friend_request_received", event__isnull=True)
+        | Q(user=friend, type="suggested_alternate_date", event__isnull=False)
+    )
+    notifications.delete()
+
+    # Delete events created by the friend
+    events = Event.objects.filter(created_by=friend)
+    events.delete()
+
+    # Delete invitations involving the friend
+    invitations = Invitation.objects.filter(
+        Q(user=friend) | Q(event__created_by=friend)
+    )
+    invitations.delete()
+
+    # Assuming you have models for suggested alternate dates and availability:
+    # SuggestedDate.objects.filter(Q(user=friend) | Q(event__created_by=friend)).delete()
+    # Availability.objects.filter(Q(user=friend) | Q(event__created_by=friend)).delete()
+
+    messages.success(
+        request, "Friend and all associated data deleted successfully."
+    )
     return redirect("friends_page")
 
 
