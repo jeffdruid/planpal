@@ -85,11 +85,20 @@ def event_details(request, event_id):
     if request.method == "POST":
         action = request.POST.get("action")
         if action == "accept":
-            user_invitations.update(status="Accepted")
+            user_invitations.update(status="Accepted", suggested_date=None)
+            Notification.objects.filter(
+                event=event,
+                user=event.created_by,
+                type="suggested_alternate_date",
+            ).delete()
         elif action == "deny":
-            user_invitations.update(status="Declined")
+            user_invitations.update(status="Declined", suggested_date=None)
+            Notification.objects.filter(
+                event=event,
+                user=event.created_by,
+                type="suggested_alternate_date",
+            ).delete()
         elif action == "maybe":
-            user_invitations.update(status="Maybe")
             alternate_date = request.POST.get("alternate_date")
             alternate_time = request.POST.get("alternate_time")
             suggested_datetime = f"{alternate_date} {alternate_time}"
