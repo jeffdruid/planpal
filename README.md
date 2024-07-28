@@ -284,6 +284,7 @@ TODO - Add MoSCoW Prioritization
 | Dashboard                        | Users must see upcoming, past events, calendar view, edit/delete events, color-coded status, and modals for deletion/alternate dates.  |
 | Friendship System                | Users must search for friends, send friend requests, view friends’ profiles, and remove friends. Friends’ profile pictures must be shown. |
 | Notification System              | Users must receive notifications for events, updates, and friend requests. Notifications must update in real-time with alerts. |
+| Availability                     | Users must see friend availability for events and suggest alternate dates.                      |
 
 ### Should Have
 
@@ -292,6 +293,7 @@ TODO - Add MoSCoW Prioritization
 | User Profile Management          | Users should update profile information, profile picture, change password, and reset password.    |
 | Event Management                 | Users should suggest alternate event dates and see responses.                                     |
 | Home Page                        | Should introduce the event planner platform and provide a call to action.                         |
+| Error Handling                    | Users should see clear error messages for validation errors and other issues.                     |
 
 ### Could Have
 
