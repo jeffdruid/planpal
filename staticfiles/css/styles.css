@@ -712,7 +712,7 @@ form.d-inline {
 }
 
 body>main>div>div>div.container {
-    background-color: transparent;
+    /* background-color: transparent; */
     padding: 0rem;
     box-shadow: none;
 }
