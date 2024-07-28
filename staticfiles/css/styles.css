@@ -616,7 +616,6 @@ button.btn.btn-warning {
     }
 
     body>main>div>div>div.container {
-        background-color: transparent;
         padding: 2rem;
         box-shadow: none;
     }
