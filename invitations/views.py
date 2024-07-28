@@ -50,11 +50,30 @@ def create_invitation(request, event_id):
         else:
             users.append(friendship.from_user)
 
+    user_invitations = {
+        user.id: event.invitations.filter(user=user).exists() for user in users
+    }
+
     if not users:
         messages.info(request, "You have no friends to invite to this event.")
         return redirect("friends_page")
 
     if request.method == "POST":
+        if "send_all" in request.POST:
+            for user in users:
+                if not event.invitations.filter(user=user).exists():
+                    Invitation.objects.create(
+                        event=event, user=user, status="Pending"
+                    )
+                    Notification.objects.create(
+                        user=user,
+                        event=event,
+                        type="event_created",
+                        message=f"You have been invited to the event '{event.title}'.",
+                    )
+            messages.success(request, "All invitations sent successfully.")
+            return redirect("create_invitation", event_id=event_id)
+
         user_id = request.POST.get("user_id")
         user = get_object_or_404(User, id=user_id)
 
@@ -68,6 +87,7 @@ def create_invitation(request, event_id):
         if Invitation.objects.filter(event=event, user=user).exists():
             messages.error(request, "Invitation already exists for this user.")
             return redirect("create_invitation", event_id=event_id)
+
         Invitation.objects.create(event=event, user=user, status="Pending")
 
         # Create notification for the invited user
@@ -84,5 +104,5 @@ def create_invitation(request, event_id):
     return render(
         request,
         "invitations/create_invitation.html",
-        {"event": event, "users": users},
+        {"event": event, "users": users, "user_invitations": user_invitations},
     )

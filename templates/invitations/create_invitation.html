@@ -4,7 +4,7 @@
 {% block title %}Add Invitation{% endblock %}
 
 {% block content %}
-<div class="container card mt-5" style="max-width: 800px;">  
+<div class="container card mt-5" style="max-width: 800px;">
     <h2 class="text-center card-header text-dark">Add Invitation to {{ event.title }}</h2>
     {% if messages %}
         <div class="messages">
@@ -16,43 +16,43 @@
         </div>
     {% endif %}
 
-    {% if no_friends %}
+    {% if not users %}
         <p class="text-center">You have no friends to invite to this event.</p>
         <p class="text-center">You can add friends <a href="{% url 'friends_page' %}" class="text-primary">here</a>.</p>
     {% else %}
-        <form method="post" action="">
-            {% csrf_token %}
-            <ul class="list-unstyled" style="margin: 0 5rem;">
-                <p class="mt-4">Your Friends:</p>
-                {% for user in users %}
+        <ul class="list-unstyled" style="margin: 0 5rem;">
+            <p class="mt-4">Your Friends:</p>
+            {% for user in users %}
                 <li>
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <img src="{% static 'images/profile_pictures/' %}{{ user.userprofile.profile_picture }}" alt="{{ user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
                         <span style="margin-right:auto;">{{ user.username }} - {{ user.first_name }} {{ user.last_name }}</span>
-                        {% comment %} <div>
-                            <button type="submit" class="btn btn-primary mt-3">Add Invitation</button>
-                        </div> {% endcomment %}
+                        {% if not user_invitations.user.id %}
+                            <form method="post" action="{% url 'create_invitation' event.id %}" style="margin: 0;">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <button type="submit" class="btn btn-primary">Add Invitation</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </li>
                 <hr>
             {% empty %}
                 <li>No users found.</li>
             {% endfor %}
-            <div class="form-group mt-4 mb-5">
-                <label for="user_id">Select User:</label>
-                <select id="user_id" name="user_id" class="form-control" required>
-                    {% for user in users %}
-                        <option value="{{ user.id }}">{{ user.username }} - {{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary mt-3">Add Invitation</button>
-            </div>
-            {% endif %}
-            <div class="text-center mt-4">
-                <a href="{% url 'manage_invitations' event.id %}">Manage Invitations</a>
-            </div>
-        </form>
+        </ul>
+        {% if not event.invitations.exists %}
+            <form method="post" action="{% url 'create_invitation' event.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="send_all" value="true">
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary mt-3">Send All Invitations</button>
+                </div>
+            </form>
+        {% endif %}
+    {% endif %}
+    <div class="text-center mt-4">
+        <a href="{% url 'manage_invitations' event.id %}">Manage Invitations</a>
+    </div>
 </div>
 {% endblock %}
