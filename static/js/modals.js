@@ -1,3 +1,7 @@
+function openAlternateDateModal() {
+    $('#alternateDateModal').modal('show');
+}
+
 $(document).ready(function() {
     // Event delete modal functionality
     var deleteModal = $('#deleteModal');

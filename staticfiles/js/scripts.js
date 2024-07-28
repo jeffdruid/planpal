@@ -21,10 +21,6 @@ function toggleDropdown(elementId) {
     }
 }
 
-function openAlternateDateModal() {
-    $('#alternateDateModal').modal('show');
-}
-
 let previousUnreadCount = initialUnreadCount;
 
 function fetchNotifications() {
