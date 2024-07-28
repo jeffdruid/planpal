@@ -320,25 +320,63 @@ def delete_friend(request, user_id):
     friend = get_object_or_404(User, id=user_id)
 
     # Delete friendships
-    Friendship.objects.filter(
+    friendships = Friendship.objects.filter(
         Q(from_user=current_user, to_user=friend)
         | Q(from_user=friend, to_user=current_user)
+    )
+    friendships.delete()
+
+    # Delete notifications related to the friend
+    Notification.objects.filter(
+        Q(user=current_user, event__created_by=friend)
+        | Q(user=friend, event__created_by=current_user)
+        | Q(
+            user=current_user,
+            type="friend_request_received",
+            event__isnull=True,
+        )
+        | Q(user=friend, type="friend_request_received", event__isnull=True)
+        | Q(
+            user=current_user,
+            type="suggested_alternate_date",
+            event__isnull=False,
+            message__icontains=friend.username,
+        )
+        | Q(
+            user=friend,
+            type="suggested_alternate_date",
+            event__isnull=False,
+            message__icontains=current_user.username,
+        )
+        | Q(
+            user=current_user,
+            type__in=[
+                "event_created",
+                "event_updated",
+                "event_cancelled",
+                "event_confirmed",
+                "invitation_response",
+            ],
+            event__created_by=friend,
+        )
+        | Q(
+            user=friend,
+            type__in=[
+                "event_created",
+                "event_updated",
+                "event_cancelled",
+                "event_confirmed",
+                "invitation_response",
+            ],
+            event__created_by=current_user,
+        )
     ).delete()
 
-    # Remove the friend's invitations to events created by the current user
-    events_created_by_current_user = Event.objects.filter(
-        created_by=current_user, invitations__user=friend
-    ).distinct()
-    for event in events_created_by_current_user:
-        Invitation.objects.filter(event=event, user=friend).delete()
-
-    # Delete invitations where the friend invited the current user
-    Invitation.objects.filter(
-        event__created_by=friend, user=current_user
-    ).delete()
-
-    # Remove related notifications for both users
-    delete_related_notifications(current_user, friend)
+    # Delete invitations involving the friend
+    invitations = Invitation.objects.filter(
+        Q(user=friend) | Q(event__created_by=friend)
+    )
+    invitations.delete()
 
     messages.success(
         request, "Friend and all associated data deleted successfully."
