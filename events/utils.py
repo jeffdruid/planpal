@@ -1,6 +1,8 @@
 from django.utils import timezone
 from notifications.models import Notification
 from events.models import Event
+from django.db.models import Q
+from notifications.models import Notification
 
 
 def create_notification(user, event, notification_type, message):
@@ -66,3 +68,42 @@ def notify_event_confirmed(event):
     message = f"The event '{event.title}' has been confirmed."
     for invitation in event.invitations.all():
         create_notification(invitation.user, event, "event_confirmed", message)
+
+
+def delete_suggested_alternate_date_notification(invitation):
+    Notification.objects.filter(
+        event=invitation.event,
+        user=invitation.event.created_by,
+        type="suggested_alternate_date",
+        message__icontains=invitation.user.username,
+    ).delete()
+
+
+def delete_related_notifications(user, friend):
+    # Delete friend request notifications between user and friend
+    Notification.objects.filter(
+        Q(
+            user=user,
+            type="friend_request_received",
+            message__icontains=friend.username,
+        )
+        | Q(
+            user=friend,
+            type="friend_request_received",
+            message__icontains=user.username,
+        )
+    ).delete()
+
+    # Delete suggested alternate date notifications between user and friend
+    Notification.objects.filter(
+        Q(
+            user=user,
+            type="suggested_alternate_date",
+            message__icontains=friend.username,
+        )
+        | Q(
+            user=friend,
+            type="suggested_alternate_date",
+            message__icontains=user.username,
+        )
+    ).delete()

@@ -13,6 +13,7 @@ from .utils import (
     notify_event_cancelled,
     notify_suggested_alternate_date,
     notify_event_confirmed,
+    delete_suggested_alternate_date_notification,
 )
 
 
@@ -84,20 +85,14 @@ def event_details(request, event_id):
 
     if request.method == "POST":
         action = request.POST.get("action")
-        if action == "accept":
-            user_invitations.update(status="Accepted", suggested_date=None)
-            Notification.objects.filter(
-                event=event,
-                user=event.created_by,
-                type="suggested_alternate_date",
-            ).delete()
-        elif action == "deny":
-            user_invitations.update(status="Declined", suggested_date=None)
-            Notification.objects.filter(
-                event=event,
-                user=event.created_by,
-                type="suggested_alternate_date",
-            ).delete()
+        if action in ["accept", "deny"]:
+            user_invitations.update(
+                status=action.capitalize(), suggested_date=None
+            )
+            delete_suggested_alternate_date_notification(
+                user_invitations.first()
+            )
+
         elif action == "maybe":
             alternate_date = request.POST.get("alternate_date")
             alternate_time = request.POST.get("alternate_time")
