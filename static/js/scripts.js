@@ -45,17 +45,16 @@ function fetchNotifications() {
 
             if (currentUnreadCount > previousUnreadCount) {
                 console.log("New notification detected!");
-                updateNotifications(data.notifications, currentUnreadCount - previousUnreadCount);
+                updateNotifications(data.notifications);
             }
 
             let badge = $("#notificationBell .badge");
             badge.text(currentUnreadCount > 0 ? currentUnreadCount : '');
             if (currentUnreadCount > 0) {
-                // badge.css('display', 'inline-block');
-                // badge.css('opacity', 0);
-                // badge.css('opacity', 1);
+                badge.css('display', 'inline-block');
+                badge.css('opacity', 1);
             } else {
-                // badge.css('display', 'none');
+                badge.css('opacity', 0);
             }
 
             previousUnreadCount = currentUnreadCount;
@@ -67,27 +66,30 @@ function fetchNotifications() {
 }
 
 // Function to update the notifications dropdown menu
-function updateNotifications(notifications, newNotificationCount) {
+function updateNotifications(notifications) {
     console.log("Updating notifications dropdown...");
     let dropdownMenu = $("#notificationDropdown");
 
-    dropdownMenu.find('a.dropdown-item:contains("No notifications")').remove();
+    // Clear existing notifications
+    dropdownMenu.empty();
 
-    notifications.slice(0, newNotificationCount).forEach(function(notification) {
+    notifications.forEach(function(notification) {
         let notificationUrl = `/notifications/notifications/mark-read/${notification.id}/`;
 
         let notificationItem = `
-            <a class="dropdown-item" href="${notificationUrl}">
+            <a class="dropdown-item" href="${notificationUrl}" data-notification-id="${notification.id}">
                 ${notification.message}
-                <small class="text-muted">${notification.created_at}</small>
+                <small class="text-muted">${moment(notification.created_at).format("MMMM D, YYYY, h:mm a")}</small>
             </a>`;
         dropdownMenu.prepend(notificationItem);
     });
 
+    // Ensure "View All Notifications" link is present
     if (!dropdownMenu.find('a[href="/notifications/"]').length) {
         dropdownMenu.append('<div class="dropdown-divider"></div><a class="dropdown-item" href="/notifications/">View All Notifications</a>');
     }
 
+    // Handle the display state when there are no notifications
     if (notifications.length === 0) {
         dropdownMenu.append('<a class="dropdown-item" href="#">No notifications</a>');
     }
@@ -129,7 +131,7 @@ $(document).ready(function() {
         }
     });
 
-    // FullCalendar initialization
+    // FullCalendar setup
     if ($('#calendar').length) {
         $('#calendar').fullCalendar({
             header: {

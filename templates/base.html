@@ -70,7 +70,7 @@
                             {% endif %}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationBell" id="notificationDropdown">
-                            {% for notification in recent_unread_notifications %}
+                            {% for notification in recent_unread_notifications|dictsort:'created_at' reversed %}
                                 <a class="dropdown-item" href="{% url 'mark_notification_read' notification.id %}">
                                     {{ notification.message }}
                                     <small class="text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</small>
