@@ -46,8 +46,8 @@
                     </div>
                     {% endif %}
                 </div>
-                {% if request.user == event.created_by %}
             </div>
+            {% if request.user == event.created_by %}
             <div class="row mt-4 ">
                 <div class="col-md-12 text-center">
                     <a href="{% url 'manage_invitations' event.id %}" class="btn btn-primary mb-5">Manage Invitations</a>

@@ -50,9 +50,7 @@ def create_invitation(request, event_id):
         else:
             users.append(friendship.from_user)
 
-    user_invitations = {
-        user.id: event.invitations.filter(user=user).exists() for user in users
-    }
+    user_invitations = set(event.invitations.values_list("user", flat=True))
 
     if not users:
         messages.info(request, "You have no friends to invite to this event.")
@@ -61,7 +59,7 @@ def create_invitation(request, event_id):
     if request.method == "POST":
         if "send_all" in request.POST:
             for user in users:
-                if not event.invitations.filter(user=user).exists():
+                if user.id not in user_invitations:
                     Invitation.objects.create(
                         event=event, user=user, status="Pending"
                     )
@@ -84,7 +82,7 @@ def create_invitation(request, event_id):
             )
             return redirect("create_invitation", event_id=event_id)
 
-        if Invitation.objects.filter(event=event, user=user).exists():
+        if user.id in user_invitations:
             messages.error(request, "Invitation already exists for this user.")
             return redirect("create_invitation", event_id=event_id)
 
