@@ -62,11 +62,11 @@
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="notificationBell" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-bell" style="font-weight:100";></i>
                             {% if unread_count > 0 %}
                                 <span class="badge badge-pill badge-danger">{{ unread_count }}</span>
                             {% else %}
-                                <span class="badge badge-pill badge-danger" style="opacity: 0;">{{ unread_count }}</span>
+                                <span class="badge badge-pill badge-danger" style="opacity: 0;min-width:1.5rem;min-height:0.9rem">{{ unread_count }}</span>
                             {% endif %}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationBell" id="notificationDropdown">

@@ -4,22 +4,15 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center mt-4 mb-4">Notifications</h2>
+    <h2 class="text-center pt-3">Notifications</h2>
     <div class="notifications-list scrollable-column">
         <ul class="list-group">
             {% for notification in notifications|dictsort:'read' %}
                 <li class="list-group-item {% if not notification.read %}bg-gray{% endif %}">
-                    {% if notification.type == 'friend_request_received' %}
-                        <a href="{% url 'friends_page' %}" class="notification-link">
-                            <h5 class="notification-title">{{ notification.message }}</h5>
-                            <p class="notification-time text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</p>
-                        </a>
-                    {% else %}
-                        <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
-                            <h5 class="notification-title">{{ notification.message }}</h5>
-                            <p class="notification-time text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</p>
-                        </a>
-                    {% endif %}
+                    <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
+                        <h5 class="notification-title">{{ notification.message }}</h5>
+                        <p class="notification-time text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</p>
+                    </a>
                 </li>
                 {% empty %} 
                 <li class="list-group-item text-center" style="padding:2rem;">

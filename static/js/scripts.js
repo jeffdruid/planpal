@@ -51,11 +51,11 @@ function fetchNotifications() {
             let badge = $("#notificationBell .badge");
             badge.text(currentUnreadCount > 0 ? currentUnreadCount : '');
             if (currentUnreadCount > 0) {
-                badge.css('display', 'inline-block');
-                badge.css('opacity', 0);
-                badge.css('opacity', 1);
+                // badge.css('display', 'inline-block');
+                // badge.css('opacity', 0);
+                // badge.css('opacity', 1);
             } else {
-                badge.css('display', 'none');
+                // badge.css('display', 'none');
             }
 
             previousUnreadCount = currentUnreadCount;

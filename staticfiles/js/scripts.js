@@ -1,3 +1,8 @@
+/**
+ * Dropdown Toggle Functions
+ */
+
+// Function to toggle dropdown display with smooth transition
 function toggleDropdown(elementId) {
     var dropdown = document.getElementById(elementId);
     if (dropdown.style.display === "block") {
@@ -6,10 +11,10 @@ function toggleDropdown(elementId) {
         window.setTimeout(function() {
             dropdown.style.height = '0';
             dropdown.style.opacity = 0;
-        }, 10);  // Add a small delay for the height change to take effect
+        }, 10);
         window.setTimeout(function() {
             dropdown.style.display = 'none';
-        }, 300);  // Match this to the duration of your CSS transition
+        }, 300);
     } else {
         dropdown.style.display = 'block';
         dropdown.style.height = '0';
@@ -17,16 +22,21 @@ function toggleDropdown(elementId) {
         window.setTimeout(function() {
             dropdown.style.height = dropdown.scrollHeight + 'px';
             dropdown.style.opacity = 1;
-        }, 10);  // Add a small delay for the height change to take effect
+        }, 10);
     }
 }
 
+/**
+ * Notifications Functions
+ */
+
 let previousUnreadCount = initialUnreadCount;
 
+// Function to fetch notifications from the server
 function fetchNotifications() {
     console.log("Fetching notifications...");
     $.ajax({
-        url: '/notifications/get-notifications/',  // Ensure this matches the Django URL pattern
+        url: '/notifications/get-notifications/',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -41,11 +51,11 @@ function fetchNotifications() {
             let badge = $("#notificationBell .badge");
             badge.text(currentUnreadCount > 0 ? currentUnreadCount : '');
             if (currentUnreadCount > 0) {
-                badge.css('display', 'inline-block');
-                badge.css('opacity', 0);
-                badge.css('opacity', 1);
+                // badge.css('display', 'inline-block');
+                // badge.css('opacity', 0);
+                // badge.css('opacity', 1);
             } else {
-                badge.css('display', 'none');
+                // badge.css('display', 'none');
             }
 
             previousUnreadCount = currentUnreadCount;
@@ -56,6 +66,7 @@ function fetchNotifications() {
     });
 }
 
+// Function to update the notifications dropdown menu
 function updateNotifications(notifications, newNotificationCount) {
     console.log("Updating notifications dropdown...");
     let dropdownMenu = $("#notificationDropdown");
@@ -82,16 +93,22 @@ function updateNotifications(notifications, newNotificationCount) {
     }
 }
 
+/**
+ * FullCalendar Setup and Adjustments
+ */
+
 $(document).ready(function() {
 
+    // Notification bell click handler
     $("#notificationBell").click(function(e) {
         e.preventDefault();
         console.log("Notification bell clicked.");
         toggleDropdown("notificationDropdown");
-        document.getElementById("profileDropdown").style.display = 'none'; // Hide profile dropdown when notification dropdown is opened
+        document.getElementById("profileDropdown").style.display = 'none';
         fetchNotifications();
     });
 
+    // Profile link click handler
     $("#profileLink").click(function(e) {
         e.preventDefault();
         console.log("Profile link clicked.");
@@ -99,6 +116,7 @@ $(document).ready(function() {
         document.getElementById("notificationDropdown").style.display = 'none';
     });
 
+    // Close dropdowns when clicking outside
     $(document).click(function(e) {
         if (!$(e.target).closest('.dropdown-menu, #notificationBell, #profileLink').length) {
             $(".dropdown-menu").each(function() {
@@ -111,6 +129,7 @@ $(document).ready(function() {
         }
     });
 
+    // FullCalendar initialization
     if ($('#calendar').length) {
         $('#calendar').fullCalendar({
             header: {
@@ -158,6 +177,7 @@ $(document).ready(function() {
         });
     }
 
+    // Function to adjust calendar content height based on window size
     function adjustCalendarContentHeight() {
         var contentHeight = $(window).width() < 992 ? 300 : 500;
         $('#calendar').fullCalendar('option', 'contentHeight', contentHeight);
@@ -169,6 +189,7 @@ $(document).ready(function() {
         adjustCalendarContentHeight();
     });
 
+    // Fetch notifications periodically if user is authenticated
     if (userIsAuthenticated) {
         console.log("User is authenticated.");
         setInterval(fetchNotifications, 10000);

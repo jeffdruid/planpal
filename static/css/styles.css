@@ -307,6 +307,10 @@ form {
     color: #666 !important;
 }
 
+.badge:empty.badge:empty {
+    display: inline-block !important;
+}
+
 .add-btn,
 .delete-btn,
 .edit-btn,
@@ -559,7 +563,7 @@ button.btn.btn-warning {
 }
 
 #notificationBell {
-    margin-right: 10px;
+    margin-right: auto;
     padding-top: .9rem;
     display: flex;
     justify-content: flex-end;
