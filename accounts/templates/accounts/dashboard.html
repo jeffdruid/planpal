@@ -13,15 +13,15 @@
                 <div class="card-body overflow-auto">
                     <ul class="list-unstyled">
                         {% for item in upcoming_events_with_read_status %}
-                            <li class="{% if item.response_status == 'Declined' %}text-muted-declined{% endif %}">
+                            <li class="{% if item.response_status == 'Deny' %}text-muted-declined{% endif %}">
                                 <strong ><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
                                 <br>
                                 {{ item.event.proposed_date|date:"F j, Y" }}
                                 {% comment %} <span class="badge badge-{{ item.event.status|lower }} ml-2">{{ item.event.status }}</span> {% endcomment %}
                                 <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"> </span> 
-                                {% if item.response_status == "Accepted" %}
+                                {% if item.response_status == "Accept" %}
                                     <span class="ml-2"><i class="fas fa-check"></i></span>
-                                {% elif item.response_status == "Declined" %}
+                                {% elif item.response_status == "Deny" %}
                                     <span class="ml-2"><i class="fas fa-times"></i></span>
                                 {% elif item.response_status == "Maybe" %}
                                     <span class="ml-2"><i class="fas fa-question"></i></span>
@@ -131,7 +131,7 @@
             {
                 title: '{{ item.event.title }}',
                 start: '{{ item.event.proposed_date|date:"c" }}',  // ISO 8601 format
-                className: '{{ item.event.status|lower }}-event {% if item.response_status == "Declined" %} fc-event-declined{% endif %}',
+                className: '{{ item.event.status|lower }}-event {% if item.response_status == "Deny" %} fc-event-declined{% endif %}',
                 url: '{% url "event_details" item.event.id %}',
                 location: '{{ item.event.location }}',
                 description: '{{ item.event.description }}',

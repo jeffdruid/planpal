@@ -363,7 +363,7 @@ body>main>div>div>div.container {
     padding: .5rem;
 }
 
-.bg-accepted,
+.bg-accept,
 .bg-confirmed {
     background-color: var(--success) !important;
 }
@@ -373,7 +373,7 @@ body>main>div>div>div.container {
     background-color: var(--warning) !important;
 }
 
-.bg-declined,
+.bg-deny,
 .bg-cancelled {
     background-color: var(--danger) !important;
 }
