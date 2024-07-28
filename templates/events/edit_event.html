@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Edit Event{% endblock %}
 
@@ -8,7 +9,6 @@
     <form method="post" action="" class="event-form">
         {% csrf_token %}
         <div class="form-group">
-            {% comment %} {{ form.as_p }} {% endcomment %}
             <div class="mb-3">
                 {{ form.title.label_tag }} {{ form.title }}
             </div>
@@ -48,41 +48,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    function initAutocomplete() {
-        const locationInput = document.getElementById('location');
-        const autocomplete = new google.maps.places.Autocomplete(locationInput);
-
-        autocomplete.addListener('place_changed', function() {
-            const place = autocomplete.getPlace();
-            const mapLink = document.getElementById('mapLink');
-            if (place.geometry) {
-                const location = place.formatted_address || place.name;
-                mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
-                mapLink.style.display = 'inline';
-            } else {
-                mapLink.href = '#';
-                mapLink.style.display = 'none';
-            }
-        });
-    }
-
-    function updateMapLink() {
-        const location = document.getElementById('location').value;
-        const mapLink = document.getElementById('mapLink');
-        if (location) {
-            mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
-            mapLink.style.display = 'inline';
-        } else {
-            mapLink.href = '#';
-            mapLink.style.display = 'none';
-        }
-    }
-
-    // Load the autocomplete once the window has loaded
-    window.onload = function() {
-        initAutocomplete();
-        updateMapLink();
-    };
-</script>
+<script src="{% static 'js/event_form.js' %}"></script>
 {% endblock %}
