@@ -70,13 +70,15 @@
                     <ul class="list-group">
                         {% for invitation in event.invitations.all %}
                             {% if invitation.suggested_date %}
-                                <li class="list-group-item">
-                                    <img src="{% static 'images/profile_pictures/' %}{{ invitation.user.userprofile.profile_picture }}" alt="{{ invitation.user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
-                                    {{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}
-                                </li>
+                            <li class="list-group-item">
+                                <img src="{% static 'images/profile_pictures/' %}{{ invitation.user.userprofile.profile_picture }}" alt="{{ invitation.user.username }}'s profile picture" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
+                                {{ invitation.user.username|capfirst }}: {{ invitation.suggested_date|date:"F j, Y" }} - {{ invitation.suggested_date|time:"H:i" }}
+                            </li>
+                            {% else %}
+                                <li class="list-group-item">No dates suggested.</li>
                             {% endif %}
-                        {% empty %}
-                            <li class="list-group-item">No alternate dates suggested.</li>
+                            {% empty %}
+                            <li class="list-group-item">No dates suggested.</li>
                         {% endfor %}
                     </ul>
                 </div>
