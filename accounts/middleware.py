@@ -7,20 +7,32 @@ class PreventBackAfterLogoutMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Define open paths
         open_paths = [
+            reverse("home"),
             reverse("account_login"),
             reverse("account_signup"),
-            reverse("account_reset_password"),
+            reverse("password_reset"),
+            reverse("password_reset_done"),
+            reverse(
+                "password_reset_confirm",
+                kwargs={"uidb64": "uid", "token": "token"},
+            ),  # Dummy values for URL pattern matching
+            reverse("password_reset_complete"),
         ]
 
+        # Allow access to open paths
         if not request.user.is_authenticated:
-            if request.path not in open_paths:
+            if any(request.path.startswith(path) for path in open_paths):
+                pass  # Allow access to open paths
+            else:
                 return redirect(reverse("account_login"))
         else:
             request.session["logged_in"] = True
 
         response = self.get_response(request)
 
+        # Flush session on logout
         if request.path == reverse("account_logout"):
             request.session.flush()
 
