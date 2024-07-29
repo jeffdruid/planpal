@@ -412,3 +412,13 @@ def view_profile(request, user_id):
         "view_only": request.user.id != user_id,
     }
     return render(request, "accounts/profile.html", context)
+
+
+@login_required
+def delete_account(request):
+    user = request.user
+    user.delete()
+    messages.success(request, "Your account has been deleted successfully.")
+    return redirect(
+        "home"
+    )  # Redirect to the home page or any other page after deletion

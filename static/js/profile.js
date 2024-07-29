@@ -1,3 +1,6 @@
+/**
+ * Password Visibility Toggle Functions
+ */
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const passwordToggle = document.getElementById("passwordToggle");
@@ -26,6 +29,9 @@ function toggleConfirmPasswordVisibility() {
     }
 }
 
+/**
+ * Profile Picture Modal Functions
+ */
 function openProfilePictureModal() {
     $('#profilePictureModal').modal('show');
 }
@@ -42,7 +48,9 @@ function selectProfilePicture() {
     closeProfilePictureModal();
 }
 
-// Close the modal when clicking outside of it
+/**
+ * Close Modal when Clicking Outside
+ */
 window.onclick = function(event) {
     const profilePictureModal = $('#profilePictureModal');
     if (event.target == profilePictureModal[0]) {
@@ -50,6 +58,9 @@ window.onclick = function(event) {
     }
 }
 
+/**
+ * Delete Account Modal Functions
+ */
 function openDeleteAccountModal() {
     $('#deleteAccountModal').modal('show');
 }
@@ -59,9 +70,5 @@ function closeDeleteAccountModal() {
 }
 
 function deleteAccount() {
-    const message = "This feature is not available yet";
-    alert(message);
-    closeDeleteAccountModal();
-    // Perform account deletion logic here
-    // Redirect or perform any necessary actions after deletion
+    $('#deleteAccountModal').modal('show');
 }

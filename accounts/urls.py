@@ -42,6 +42,7 @@ urlpatterns = [
         ),
         name="password_reset",
     ),
+    path("delete_account/", views.delete_account, name="delete_account"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
