@@ -12,21 +12,20 @@
                     <h3 class="mb-0">Upcoming Events</h3>
                 </div>
                 <div class="card-body overflow-auto">
+                    <div class="btn-group mb-3" role="group">
+                        <a href="?filter=all" class="btn btn-secondary {% if filter_status == 'all' %}active{% endif %}">All</a>
+                        <a href="?filter=Accept" class="btn btn-success {% if filter_status == 'Accept' %}active{% endif %}"><i class="fas fa-check"></i></a>
+                        <a href="?filter=Deny" class="btn btn-danger {% if filter_status == 'Deny' %}active{% endif %}"><i class="fas fa-times"></i></a>
+                        <a href="?filter=Maybe" class="btn btn-warning {% if filter_status == 'Maybe' %}active{% endif %}"><i class="fas fa-question"></i></a>
+                        <a href="?filter=Pending" class="btn btn-info {% if filter_status == 'Pending' %}active{% endif %}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                    </div>
                     <ul class="list-unstyled">
                         {% for item in upcoming_events_with_read_status %}
                             <li class="{% if item.response_status == 'Deny' %}text-muted-declined{% endif %}">
                                 <strong ><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
                                 <br>
                                 {{ item.event.proposed_date|date:"F j, Y" }}
-                                {% comment %} <span class="badge badge-{{ item.event.status|lower }} ml-2">{{ item.event.status }}</span> {% endcomment %}
-                                <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"> </span> 
-                                {% if item.response_status == "Accept" %}
-                                    <span class="ml-2"><i class="fas fa-check"></i></span>
-                                {% elif item.response_status == "Deny" %}
-                                    <span class="ml-2"><i class="fas fa-times"></i></span>
-                                {% elif item.response_status == "Maybe" %}
-                                    <span class="ml-2"><i class="fas fa-question"></i></span>
-                                {% endif %}
+                                <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"></span> 
                                 {% if item.unread %}
                                     <span class="ml-2"><i class="fas fa-envelope"></i></span>
                                 {% endif %}
