@@ -8,15 +8,15 @@ urlpatterns = [
     path(
         "", include("accounts.urls")
     ),  # Ensure this comes before allauth.urls
+    path("", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
-    path("accounts/", include("allauth.urls")),
     path("events/", include("events.urls")),
     path("invitations/", include("invitations.urls")),
     path("notifications/", include("notifications.urls")),
     path(
         "reset/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(
-            template_name="accounts/password_reset_confirm.html"
+            template_name="registration/password_reset_confirm.html"
         ),
         name="password_reset_confirm",
     ),
@@ -27,4 +27,5 @@ urlpatterns = [
         ),
         name="account_reset_password_from_key_done",
     ),
+    path("accounts/", include("allauth.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

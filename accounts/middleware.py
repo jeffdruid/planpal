@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse, resolve
 
 
 class PreventBackAfterLogoutMiddleware:
@@ -14,22 +14,25 @@ class PreventBackAfterLogoutMiddleware:
             reverse("account_signup"),
             reverse("password_reset"),
             reverse("password_reset_done"),
-            # reverse(
-            #     "password_reset_confirm",
-            #     kwargs={"uidb64": "uid", "token": "token"},
-            # ),
-            # Include kwargs for pattern matching
-            reverse("account_reset_password_from_key_done"),
+            reverse(
+                "password_reset_confirm",
+                kwargs={"uidb64": "uid", "token": "token"},
+            ),  # Include kwargs for pattern matching
+            reverse("password_reset_complete"),
         ]
 
-        # Allow access to open paths
+        # Handle unauthenticated access to restricted paths
         if not request.user.is_authenticated:
             if any(request.path.startswith(path) for path in open_paths):
-                pass  # Allow access to open paths
+                pass
             else:
                 return redirect(reverse("account_login"))
         else:
             request.session["logged_in"] = True
+
+        # Redirect specific path to new URL
+        if request.path == "/accounts/password/reset/key/v-set-password/":
+            return redirect("/reset/key/v-set-password/")
 
         response = self.get_response(request)
 
