@@ -1,8 +1,6 @@
 from django.urls import path
-from . import views
 from django.contrib.auth import views as auth_views
-from django.conf import settings
-from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -15,7 +13,6 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("login/", views.custom_login, name="account_login"),
     path("signup/", views.signup, name="account_signup"),
-    path("signup/", views.signup, name="signup"),
     path("friends/", views.friends_page, name="friends_page"),
     path(
         "send_friend_request/<int:user_id>/",
@@ -49,24 +46,5 @@ urlpatterns = [
         ),
         name="password_reset_done",
     ),
-    path(
-        "reset/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name="accounts/password_reset_confirm.html"
-        ),
-        name="password_reset_confirm",
-    ),
-    path(
-        "reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(
-            template_name="accounts/password_reset_complete.html"
-        ),
-        name="password_reset_complete",
-    ),
     path("delete_account/", views.delete_account, name="delete_account"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+]

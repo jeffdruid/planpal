@@ -14,11 +14,12 @@ class PreventBackAfterLogoutMiddleware:
             reverse("account_signup"),
             reverse("password_reset"),
             reverse("password_reset_done"),
-            reverse(
-                "password_reset_confirm",
-                kwargs={"uidb64": "uid", "token": "token"},
-            ),  # Dummy values for URL pattern matching
-            reverse("password_reset_complete"),
+            # reverse(
+            #     "password_reset_confirm",
+            #     kwargs={"uidb64": "uid", "token": "token"},
+            # ),
+            # Include kwargs for pattern matching
+            reverse("account_reset_password_from_key_done"),
         ]
 
         # Allow access to open paths
