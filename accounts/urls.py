@@ -33,12 +33,20 @@ urlpatterns = [
         "view_profile/<int:user_id>/", views.view_profile, name="view_profile"
     ),
     path(
-        "password/reset/", views.custom_password_reset, name="password_reset"
+        "send_one_time_login_link/",
+        views.send_one_time_login_link_form,
+        name="send_one_time_login_link_form",
     ),
     path(
-        "password_reset/done/",
-        views.password_reset_done,
-        name="password_reset_done",
+        "send_one_time_login_link/<str:user_email>/",
+        views.send_one_time_login_link,
+        name="send_one_time_login_link",
     ),
+    path(
+        "one_time_login/<uidb64>/<token>/",
+        views.one_time_login,
+        name="one_time_login",
+    ),
+    path("set_new_password/", views.set_new_password, name="set_new_password"),
     path("delete_account/", views.delete_account, name="delete_account"),
 ]

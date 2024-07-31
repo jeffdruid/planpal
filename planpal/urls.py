@@ -13,19 +13,5 @@ urlpatterns = [
     path("events/", include("events.urls")),
     path("invitations/", include("invitations.urls")),
     path("notifications/", include("notifications.urls")),
-    path(
-        "reset/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name="registration/password_reset_confirm.html"
-        ),
-        name="password_reset_confirm",
-    ),
-    path(
-        "password_reset/reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(
-            template_name="accounts/password_reset_complete.html"
-        ),
-        name="account_reset_password_from_key_done",
-    ),
     path("accounts/", include("allauth.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
