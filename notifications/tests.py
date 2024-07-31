@@ -9,7 +9,6 @@ from django.utils import timezone
 class NotificationsTestCase(TestCase):
     def setUp(self):
         # Set up the initial data for the tests
-        # Create users
         self.user1 = User.objects.create_user(
             username="testuser1",
             email="testuser1@example.com",
@@ -23,7 +22,6 @@ class NotificationsTestCase(TestCase):
         self.client = Client()
         self.client.login(username="testuser1", password="password")
 
-        # Create an event
         self.event = Event.objects.create(
             title="Test Event",
             description="This is a test event",
@@ -32,14 +30,13 @@ class NotificationsTestCase(TestCase):
             created_by=self.user1,
         )
 
-        # Create notifications
         self.notification1 = Notification.objects.create(
             user=self.user1,
             event=self.event,
             type="event_created",
             message="A new event 'Test Event' has been created.",
             created_at=timezone.now(),
-            read=False,  # Unread notification
+            read=False,
         )
         self.notification2 = Notification.objects.create(
             user=self.user1,
@@ -47,71 +44,61 @@ class NotificationsTestCase(TestCase):
             type="event_updated",
             message="The event 'Test Event' has been updated.",
             created_at=timezone.now(),
-            read=True,  # Read notification
+            read=True,
         )
         self.notification3 = Notification.objects.create(
             user=self.user1,
             type="friend_request_received",
             message="You have a new friend request.",
             created_at=timezone.now(),
-            read=False,  # Unread notification
+            read=False,
         )
 
     def test_notifications_view(self):
-        """Test to ensure the notifications view loads correctly."""
-        print("Testing notifications view...")
         response = self.client.get(reverse("notifications"))
-        self.assertEqual(
-            response.status_code, 200
-        )  # Check if the view loads successfully
-        self.assertTemplateUsed(
-            response, "notifications/notifications.html"
-        )  # Check if the correct template is used
-        print("Notifications view tested successfully.")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "notifications/notifications.html")
 
     def test_mark_notification_read(self):
-        """Test to ensure a notification is marked as read and redirects correctly."""
-        print("Testing mark notification as read...")
-
-        # Mark an event notification as read
         response = self.client.get(
             reverse("mark_notification_read", args=[self.notification1.id])
         )
         self.notification1.refresh_from_db()
-        self.assertTrue(
-            self.notification1.read
-        )  # Check if the notification is marked as read
+        self.assertTrue(self.notification1.read)
         self.assertRedirects(
             response, reverse("event_details", args=[self.event.id])
-        )  # Check if it redirects correctly
-        print("Mark notification as read for event tested successfully.")
+        )
 
-        # Mark a friend request notification as read
         response = self.client.get(
             reverse("mark_notification_read", args=[self.notification3.id])
         )
         self.notification3.refresh_from_db()
-        self.assertTrue(
-            self.notification3.read
-        )  # Check if the notification is marked as read
-        self.assertRedirects(
-            response, reverse("friends_page")
-        )  # Check if it redirects correctly
-        print(
-            "Mark notification as read for friend request tested successfully."
-        )
+        self.assertTrue(self.notification3.read)
+        self.assertRedirects(response, reverse("friends_page"))
 
     def test_get_notifications(self):
-        """Test to ensure unread notifications are fetched correctly."""
-        print("Testing get notifications...")
         response = self.client.get(reverse("get_notifications"))
-        self.assertEqual(
-            response.status_code, 200
-        )  # Check if the request is successful
-        self.assertEqual(
-            response.json()["unread_count"], 2
-        )  # Check if the unread count is correct
-        self.assertEqual(
-            len(response.json()["notifications"]), 2
-        )  # Check if the correct number of notifications are returned
-        print("Get notifications tested successfully.")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["unread_count"], 2)
+        self.assertEqual(len(response.json()["notifications"]), 2)
+
+    def test_mark_nonexistent_notification(self):
+        response = self.client.get(
+            reverse("mark_notification_read", args=[999])
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_mark_notification_unauthenticated(self):
+        self.client.logout()
+        response = self.client.get(
+            reverse("mark_notification_read", args=[self.notification1.id])
+        )
+        self.assertEqual(response.status_code, 302)  # Redirect to login
+
+    def test_access_notifications_of_other_user(self):
+        self.client.logout()
+        self.client.login(username="testuser2", password="password")
+        response = self.client.get(
+            reverse("mark_notification_read", args=[self.notification1.id])
+        )
+        self.assertEqual(response.status_code, 403)  # Should return forbidden

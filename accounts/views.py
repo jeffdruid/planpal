@@ -91,35 +91,6 @@ def set_new_password(request):
     return render(request, "accounts/set_new_password.html")
 
 
-def custom_password_reset(request):
-    if request.method == "POST":
-        email = request.POST["email"]
-        try:
-            user = User.objects.get(email=email)
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            current_site = get_current_site(request)
-            mail_subject = "Reset your password"
-            message = render_to_string(
-                "accounts/password_reset_email.html",
-                {
-                    "user": user,
-                    "domain": current_site.domain,
-                    "uid": uid,
-                    "token": token,
-                },
-            )
-            send_mail(
-                mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email]
-            )
-            messages.success(request, "Password reset email has been sent.")
-            return redirect("password_reset_done")
-        except User.DoesNotExist:
-            messages.error(request, "No user is associated with this email.")
-            return redirect("password_reset")
-    return render(request, "accounts/password_reset.html")
-
-
 def password_reset_done(request):
     return render(request, "accounts/password_reset_done.html")
 

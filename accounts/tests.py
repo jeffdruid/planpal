@@ -6,6 +6,10 @@ from events.models import Event
 from invitations.models import Invitation
 from django.utils import timezone
 from accounts.forms import ProfilePictureForm, FriendSearchForm
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.core import mail
 
 
 class AccountsTestCase(TestCase):
@@ -56,7 +60,7 @@ class AccountsTestCase(TestCase):
         """Test to ensure the signup view works correctly."""
         print("Testing signup view...")
         response = self.client.post(
-            reverse("signup"),
+            reverse("account_signup"),
             {
                 "username": "newuser",
                 "email": "newuser@example.com",
@@ -162,3 +166,64 @@ class AccountsTestCase(TestCase):
         )  # Form should be valid with correct data
         self.assertEqual(form.cleaned_data["search_query"], "test")
         print("FriendSearchForm tested successfully.")
+
+
+def test_send_one_time_login_link(self):
+    """Test to ensure the one-time login link is sent to the correct email."""
+    print("Testing send one-time login link...")
+    response = self.client.post(
+        reverse("send_one_time_login_link_form"),
+        {"email": self.user.email},
+    )
+    self.assertEqual(response.status_code, 302)
+    self.assertEqual(len(mail.outbox), 1)
+    self.assertIn(
+        "Your one-time login link for PlanPal", mail.outbox[0].subject
+    )
+    print("Send one-time login link tested successfully.")
+
+
+def test_one_time_login(self):
+    """Test to ensure the user can log in using the one-time login link."""
+    print("Testing one-time login...")
+    token = default_token_generator.make_token(self.user)
+    uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+    response = self.client.get(reverse("one_time_login", args=[uid, token]))
+    self.assertRedirects(response, reverse("set_new_password"))
+    print("One-time login tested successfully.")
+
+
+def test_expired_one_time_login_token(self):
+    """Test to ensure the expired token does not allow login."""
+    print("Testing expired one-time login token...")
+    token = default_token_generator.make_token(self.user)
+    uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+    self.user.set_password("newpassword")
+    self.user.save()
+    response = self.client.get(reverse("one_time_login", args=[uid, token]))
+    self.assertRedirects(response, reverse("account_login"))
+    print("Expired one-time login token tested successfully.")
+
+
+def test_invalid_user_id(self):
+    """Test to ensure view handles invalid user ID gracefully."""
+    print("Testing invalid user ID...")
+    response = self.client.get(reverse("view_profile", args=[999]))
+    self.assertEqual(response.status_code, 404)
+    print("Invalid user ID tested successfully.")
+
+
+def test_redirection_after_profile_update(self):
+    """Test to ensure redirection after profile update."""
+    print("Testing redirection after profile update...")
+    response = self.client.post(
+        reverse("profile"),
+        {
+            "first_name": "NewName",
+            "last_name": "NewLastName",
+            "email": self.user.email,
+            "profile_picture": "",
+        },
+    )
+    self.assertRedirects(response, reverse("profile"))
+    print("Redirection after profile update tested successfully.")

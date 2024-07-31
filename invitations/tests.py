@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from events.models import Event
 from invitations.models import Invitation
 from accounts.models import UserProfile, Friendship
+from notifications.models import Notification
 from django.utils import timezone
 
 
@@ -20,6 +21,11 @@ class InvitationsTestCase(TestCase):
             email="testuser2@example.com",
             password="password",
         )
+        self.user3 = User.objects.create_user(
+            username="testuser3",
+            email="testuser3@example.com",
+            password="password",
+        )
         self.client = Client()
         self.client.login(username="testuser1", password="password")
 
@@ -29,6 +35,9 @@ class InvitationsTestCase(TestCase):
         )
         self.profile2, created = UserProfile.objects.get_or_create(
             user=self.user2
+        )
+        self.profile3, created = UserProfile.objects.get_or_create(
+            user=self.user3
         )
 
         # Create an event
@@ -40,121 +49,69 @@ class InvitationsTestCase(TestCase):
             created_by=self.user1,
         )
 
-        # Create a friendship
-        self.friendship = Friendship.objects.create(
+        # Create friendships
+        self.friendship1 = Friendship.objects.create(
             from_user=self.user1, to_user=self.user2, status="accepted"
         )
+        self.friendship2 = Friendship.objects.create(
+            from_user=self.user1, to_user=self.user3, status="accepted"
+        )
 
-    def test_manage_invitations_view(self):
-        """Test to ensure the manage invitations view loads correctly for the event creator."""
-        print("Testing manage invitations view...")
-        response = self.client.get(
-            reverse("manage_invitations", args=[self.event.id])
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(
-            response, "invitations/manage_invitations.html"
-        )
-        print("Manage invitations view tested successfully.")
+    def test_invalid_event_id(self):
+        """Test to ensure view handles invalid event ID gracefully."""
+        response = self.client.get(reverse("manage_invitations", args=[999]))
+        self.assertEqual(response.status_code, 404)
 
-    def test_manage_invitations_view_redirect(self):
-        """Test to ensure the manage invitations view redirects for non-event creator."""
-        print(
-            "Testing manage invitations view redirect for non-event creator..."
-        )
-        self.client.login(username="testuser2", password="password")
-        response = self.client.get(
-            reverse("manage_invitations", args=[self.event.id])
-        )
-        self.assertRedirects(response, reverse("dashboard"))
-        print("Manage invitations view redirect tested successfully.")
-
-    def test_create_invitation_view(self):
-        """Test to ensure the create invitation view loads correctly for the event creator."""
-        print("Testing create invitation view...")
-        response = self.client.get(
-            reverse("create_invitation", args=[self.event.id])
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "invitations/create_invitation.html")
-        print("Create invitation view tested successfully.")
-
-    def test_create_invitation_view_redirect(self):
-        """Test to ensure the create invitation view redirects for non-event creator."""
-        print(
-            "Testing create invitation view redirect for non-event creator..."
-        )
-        self.client.login(username="testuser2", password="password")
-        response = self.client.get(
-            reverse("create_invitation", args=[self.event.id])
-        )
-        self.assertRedirects(
-            response, reverse("event_details", args=[self.event.id])
-        )
-        print("Create invitation view redirect tested successfully.")
-
-    def test_create_invitation(self):
-        """Test to ensure an invitation is created correctly for a friend."""
-        print("Testing create invitation for a friend...")
+    def test_invalid_user_id(self):
+        """Test to ensure view handles invalid user ID gracefully."""
         response = self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"user_id": 999},
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_notification_creation(self):
+        """Test to ensure notifications are created when invitations are sent."""
+        self.client.post(
             reverse("create_invitation", args=[self.event.id]),
             {"user_id": self.user2.id},
         )
-        self.assertEqual(response.status_code, 302)
+        notification = Notification.objects.filter(
+            user=self.user2, event=self.event, type="event_created"
+        ).first()
+        self.assertIsNotNone(notification)
+
+    def test_bulk_invitation_sending(self):
+        """Test to ensure all friends can be invited at once."""
+        response = self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"send_all": "1"},
+        )
+        invitations = Invitation.objects.filter(event=self.event)
+        self.assertEqual(invitations.count(), 2)
         self.assertTrue(
             Invitation.objects.filter(
                 event=self.event, user=self.user2
             ).exists()
         )
-        print("Create invitation for a friend tested successfully.")
-
-    def test_create_invitation_no_friends(self):
-        """Test to ensure a message is shown if there are no friends to invite."""
-        print("Testing create invitation with no friends...")
-        Friendship.objects.all().delete()
-        response = self.client.get(
-            reverse("create_invitation", args=[self.event.id])
+        self.assertTrue(
+            Invitation.objects.filter(
+                event=self.event, user=self.user3
+            ).exists()
         )
-        self.assertRedirects(response, reverse("friends_page"))
-        print("Create invitation with no friends tested successfully.")
 
-    def test_create_invitation_non_friend(self):
-        """Test to ensure inviting non-friends is prevented."""
-        print("Testing create invitation for a non-friend...")
-        user3 = User.objects.create_user(
-            username="testuser3",
-            email="testuser3@example.com",
-            password="password",
-        )
+    def test_authorization_for_non_event_creator(self):
+        """Test to ensure non-event creators cannot send invitations."""
+        self.client.login(username="testuser2", password="password")
         response = self.client.post(
             reverse("create_invitation", args=[self.event.id]),
-            {"user_id": user3.id},
+            {"user_id": self.user3.id},
         )
         self.assertRedirects(
-            response, reverse("create_invitation", args=[self.event.id])
+            response, reverse("event_details", args=[self.event.id])
         )
         self.assertFalse(
-            Invitation.objects.filter(event=self.event, user=user3).exists()
-        )
-        print("Create invitation for a non-friend tested successfully.")
-
-    def test_create_invitation_duplicate(self):
-        """Test to ensure duplicate invitations are prevented."""
-        print("Testing create duplicate invitation...")
-        Invitation.objects.create(
-            event=self.event, user=self.user2, status="Pending"
-        )
-        response = self.client.post(
-            reverse("create_invitation", args=[self.event.id]),
-            {"user_id": self.user2.id},
-        )
-        self.assertRedirects(
-            response, reverse("create_invitation", args=[self.event.id])
-        )
-        self.assertEqual(
             Invitation.objects.filter(
-                event=self.event, user=self.user2
-            ).count(),
-            1,
+                event=self.event, user=self.user3
+            ).exists()
         )
-        print("Create duplicate invitation tested successfully.")

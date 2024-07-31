@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from .models import Notification
 
 
@@ -16,6 +16,11 @@ def notifications(request):
 @login_required
 def mark_notification_read(request, notification_id):
     notification = get_object_or_404(Notification, id=notification_id)
+
+    # Ensure that the notification belongs to the logged-in user
+    if notification.user != request.user:
+        return HttpResponseForbidden()
+
     notification.read = True
     notification.save()
 
