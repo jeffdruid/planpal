@@ -7,7 +7,7 @@ from invitations.models import Invitation
 from django.utils import timezone
 from accounts.forms import ProfilePictureForm, FriendSearchForm
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.core import mail
 
@@ -117,11 +117,11 @@ class AccountsTestCase(TestCase):
         new_user = User.objects.create_user(
             username="friend", email="friend@example.com", password="password"
         )
-        friendship = Friendship.objects.create(
+        Friendship.objects.create(
             from_user=self.user, to_user=new_user, status="pending"
         )
         response = self.client.get(
-            reverse("respond_friend_request", args=[friendship.id, "accept"])
+            reverse("respond_friend_request", args=[new_user.id, "accept"])
         )
         self.assertEqual(
             response.status_code, 302
@@ -134,7 +134,7 @@ class AccountsTestCase(TestCase):
         new_user = User.objects.create_user(
             username="friend", email="friend@example.com", password="password"
         )
-        friendship = Friendship.objects.create(
+        Friendship.objects.create(
             from_user=self.user, to_user=new_user, status="accepted"
         )
         response = self.client.get(

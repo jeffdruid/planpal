@@ -14,14 +14,11 @@ from django.db.models import Q
 from notifications.models import Notification
 from django.urls import reverse
 from django.views.decorators.cache import cache_control
-
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
-from django.template.loader import render_to_string
 from django.conf import settings
-from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_backends
 
 
@@ -132,13 +129,14 @@ def dashboard(request):
             invitations__status=filter_status, invitations__user=current_user
         )
 
-    # Prepare the list of upcoming events with their read status and response status
+    # Prepare the list of upcoming events with their read status
+    # and response status
     upcoming_events_with_read_status = []
     for event in upcoming_events:
         invitation = Invitation.objects.filter(
             event=event, user=current_user
         ).first()
-        unread = invitation.read == False if invitation else False
+        unread = False if invitation and not invitation.read else False
         response_status = invitation.status if invitation else None
         upcoming_events_with_read_status.append(
             {
@@ -161,8 +159,10 @@ def dashboard(request):
 
     context = {
         "upcoming_events_with_read_status": upcoming_events_with_read_status,
-        "user_events": user_created_events,  # List of events created by the user
-        "all_events_with_status": all_events_with_status,  # List of all events for the calendar
+        # List of events created by the user
+        "user_events": user_created_events,
+        "all_events_with_status": all_events_with_status,
+        # List of all events for the calendar
         "filter_status": filter_status,
     }
     return render(request, "accounts/dashboard.html", context)
@@ -396,9 +396,6 @@ def respond_friend_request(request, request_id, response):
         messages.success(request, "Friend request declined.")
     friend_request.save()
     return redirect("friends_page")
-
-
-from events.utils import delete_related_notifications
 
 
 @login_required

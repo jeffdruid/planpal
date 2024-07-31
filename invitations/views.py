@@ -67,7 +67,11 @@ def create_invitation(request, event_id):
                         user=user,
                         event=event,
                         type="event_created",
-                        message=f"You have been invited to the event '{event.title}'.",
+                        message=(
+                            "You have been invited to the event '"
+                            + event.title
+                            + "'."
+                        ),
                     )
             messages.success(request, "All invitations sent successfully.")
             return redirect("create_invitation", event_id=event_id)

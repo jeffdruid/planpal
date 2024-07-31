@@ -1,5 +1,4 @@
 # accounts/context_processors.py
-from django.conf import settings
 import os
 
 

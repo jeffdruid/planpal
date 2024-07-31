@@ -14,5 +14,15 @@
   },
   "files.autoSave": "off",
   "workbench.colorTheme": "Dracula At Night",
-  "terminal.integrated.gpuAcceleration": "canvas"
+  "terminal.integrated.gpuAcceleration": "canvas",
+  "cSpell.words": [
+    "allauth",
+    "apikey",
+    "herokuapp",
+    "planpal",
+    "sendgrid",
+    "socialaccount",
+    "uidb",
+    "whitenoise"
+  ]
 }

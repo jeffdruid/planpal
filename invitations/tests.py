@@ -71,7 +71,10 @@ class InvitationsTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_notification_creation(self):
-        """Test to ensure notifications are created when invitations are sent."""
+        """
+        Test to ensure notifications are created
+        when invitations are sent.
+        """
         self.client.post(
             reverse("create_invitation", args=[self.event.id]),
             {"user_id": self.user2.id},
@@ -83,7 +86,7 @@ class InvitationsTestCase(TestCase):
 
     def test_bulk_invitation_sending(self):
         """Test to ensure all friends can be invited at once."""
-        response = self.client.post(
+        self.client.post(
             reverse("create_invitation", args=[self.event.id]),
             {"send_all": "1"},
         )
