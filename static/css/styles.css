@@ -167,15 +167,15 @@ header .dropdown-item:hover {
 button:focus {
     outline: none;
     border: none;
-    box-shadow: 0 0 2px var(--white);
+    box-shadow: 0 0 1px var(--white);
 }
 
 .navbar-light .navbar-toggler-icon {
-    filter: invert(1) !important;
+    /* filter: invert(1) !important; */
 }
 
 .navbar-toggler:hover {
-    background-color: var(--secondary);
+    background-color: var(--white);
     transition: .3s;
 }
 

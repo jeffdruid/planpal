@@ -280,7 +280,6 @@ def custom_login(request):
             return redirect("dashboard")
         else:
             messages.error(request, "Invalid username or password.")
-    # TODO - Fix the following code
     return render(request, "accounts/login.html")
 
 

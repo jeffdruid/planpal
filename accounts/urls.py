@@ -6,13 +6,14 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path(
-        "logout/",
-        auth_views.LogoutView.as_view(template_name="account/logout.html"),
+        "accounts/logout/",
+        auth_views.LogoutView.as_view(template_name="accounts/logout.html"),
         name="account_logout",
     ),
     path("profile/", views.profile, name="profile"),
+    path("accounts/login/", views.custom_login, name="account_login"),
     path("login/", views.custom_login, name="account_login"),
-    path("signup/", views.signup, name="account_signup"),
+    path("accounts/signup/", views.signup, name="account_signup"),
     path("friends/", views.friends_page, name="friends_page"),
     path(
         "send_friend_request/<int:user_id>/",
