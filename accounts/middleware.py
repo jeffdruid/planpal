@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.urls import reverse, resolve
+from django.urls import reverse
 
 
 class PreventBackAfterLogoutMiddleware:
@@ -7,21 +7,22 @@ class PreventBackAfterLogoutMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Define open paths
         open_paths = [
             reverse("home"),
             reverse("account_login"),
             reverse("account_signup"),
-            reverse("password_reset"),
-            reverse("password_reset_done"),
+            reverse("send_one_time_login_link_form"),
             reverse(
-                "password_reset_confirm",
-                kwargs={"uidb64": "uid", "token": "token"},
-            ),  # Include kwargs for pattern matching
-            reverse("password_reset_complete"),
+                "send_one_time_login_link",
+                kwargs={"user_email": "dummy@example.com"},
+            ),
+            reverse(
+                "one_time_login",
+                kwargs={"uidb64": "dummy", "token": "dummy-token"},
+            ),
+            reverse("set_new_password"),
         ]
 
-        # Handle unauthenticated access to restricted paths
         if not request.user.is_authenticated:
             if any(request.path.startswith(path) for path in open_paths):
                 pass
@@ -30,13 +31,8 @@ class PreventBackAfterLogoutMiddleware:
         else:
             request.session["logged_in"] = True
 
-        # Redirect specific path to new URL
-        if request.path == "/accounts/password/reset/key/v-set-password/":
-            return redirect("/reset/key/v-set-password/")
-
         response = self.get_response(request)
 
-        # Flush session on logout
         if request.path == reverse("account_logout"):
             request.session.flush()
 
