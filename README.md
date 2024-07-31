@@ -57,6 +57,10 @@ TODO - Update table of contents
    - [Should Have](#should-have)
    - [Could Have](#could-have)
    - [Won't Have (for now)](#wont-have-for-now)
+6. [GitHub Projects, Milestones, and Issues](#github-projects-milestones-and-issues)
+   - [GitHub Projects](#github-projects)
+   - [Milestones](#milestones)
+   - [Issues](#issues)
 6. [Troubleshooting](#troubleshooting)
    - [Password Reset](#password-reset)
 7. [Testing](#testing)
@@ -342,6 +346,20 @@ TODO - Add MoSCoW Prioritization
 | Integration with Social Media    | Integration for event sharing and friend invitations on social media platforms.                   |
 | Monetization Features            | Features like paid events, ticketing, or advertisements.                                          |
 | Gamification                     | Points, badges, or rewards for event participation and friend interactions.                       |
+
+## GitHub Projects, Milestones, and Issues
+
+### GitHub Projects
+GitHub Projects was used to manage and organize tasks. It provides a Kanban-style board that allows to visualize our workflow and track the progress of tasks.
+
+### Milestones
+Milestones are used to track the progress of significant phases in our project. Each milestone includes a set of issues that need to be completed to achieve the milestone goal.
+
+### Issues
+Issues are used to track tasks, enhancements, and bugs for the project. Each issue is assigned to a team member and linked to a milestone.
+
+For more details, visit the [GitHub Project](https://github.com/users/jeffdruid/projects/3) page.
+
 
 ## Troubleshooting
 - Password Reset: Users can reset their password via email if they forget it.
