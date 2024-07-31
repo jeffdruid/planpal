@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -15,12 +16,79 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_control
 
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth import get_backends
+
+
+def send_one_time_login_link_form(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        return redirect("send_one_time_login_link", user_email=email)
+    return render(request, "accounts/send_one_time_login_link_form.html")
+
+
+def send_one_time_login_link(request, user_email):
+    user = get_object_or_404(User, email=user_email)
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    login_url = request.build_absolute_uri(
+        reverse("one_time_login", args=[uid, token])
+    )
+    # TODO: style the email
+    send_mail(
+        "Your one-time login link for PlanPal",
+        f"Click the link to log in: {login_url}",
+        settings.DEFAULT_FROM_EMAIL,
+        [user_email],
+    )
+    return HttpResponse("A one-time login link has been sent to your email.")
+
+
+def one_time_login(request, uidb64, token):
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    user = get_object_or_404(User, pk=uid)
+
+    if default_token_generator.check_token(user, token):
+        backends = get_backends()
+        backend_path = ""
+        if len(backends) > 1:
+            for backend in backends:
+                if (
+                    user.has_usable_password()
+                    or "allauth" in backend.__module__
+                ):
+                    backend_path = (
+                        backend.__module__ + "." + backend.__class__.__name__
+                    )
+                    break
+        else:
+            backend_path = (
+                backends[0].__module__ + "." + backends[0].__class__.__name__
+            )
+
+        login(request, user, backend=backend_path)
+        return redirect("set_new_password")
+    else:
+        return redirect("account_login")
+
+
+@login_required
+def set_new_password(request):
+    if request.method == "POST":
+        new_password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password == confirm_password:
+            request.user.set_password(new_password)
+            request.user.save()
+            return redirect("account_login")
+
+    return render(request, "accounts/set_new_password.html")
 
 
 def custom_password_reset(request):
@@ -241,11 +309,8 @@ def custom_login(request):
             return redirect("dashboard")
         else:
             messages.error(request, "Invalid username or password.")
+    # TODO - Fix the following code
     return render(request, "accounts/login.html")
-
-
-def custom_password_reset(request):
-    return render(request, "accounts/password_reset.html")
 
 
 @login_required
