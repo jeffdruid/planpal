@@ -170,6 +170,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Email configuration for production
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL_KEY")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD_KEY")
 
