@@ -4,8 +4,11 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Event Planner is a web application that helps you plan events and keep track of your friends.">
+    <meta name="keywords" content="event, planner, friends, calendar, schedule, plan, party, birthday, wedding, meeting, appointment">
+    <meta name="author" content="Jefferson">
     <title>{% block title %}Event Planner{% endblock %}</title>
-    {% comment %} <link rel="icon" href="{% static 'images/planpal banner.png' %}" type="image/png"> {% endcomment %}
+    <link rel="icon" href="{% static 'images/planpal banner.png' %}" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -20,7 +23,7 @@
             {% comment %} For test purposes, you are logged in as: {% endcomment %}
             <strong style="color:red;">   {{ user.username }} </strong>
             {% if user.is_superuser %}
-                <a class="nav-link" href="{% url 'admin:index' %}"> <i class="fas fa-user-shield"></i></a>
+                <a class="nav-link" alt="Admin Panel" href="{% url 'admin:index' %}"> <i class="fas fa-user-shield"></i></a>
             {% endif %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -111,18 +114,17 @@
     <!-- Footer -->
     <footer class="footer py-1">
         <div class="container text-center">
-            <p class="text-muted">&copy; 2024 Event Planner</p>
+            <p class="text-white">&copy; 2024 Event Planner</p>
         </div>
     </footer>
     <script>
-        let initialUnreadCount = {{ unread_count }};
+        let initialUnreadCount = {{ unread_count|default:0 }};
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&libraries=places"></script>
-    {% comment %} &loading=async {% endcomment %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&loading=async&libraries=places"></script>
     <script src="{% static 'js/scripts.js' %}"></script>
     {% block extra_js %}{% endblock %}
     {% if user.is_authenticated %}
