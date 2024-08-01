@@ -576,7 +576,6 @@ button.btn.btn-warning {
 
 #notificationBell {
     margin-right: auto;
-    padding-top: .9rem;
     display: flex;
     justify-content: flex-end;
 }
@@ -614,7 +613,7 @@ button.btn.btn-warning {
 
     .nav-link:hover {
         filter: brightness(.5);
-        margin-left: 1rem;
+        margin-left: .25rem;
         transition: all .3s ease-in-out;
     }
 

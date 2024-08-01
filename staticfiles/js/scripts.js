@@ -136,7 +136,7 @@ $(document).ready(function() {
             editable: false,
             timeZone: 'local',
             height: 'auto',
-            contentHeight: 800,
+            contentHeight: 600,
             events: window.calendarEvents,
             timeFormat: 'h:mma',
             eventMouseover: function(event, jsEvent) {
@@ -175,7 +175,7 @@ $(document).ready(function() {
 
     // Function to adjust calendar content height based on window size
     function adjustCalendarContentHeight() {
-        var contentHeight = $(window).width() < 992 ? 400 : 800;
+        var contentHeight = $(window).width() < 992 ? 400 : 600;
         $('#calendar').fullCalendar('option', 'contentHeight', contentHeight);
     }
 
