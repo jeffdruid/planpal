@@ -20,10 +20,8 @@
     <header class="c-header c-header-light c-header-fixed">
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="{% url 'home' %}">Event Planner</a>
-            {% comment %} For test purposes, you are logged in as: {% endcomment %}
-            <strong style="color:red;">   {{ user.username }} </strong>
             {% if user.is_superuser %}
-                <a class="nav-link" alt="Admin Panel" href="{% url 'admin:index' %}"> <i class="fas fa-user-shield"></i></a>
+                <a class="nav-link" aria-label="Admin Panel"  href="{% url 'admin:index' %}"> <i class="fas fa-user-shield"></i></a>
             {% endif %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

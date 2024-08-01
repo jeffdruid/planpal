@@ -14,6 +14,13 @@ html {
     height: 100%;
 }
 
+body>main>div>div>div>div>div>p>a,
+body>main>div>div>div>p>a,
+div.card-body>p>a {
+    color: var(--blue) !important;
+}
+
+
 /* Root colors CoreUI */
 :root {
     --primary: #07393c;
@@ -36,6 +43,7 @@ html {
     --danger: #dc3545;
     --light: #f8f9fa;
     --dark: #343a40;
+    --blue: #00448d !important;
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;

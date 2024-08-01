@@ -13,11 +13,11 @@
                 </div>
                 <div class="card-body overflow-auto">
                     <div class="btn-group mb-3" role="group">
-                        <a href="?filter=all" class="btn btn-secondary {% if filter_status == 'all' %}active{% endif %}">All</a>
-                        <a href="?filter=Accept" class="btn btn-success {% if filter_status == 'Accept' %}active{% endif %}"><i class="fas fa-check"></i></a>
-                        <a href="?filter=Deny" class="btn btn-danger {% if filter_status == 'Deny' %}active{% endif %}"><i class="fas fa-times"></i></a>
-                        <a href="?filter=Maybe" class="btn btn-warning {% if filter_status == 'Maybe' %}active{% endif %}"><i class="fas fa-question"></i></a>
-                        <a href="?filter=Pending" class="btn btn-info {% if filter_status == 'Pending' %}active{% endif %}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                        <a href="?filter=all" aria-label="All events" class="btn btn-secondary {%if filter_status == 'all' %}active{% endif %}">All</a>
+                        <a href="?filter=Accept" aria-label="Accepted events" class="btn btn-success {% if filter_status == 'Accept' %}active{% endif %}"><i class="fas fa-check"></i></a>
+                        <a href="?filter=Deny" aria-label="Declined events" class="btn btn-danger {% if filter_status == 'Deny' %}active{% endif %}"><i class="fas fa-times"></i></a>
+                        <a href="?filter=Maybe" aria-label="Maybe events" class="btn btn-warning {% if filter_status == 'Maybe' %}active{% endif %}"><i class="fas fa-question"></i></a>
+                        <a href="?filter=Pending" aria-label="Pending events" class="btn btn-info {% if filter_status == 'Pending' %}active{% endif %}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
                     </div>
                     <ul class="list-unstyled">
                         {% for item in upcoming_events_with_read_status %}
