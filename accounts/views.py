@@ -14,65 +14,6 @@ from django.db.models import Q
 from notifications.models import Notification
 from django.urls import reverse
 from django.views.decorators.cache import cache_control
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.core.mail import send_mail
-from django.conf import settings
-from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
-
-
-def send_one_time_login_link_form(request):
-    if request.method == "POST":
-        email = request.POST.get("email")
-        # Basic validation
-        if email and User.objects.filter(email=email).exists():
-            return redirect("send_one_time_login_link", user_email=email)
-        return HttpResponse("If the email exists, you will receive a login link.", status=200)
-    return render(request, "accounts/send_one_time_login_link_form.html")
-
-
-def send_one_time_login_link(request, user_email):
-    user = get_object_or_404(User, email=user_email)
-    token = default_token_generator.make_token(user)
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
-    signer = TimestampSigner()
-    signed_uid = signer.sign(uid)
-     
-    login_url = request.build_absolute_uri(
-        reverse("one_time_login", args=[signed_uid, token])
-    )
-
-    # Send a secure email
-    send_mail(
-        "Your one-time login link for PlanPal",
-        (
-            f"Hello {user.get_full_name()},\n\n"
-            "You have requested to log in to your PlanPal account using a one-time link. "
-            "For security reasons, this link will expire in 1 hour.\n\n"
-            "If you did not request this, please ignore this email or contact support.\n\n"
-            f"Click the link to log in: {login_url}\n\n"
-            "Thank you,\n"
-            "The PlanPal Team"
-        ),
-        settings.DEFAULT_FROM_EMAIL,
-        [user_email],
-    )
-    return HttpResponse("A one-time login link has been sent to your email.")
-
-
-def one_time_login(request, uidb64, token):
-    signer = TimestampSigner()
-    try:
-        uid = signer.unsign(uidb64, max_age=3600)  # Valid for 1 hour
-        user = get_object_or_404(User, pk=force_str(urlsafe_base64_decode(uid)))
-
-        if default_token_generator.check_token(user, token):
-            backend = 'django.contrib.auth.backends.ModelBackend'
-            login(request, user, backend=backend)
-            return redirect("set_new_password")
-    except (SignatureExpired, BadSignature):
-        return HttpResponse("Invalid or expired link.", status=400)
 
 
 @login_required

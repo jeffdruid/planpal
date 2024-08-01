@@ -11,16 +11,7 @@ class PreventBackAfterLogoutMiddleware:
             reverse("home"),
             reverse("account_login"),
             reverse("account_signup"),
-            reverse("send_one_time_login_link_form"),
-            reverse(
-                "send_one_time_login_link",
-                kwargs={"user_email": "dummy@example.com"},
-            ),
-            reverse(
-                "one_time_login",
-                kwargs={"uidb64": "dummy", "token": "dummy-token"},
-            ),
-            reverse("set_new_password"),
+            reverse("password_reset"),
         ]
 
         if not request.user.is_authenticated:
