@@ -34,17 +34,14 @@ let previousUnreadCount = initialUnreadCount;
 
 // Function to fetch notifications from the server
 function fetchNotifications() {
-    console.log("Fetching notifications...");
     $.ajax({
         url: '/notifications/get-notifications/',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log("Notifications fetched successfully:", data);
             let currentUnreadCount = data.unread_count;
 
             if (currentUnreadCount > previousUnreadCount) {
-                console.log("New notification detected!");
                 updateNotifications(data.notifications);
             }
 
@@ -67,7 +64,6 @@ function fetchNotifications() {
 
 // Function to update the notifications dropdown menu
 function updateNotifications(notifications) {
-    console.log("Updating notifications dropdown...");
     let dropdownMenu = $("#notificationDropdown");
 
     // Clear existing notifications
@@ -104,7 +100,6 @@ $(document).ready(function() {
     // Notification bell click handler
     $("#notificationBell").click(function(e) {
         e.preventDefault();
-        console.log("Notification bell clicked.");
         toggleDropdown("notificationDropdown");
         document.getElementById("profileDropdown").style.display = 'none';
         fetchNotifications();
@@ -113,7 +108,6 @@ $(document).ready(function() {
     // Profile link click handler
     $("#profileLink").click(function(e) {
         e.preventDefault();
-        console.log("Profile link clicked.");
         toggleDropdown("profileDropdown");
         document.getElementById("notificationDropdown").style.display = 'none';
     });
@@ -142,7 +136,7 @@ $(document).ready(function() {
             editable: false,
             timeZone: 'local',
             height: 'auto',
-            contentHeight: 800,
+            contentHeight: 600,
             events: window.calendarEvents,
             timeFormat: 'h:mma',
             eventMouseover: function(event, jsEvent) {
@@ -181,7 +175,7 @@ $(document).ready(function() {
 
     // Function to adjust calendar content height based on window size
     function adjustCalendarContentHeight() {
-        var contentHeight = $(window).width() < 992 ? 400 : 800;
+        var contentHeight = $(window).width() < 992 ? 400 : 600;
         $('#calendar').fullCalendar('option', 'contentHeight', contentHeight);
     }
 
@@ -193,9 +187,7 @@ $(document).ready(function() {
 
     // Fetch notifications periodically if user is authenticated
     if (userIsAuthenticated) {
-        console.log("User is authenticated.");
         setInterval(fetchNotifications, 10000);
     } else {
-        console.log("User is not authenticated.");
     }
 });

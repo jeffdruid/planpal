@@ -6,15 +6,6 @@
 {% block content %}
 <div class="container card mt-5" style="max-width: 800px;">
     <h2 class="text-center card-header text-dark">Manage Invitations for {{ event.title }}</h2>
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
     <form class="invitation-list">
         <ul class="list-group mt-5 mb-5">
             {% for invitation in invitations %}

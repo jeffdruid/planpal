@@ -12,16 +12,6 @@
                     <h2>{{ user_data.username|title }}'s Profile</h2>
                 </div>
                 <div class="card-body">
-                    {% if messages %}
-                    <div class="messages">
-                        {% for message in messages %}
-                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
                     <form method="post" action="" {% if view_only %}style="display: block;"{% endif %}>
                         {% csrf_token %}
                         <div class="form-group">
