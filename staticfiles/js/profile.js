@@ -29,6 +29,34 @@ function toggleConfirmPasswordVisibility() {
     }
 }
 
+function toggleResetPasswordVisibility() {
+    const resetPasswordInput = document.getElementById("password1");
+    const resetPasswordToggle = document.getElementById("passwordToggle1");
+    if (resetPasswordInput.type === "password") {
+        resetPasswordInput.type = "text";
+        resetPasswordToggle.classList.remove("fa-eye");
+        resetPasswordToggle.classList.add("fa-eye-slash");
+    } else {
+        resetPasswordInput.type = "password";
+        resetPasswordToggle.classList.remove("fa-eye-slash");
+        resetPasswordToggle.classList.add("fa-eye");
+    }
+}
+
+function toggleResetPasswordVisibility2() {
+    const resetPasswordInput = document.getElementById("password2");
+    const resetPasswordToggle = document.getElementById("passwordToggle2");
+    if (resetPasswordInput.type === "password") {
+        resetPasswordInput.type = "text";
+        resetPasswordToggle.classList.remove("fa-eye");
+        resetPasswordToggle.classList.add("fa-eye-slash");
+    } else {
+        resetPasswordInput.type = "password";
+        resetPasswordToggle.classList.remove("fa-eye-slash");
+        resetPasswordToggle.classList.add("fa-eye");
+    }
+}
+
 /**
  * Profile Picture Modal Functions
  */
