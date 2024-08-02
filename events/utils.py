@@ -1,8 +1,6 @@
 from django.utils import timezone
 from notifications.models import Notification
-from events.models import Event
 from django.db.models import Q
-from notifications.models import Notification
 
 
 def create_notification(user, event, notification_type, message):
@@ -45,7 +43,10 @@ def notify_event_cancelled(event):
 
 
 def notify_invitation_response(invitation):
-    message = f"{invitation.user.username} has {invitation.status} your invitation for the event '{invitation.event.title}'."
+    message = (
+        f"{invitation.user.username} has {invitation.status} your invitation "
+        f"for the event '{invitation.event.title}'."
+    )
     create_notification(
         invitation.event.created_by,
         invitation.event,
@@ -55,7 +56,10 @@ def notify_invitation_response(invitation):
 
 
 def notify_suggested_alternate_date(invitation):
-    message = f"{invitation.user.username} has suggested an alternative date for the event '{invitation.event.title}'."
+    message = (
+        f"{invitation.user.username} has suggested an alternative date "
+        f"for the event '{invitation.event.title}'."
+    )
     create_notification(
         invitation.event.created_by,
         invitation.event,

@@ -1,7 +1,11 @@
 function initAutocomplete() {
     const locationInput = document.getElementById('location');
-    const autocomplete = new google.maps.places.Autocomplete(locationInput);
+    // Check if the google object is defined
+    if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+        const autocomplete = new google.maps.places.Autocomplete(locationInput);
+    }
 
+    const autocomplete = new google.maps.places.Autocomplete(locationInput);
     autocomplete.addListener('place_changed', function() {
         const place = autocomplete.getPlace();
         const mapLink = document.getElementById('mapLink');

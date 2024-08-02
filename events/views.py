@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.contrib import messages
-from django.contrib.auth.models import User
 from .models import Event
 from .forms import EventForm
 from invitations.models import Invitation
@@ -12,7 +10,6 @@ from .utils import (
     notify_event_updated,
     notify_event_cancelled,
     notify_suggested_alternate_date,
-    notify_event_confirmed,
     delete_suggested_alternate_date_notification,
 )
 
@@ -73,7 +70,8 @@ def event_details(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     invitations = Invitation.objects.filter(event=event)
 
-    # Mark the invitations and notifications as read if the user opens the event details
+    # Mark the invitations
+    # and notifications as read if the user opens the event details
     user_invitations = invitations.filter(user=request.user)
     user_invitations.update(read=True)
     Notification.objects.filter(

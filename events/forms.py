@@ -1,6 +1,5 @@
 from django import forms
 from .models import Event
-from datetime import datetime
 from django.utils import timezone
 
 

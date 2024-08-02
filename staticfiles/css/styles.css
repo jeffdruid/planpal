@@ -93,12 +93,12 @@ div.card-body>p>a {
 
 .btn-primary {
     background-color: var(--primary) !important;
-    border-color: var(--primary) !important;
+    border: none !important;
 }
 
 .btn-secondary {
     background-color: var(--secondary) !important;
-    border-color: var(--secondary) !important;
+    border: none !important;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus,
@@ -124,7 +124,7 @@ btn-primary.focus,
 .btn-outline-success,
 .btn-outline-primary {
     color: var(--secondary);
-    border-color: transparent;
+    border: none !important;
     border-bottom: 3px dotted var(--secondary);
     background-color: transparent;
 }
@@ -136,7 +136,7 @@ btn-primary.focus,
 .btn-outline-success:hover,
 .btn-outline-primary:hover {
     background-color: var(--secondary);
-    border-color: var(--secondary);
+    border: none !important;
 }
 
 /* Navbar styling */
@@ -176,10 +176,6 @@ button:focus {
     outline: none;
     border: none;
     box-shadow: 0 0 1px var(--white);
-}
-
-.navbar-light .navbar-toggler-icon {
-    /* filter: invert(1) !important; */
 }
 
 .navbar-toggler:hover {
@@ -254,19 +250,19 @@ footer {
 
 .fc-event.confirmed-event {
     background-color: var(--success) !important;
-    border-color: var(--success) !important;
+    border: none !important;
     color: var(--white) !important;
 }
 
 .fc-event.pending-event {
     background-color: var(--warning) !important;
-    border-color: var(--warning) !important;
+    border: none !important;
     color: var(--white) !important;
 }
 
 .fc-event.cancelled-event {
     background-color: var(--danger) !important;
-    border-color: var(--danger) !important;
+    border: none !important;
     color: var(--white) !important;
     text-decoration: line-through !important;
 }
@@ -275,7 +271,7 @@ footer {
     background-color: #ccc !important;
     color: #666 !important;
     text-decoration: line-through;
-    border-color: #ccc !important;
+    border: none !important;
 }
 
 .text-muted-declined {
@@ -356,10 +352,17 @@ body>main>div>div>div>form>button {
     margin: 0 auto;
 }
 
-
 #edit-form,
 #event-form {
     width: 60% !important;
+}
+
+form.d-inline {
+    margin-left: -15px !important;
+}
+
+div.card-body.overflow-auto>div>a.btn {
+    font-size: .65rem;
 }
 
 /* Event Details Styling */
@@ -372,6 +375,12 @@ body>main>div>div>div.container {
     background-color: var(--white);
     padding: 2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
+
+body>main>div>div>div.container {
+    /* background-color: transparent; */
+    padding: 0rem;
+    box-shadow: none;
 }
 
 /* Status span */
@@ -509,9 +518,6 @@ button.btn.btn-warning {
 }
 
 /* Notification Styling */
-#profileLink,
-.profile-dropdown {}
-
 #notificationDropdown {
     width: auto !important;
     position: absolute;
@@ -719,18 +725,4 @@ button.btn.btn-warning {
     to {
         transform: rotate(360deg);
     }
-}
-
-form.d-inline {
-    margin-left: -15px !important;
-}
-
-body>main>div>div>div.container {
-    /* background-color: transparent; */
-    padding: 0rem;
-    box-shadow: none;
-}
-
-div.card-body.overflow-auto>div>a.btn {
-    font-size: .65rem;
 }

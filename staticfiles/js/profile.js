@@ -84,7 +84,7 @@ window.onclick = function(event) {
     if (event.target == profilePictureModal[0]) {
         closeProfilePictureModal();
     }
-}
+};
 
 /**
  * Delete Account Modal Functions

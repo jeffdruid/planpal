@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from events.models import Event
 from invitations.models import Invitation
-from notifications.models import Notification
 from django.utils import timezone
 from .forms import EventForm
 
@@ -101,7 +100,9 @@ class EventsTestCase(TestCase):
         print("Delete event view tested successfully.")
 
     def test_event_form_initial_data(self):
-        """Test to ensure the event form is initialized with correct default data."""
+        """
+        Test to ensure the event form is initialized with correct default data.
+        """
         print("Testing event form initial data...")
         form = EventForm()
         self.assertEqual(form.fields["title"].initial, "Default Title")
