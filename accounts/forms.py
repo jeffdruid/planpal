@@ -5,7 +5,7 @@ from .models import UserProfile
 
 class ProfilePictureForm(forms.ModelForm):
     PROFILE_PICTURE_CHOICES = [
-        # ("default.svg", "Default"),
+        ("default.svg", "Default"),
         ("p1.png", "Profile 1"),
         ("p2.png", "Profile 2"),
         ("p3.png", "Profile 3"),
