@@ -1,0 +1,38 @@
+# Ignore all files in the .git directory
+.git/
+
+# Ignore the local virtual environment directory
+venv/
+
+# Ignore PyCharm and VSCode configuration files
+.idea/
+.vscode/
+
+# Ignore documentation files
+docs/
+
+# Ignore test directories
+tests/
+__pycache__/
+
+# Ignore logs
+*.log
+
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+
+# Ignore coverage reports
+.coverage
+htmlcov/
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore any local environment configuration
+.env
+.env.*
+
+# Ignore the README folder
+README/images/

@@ -1,130 +1,128 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}
+  Dashboard
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+  <div class="container-fluid">
     <div class="row d-flex">
-        <div class="col-lg-3 d-flex flex-column scrollable-column">
-            <div class="card mt-2 mb-2 flex-grow-1">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Upcoming Events</h3>
-                </div>
-                <div class="card-body overflow-auto">
-                    <div class="btn-group mb-3" role="group">
-                        <a href="?filter=all" aria-label="All events" class="btn btn-secondary {%if filter_status == 'all' %}active{% endif %}">All</a>
-                        <a href="?filter=Accept" aria-label="Accepted events" class="btn btn-success {% if filter_status == 'Accept' %}active{% endif %}"><i class="fas fa-check"></i></a>
-                        <a href="?filter=Deny" aria-label="Declined events" class="btn btn-danger {% if filter_status == 'Deny' %}active{% endif %}"><i class="fas fa-times"></i></a>
-                        <a href="?filter=Maybe" aria-label="Maybe events" class="btn btn-warning {% if filter_status == 'Maybe' %}active{% endif %}"><i class="fas fa-question"></i></a>
-                        <a href="?filter=Pending" aria-label="Pending events" class="btn btn-info {% if filter_status == 'Pending' %}active{% endif %}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
-                    </div>
-                    <ul class="list-unstyled">
-                        {% for item in upcoming_events_with_read_status %}
-                            <li class="{% if item.response_status == 'Deny' %}text-muted-declined{% endif %}">
-                                <strong ><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
-                                <br>
-                                {{ item.event.proposed_date|date:"F j, Y" }}
-                                <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"></span> 
-                                {% if item.unread %}
-                                    <span class="ml-2"><i class="fas fa-envelope"></i></span>
-                                {% endif %}
-                            </li>
-                            <hr>
-                        {% empty %}
-                            <li>No upcoming events.</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+      <div class="col-lg-3 d-flex flex-column scrollable-column">
+        <div class="card mt-2 mb-2 flex-grow-1">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Upcoming Events</h3>
+          </div>
+          <div class="card-body overflow-auto">
+            <div class="btn-group mb-3" role="group">
+              <a href="?filter=all" aria-label="All events" class="btn btn-secondary {% if filter_status == 'all' %}active{% endif %}">All</a>
+              <a href="?filter=Accept" aria-label="Accepted events" class="btn btn-success {% if filter_status == 'Accept' %}active{% endif %}"><i class="fas fa-check"></i></a>
+              <a href="?filter=Deny" aria-label="Declined events" class="btn btn-danger {% if filter_status == 'Deny' %}active{% endif %}"><i class="fas fa-times"></i></a>
+              <a href="?filter=Maybe" aria-label="Maybe events" class="btn btn-warning {% if filter_status == 'Maybe' %}active{% endif %}"><i class="fas fa-question"></i></a>
+              <a href="?filter=Pending" aria-label="Pending events" class="btn btn-info {% if filter_status == 'Pending' %}active{% endif %}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
             </div>
+            <ul class="list-unstyled">
+              {% for item in upcoming_events_with_read_status %}
+                <li class="{% if item.response_status == 'Deny' %}text-muted-declined{% endif %}">
+                  <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
+                  <br />
+                  {{ item.event.proposed_date|date:'F j, Y' }}
+                  <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"></span>
+                  {% if item.unread %}
+                    <span class="ml-2"><i class="fas fa-envelope"></i></span>
+                  {% endif %}
+                </li>
+                <hr />
+              {% empty %}
+                <li>No upcoming events.</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
-        
-        <div class="col-lg-6 d-flex flex-column">
-            <div class="card mt-2 mb-2 flex-grow-1">
-                <div>
-                    <div id="calendar"></div>
-                </div>
-            </div>
-        </div>
+      </div>
 
-        <div class="col-lg-3 d-flex flex-column scrollable-column">
-            <div class="card mt-2 mb-2 flex-grow-1">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Your Events</h3>
-                </div>
-                <div class="card-body overflow-auto">
-                    <ul class="list-unstyled">
-                        {% for event in user_events %}
-                            <li>
-                                <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title|upper }}</a></strong>
-                                <br>
-                                {{ event.proposed_date|date:"F j, Y" }}
-                                <span class="badge badge-{{ event.status|lower }} ml-2">{{ event.status }}</span>
-                                <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i></a>
-                                <button class="btn btn-sm btn-outline-danger delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
-                            </li>
-                            <hr>
-                        {% empty %}
-                            <li>You have not created any events.</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{% url 'create_event' %}" class="btn btn-primary">Create Event</a>
-                </div>
-            </div>
+      <div class="col-lg-6 d-flex flex-column">
+        <div class="card mt-2 mb-2 flex-grow-1">
+          <div>
+            <div id="calendar"></div>
+          </div>
         </div>
+      </div>
+
+      <div class="col-lg-3 d-flex flex-column scrollable-column">
+        <div class="card mt-2 mb-2 flex-grow-1">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Your Events</h3>
+          </div>
+          <div class="card-body overflow-auto">
+            <ul class="list-unstyled">
+              {% for event in user_events %}
+                <li>
+                  <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title|upper }}</a></strong>
+                  <br />
+                  {{ event.proposed_date|date:'F j, Y' }}
+                  <span class="badge badge-{{ event.status|lower }} ml-2">{{ event.status }}</span>
+                  <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i></a>
+                  <button class="btn btn-sm btn-outline-danger delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
+                </li>
+                <hr />
+              {% empty %}
+                <li>You have not created any events.</li>
+              {% endfor %}
+            </ul>
+            <a href="{% url 'create_event' %}" class="btn btn-primary">Create Event</a>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- Modal for deleting an event -->
-<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+  <!-- Modal for deleting an event -->
+  <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this event?</p>
-            </div>
-            <div class="modal-footer">
-                <form method="post" id="deleteForm">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this event?</p>
+        </div>
+        <div class="modal-footer">
+          <form method="post" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- Event details modal -->
-<div id="eventDetailsModal" class="modal fade" tabindex="-1" role="dialog">
+  <!-- Event details modal -->
+  <div id="eventDetailsModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Event Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="eventTitle"></p>
-                <p id="eventDate"></p>
-                <p id="eventTime"></p>
-                <p id="eventLocation"></p>
-                <p id="eventDescription"></p>
-                <p id="eventCreator"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Event Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
+        <div class="modal-body">
+          <p id="eventTitle"></p>
+          <p id="eventDate"></p>
+          <p id="eventTime"></p>
+          <p id="eventLocation"></p>
+          <p id="eventDescription"></p>
+          <p id="eventCreator"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<script>
+  <script>
     // Define the calendar events
     window.calendarEvents = [
         {% for item in all_events_with_status %}
@@ -140,5 +138,5 @@
         {% endfor %}
     ];
 </script>
-<script src="{% static 'js/modals.js' %}"></script>
+  <script src="{% static 'js/modals.js' %}"></script>
 {% endblock %}

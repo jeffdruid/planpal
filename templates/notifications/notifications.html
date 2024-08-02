@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Notifications{% endblock %}
+{% block title %}
+  Notifications
+{% endblock %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
     <h2 class="text-center pt-3">Notifications</h2>
     <div class="notifications-list scrollable-column">
-        <ul class="list-group">
-            {% for notification in notifications|dictsort:'read' %}
-                <li class="list-group-item {% if not notification.read %}bg-gray{% endif %}">
-                    <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
-                        <h5 class="notification-title">{{ notification.message }}</h5>
-                        <p class="notification-time text-muted">{{ notification.created_at|date:"F j, Y, g:i a" }}</p>
-                    </a>
-                </li>
-                {% empty %} 
-                <li class="list-group-item text-center" style="padding:2rem;">
-                    No notifications
-                </li>
-            {% endfor %}
-        </ul>
+      <ul class="list-group">
+        {% for notification in notifications|dictsort:'read' %}
+          <li class="list-group-item {% if not notification.read %}bg-gray{% endif %}">
+            <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
+              <h5 class="notification-title">{{ notification.message }}</h5>
+              <p class="notification-time text-muted">{{ notification.created_at|date:'F j, Y, g:i a' }}</p>
+            </a>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-center" style="padding:2rem;">No notifications</li>
+        {% endfor %}
+      </ul>
     </div>
-</div>
+  </div>
 {% endblock %}
