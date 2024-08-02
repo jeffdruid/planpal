@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-SESSION_COOKIE_SAMESITE ="Strict"
+SESSION_COOKIE_SAMESITE = "Strict"
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
@@ -45,10 +45,7 @@ SECURE_HSTS_PRELOAD = True
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
-
-
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

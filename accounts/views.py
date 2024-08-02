@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.utils.datastructures import MultiValueDictKeyError
 from django.utils import timezone
 from events.models import Event
 from invitations.models import Invitation
 from .models import UserProfile, Friendship
-from .forms import FriendSearchForm, ProfilePictureForm
+from .forms import FriendSearchForm, ProfilePictureForm, SignupForm
 from django.db.models import Q
 from notifications.models import Notification
 from django.urls import reverse
@@ -111,39 +109,25 @@ def dashboard(request):
 
 
 def signup(request):
-    context = {"errors": [], "success": ""}
     if request.method == "POST":
-        try:
-            username = request.POST["username"]
-            email = request.POST["email"]
-            password1 = request.POST["password1"]
-            password2 = request.POST["password2"]
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data["password1"])
+            user.save()
 
-            if password1 != password2:
-                context["errors"].append("Passwords do not match.")
-            elif User.objects.filter(username=username).exists():
-                context["errors"].append("Username already taken.")
-            elif User.objects.filter(email=email).exists():
-                context["errors"].append("Email already taken.")
-            else:
-                user = User.objects.create_user(
-                    username=username, email=email, password=password1
-                )
-                user.save()
+            # Create a UserProfile if it does not exist
+            UserProfile.objects.get_or_create(user=user)
 
-                # Check if the profile already exists
-                if not UserProfile.objects.filter(user=user).exists():
-                    UserProfile.objects.create(user=user)
+            # Automatically log the user in
+            user = authenticate(username=user.username, password=form.cleaned_data["password1"])
+            if user is not None:
+                login(request, user)
+                return redirect("dashboard")
+    else:
+        form = SignupForm()
 
-                # Automatically log the user in
-                user = authenticate(username=username, password=password1)
-                if user is not None:
-                    login(request, user)
-                    return redirect("dashboard")
-
-        except MultiValueDictKeyError as e:
-            context["errors"].append(f"Missing field: {str(e)}")
-
+    context = {"form": form}
     return render(request, "accounts/signup.html", context)
 
 
