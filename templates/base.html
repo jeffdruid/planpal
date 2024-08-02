@@ -22,7 +22,7 @@
             {% if user.is_authenticated %}
                 <a class="navbar-brand" href="{% url 'dashboard' %}"><strong> {{ user.username|title }}'s Event Planner</strong></a>
             {% else %}
-                <a class="navbar-brand" href="{% url 'home' %}"><strong>Event Planner</strong></a>
+                <a class="navbar-brand" href="{% url 'home' %}"><h1><strong>Event Planner</strong></a></h1>
             {% endif %}
             {% if user.is_superuser %}
             <a class="nav-link" aria-label="Admin Panel"  href="{% url 'admin:index' %}"> <i class="fas fa-user-shield"></i></a>
