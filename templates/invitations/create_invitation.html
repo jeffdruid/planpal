@@ -33,7 +33,7 @@
                 <li>No users found.</li>
             {% endfor %}
         </ul>
-        {% if not event.invitations.exists %}
+        {% if users|length != user_invitations|length %}
             <form method="post" action="{% url 'create_invitation' event.id %}">
                 {% csrf_token %}
                 <input type="hidden" name="send_all" value="true">
