@@ -1,6 +1,6 @@
 # [PlanPal - Social Event Planner](https://planpal-1fe5e3919654.herokuapp.com/)
 <a href="https://planpal-1fe5e3919654.herokuapp.com/">
-  <img src="README/images/planpal banner.png" alt="PlanPal banner" width="100%">
+  <img src="README/images/planpal-banner.png" alt="PlanPal banner" width="100%">
 </a>
 
 
@@ -224,14 +224,12 @@ SendGrid is a cloud-based email service that provides reliable email delivery an
 | I want to manage my profile information                                                                                                  | I can update my profile details and profile picture      |
 | I want to change my password                                                                                                             | I can update my password and log in with the new credentials |
 | I want to reset my password if I forget it                                                                                               | I can request a password reset via email  
-TODO               |
 | I want to delete my account                                                                                                              | My account is permanently deleted and all data is removed |
 
 
 ## Wireframes:
 
 #### Site Map
-TODO - Add sections to the site map?
 - The site map visually outlines the structure of the website, showing the relationships between different pages and sections. It provides an overview of how users will navigate through the platform, ensuring an intuitive user experience.
 ![site map](README/images/site-map.png)
 
@@ -239,38 +237,58 @@ TODO - Add sections to the site map?
 - The database schema diagram illustrates the data model used in the application. It includes the tables, their relationships, and key fields, ensuring data integrity and efficient data management.
 ![data base schema](README/images/database-model.png)
 
+#### color palette
+- The color palette is used to define the primary and secondary colors of the application. It helps maintain a consistent visual style and branding throughout the platform.
+![color palette](README/images/color-palette.png)
+   - Coolors.co was used to generate the color palette for the application.
+
 ## Features
 TODO - Add features screenshots
 
 #### User Authentication
 - Sign Up: Users can create a new account using their email address and a password.
+   ![signup](README/images/feat-signup.png)
 - Login: Registered users can log in using their email and password.
+   ![login](README/images/feat-login.png)
 - Logout: Users can securely log out of their accounts.
-<!-- TODO -->
+   ![logout](README/images/feat-logout.png)
 - Password Reset: Users can reset their password via email if they forget it.
+   ![password reset](README/images/feat-forgot-password.png)
 - Account Management: Users can update their profile information, including changing their password.
+   ![profile](README/images/feat-profile.png)
+   ![profile picture](README/images/feat-profile-pic.png)
+   ![profile delete](README/images/feat-profile-delete.png)
 
 #### Event Creation and Management
 - Create Event: Users can create new events by providing details such as title, date, time, location, and description.
+   ![create event](README/images/feat-add-event.png)
 - Edit Event: Users can edit the details of their events.
+   ![edit event](README/images/feat-event-edit.png)
 - Delete Event: Users can delete their events, which will also delete all associated invitations and responses.
 - View Event Details: Users can view detailed information about an event, including the list of invited participants and their responses, and suggested dates/times.
+   ![event details](README/images/feat-event-details.png)
 
 #### Invitation System
 - Send Invitations: Event creators can invite friends to their events.
+   ![send invitations](README/images/feat-invitations-add.png)
 - Manage Invitations: Users can view and manage invitations they have sent or received.
+   ![manage invitations](README/images/feat-invitations-manage-full.png)
 - Respond to Invitations: Invited users can accept, decline, or mark their response as "maybe".
 
 #### Notification System
 - Real-Time Notifications: Users receive notifications for event updates, invitations, and responses.
+   ![notifications](README/images/feat-notifications-dropdown.png)
 - Read/Unread Status: Notifications can be marked as read or unread.
 - Notification Center: A dropdown menu shows the most recent notifications with links to relevant actions.
+   ![notifications](README/images/feat-notifications-page.png)
 
 #### Friend Management
 - Add Friends: Users can send friend requests to other users.
 - Manage Friend Requests: Users can view and respond to incoming friend requests.
 - View Friends: Users can view a list of their friends and access their profiles.
+   ![friends list](README/images/feat-friends-page.png)
 - Remove Friends: Users can unfriend someone from their friend list.
+   ![remove friend](README/images/feat-friends-delete.png)
 
 #### Calendar Integration
 - Interactive Calendar: Events are displayed in a calendar view, allowing users to see their schedule at a glance.
@@ -285,13 +303,13 @@ TODO - Add features screenshots
 - Upcoming Events: A list of upcoming events that the user is either hosting or invited to.
 - Your Events: A separate list showing events created by the user.
 - Event Management Tools: Quick access to edit or delete events from the dashboard.
+   ![dashboard](README/images/feat-dashboard-delete.png)
 
 #### Dynamic Data Integration
 - Real-Time Data Updates: Notifications are dynamically updated without requiring a page refresh.
 - Ajax Integration: Used for updating the notification count and notification dropdown without reloading the page.
 
 #### Error Handling
-<!-- TODO - Improve error handling -->
 - User-Friendly Error Messages: Clear and concise error messages are displayed for validation errors and other issues.
 - Fallback Mechanisms: Ensures the application continues to function smoothly in case of minor issues.
 
@@ -309,7 +327,8 @@ SSL/TLS: Ensures data is encrypted during transmission.
 - Reporting: Detailed reports on event participation and user activity.
 
 ## MoSCoW Prioritization
-TODO - Add MoSCoW Prioritization
+- The MoSCoW method is used to prioritize features based on their importance and urgency. Features are categorized into Must Have, Should Have, Could Have, and Won't Have for the current version of the application.
+
 ### Must Have
 
 | Feature                          | Description                                                                                       |
@@ -346,6 +365,7 @@ TODO - Add MoSCoW Prioritization
 | Integration with Social Media    | Integration for event sharing and friend invitations on social media platforms.                   |
 | Monetization Features            | Features like paid events, ticketing, or advertisements.                                          |
 | Gamification                     | Points, badges, or rewards for event participation and friend interactions.                       |
+| Password Reset | Users can reset their password via email if they forget it. |
 
 ## GitHub Projects, Milestones, and Issues
 
@@ -364,7 +384,11 @@ For more details, visit the [GitHub Project](https://github.com/users/jeffdruid/
 ## Troubleshooting
 - Password Reset: Users can reset their password via email if they forget it.
    - ~~The password reset functionality is implemented using Django's built-in password reset views and templates. Users can request a password reset by entering their email address, and an email with a reset link will be sent to them. The link contains a unique token that allows users to set a new password. The password reset link is valid for a limited time and can only be used once.~~
+   ![password reset](README/images/feat-reset-disabled.png)
    - This feature was replaced with an one time link sent to the user's email to reset their password.
+   ![password reset](README/images/feat-forgot-password.png)
+   ![password reset email](README/images/feat-email-reset.png)
+   ![password reset form](README/images/feat-set-password.png)
 
 ## Testing
 All testing was done manually and automated using Django's built-in testing framework. The application was tested for functionality, user experience, and security. Test cases were created to cover user stories and edge cases, ensuring the application works as expected.
@@ -387,6 +411,8 @@ All testing was done manually and automated using Django's built-in testing fram
 | US12     | As a user, I want to receive notifications                      | - Users receive notifications for new events, invitations, and friend requests.<br>- Users can mark notifications as read.<br>- Unread notifications are highlighted. |
 
 ### Test Cases
+- Unit tests were created to cover the core functionality of the application, including user authentication, event creation, invitations, notifications, and friend management. The tests ensure that the application works as expected and that new features do not introduce regressions.
+![test cases](README/images/test-unit-tests.png)
 
 #### Accounts App:
 
@@ -437,12 +463,69 @@ def test_send_one_time_login_link(self):
 - The test case is run as part of the test suite to ensure the one-time login link functionality works as expected.
 
 ### Validator Testing
-TODO - Add validator screenshots
+#### W3C HTML Validator
+- The W3C HTML Validator is used to check the HTML code for compliance with web standards.
+
+#### W3C CSS Validator
+- The W3C CSS Validator is used to check the CSS code for compliance with web standards.
+   ![css validator](README/images/validator-css-w3c.png)
+   - W3C Web Validator extension in Visual Studio Code.
+   ![css validator](README/images/validator-css-vsc.png)
+
 #### flake8
 - Flake8 is a Python linting tool that checks the codebase for style and syntax errors.
+   ![flake8](README/images/flake8.png)
+   -  The flake8 tool was used to check the codebase for PEP8 compliance and syntax errors.
+
+#### Jshint
+- Jshint is a JavaScript code quality tool that helps identify errors and potential problems in JavaScript code.
+
+| File | Results |
+|------|---------|
+| event_form.js | ![base.js](README/images/jshint-event.png) |
+| scripts.js | ![calendar.js](README/images/jshint-scripts.png) |
+| modals.js | ![friends.js](README/images/jshint-modals.png) |
+| profile.js | ![invitations.js](README/images/jshint-profile.png) |
 
 #### CI Python Linter
 - The CI Python Linter is a continuous integration tool that runs flake8 on the codebase to ensure it meets the required standards.
+
+#### Django's Built-in Check System
+Django provides a management command check that can help identify some issues within your project.
+   ```bash
+      python manage.py check
+   ```
+   -![check](README/images/test-django-check.png)
+
+#### WAVE - Web Accessibility Evaluation Tool
+- WAVE is a web accessibility evaluation tool that helps identify accessibility issues in web pages.
+   ![wave](README/images/wave-home.png)  
+
+#### LightHouse
+- LightHouse is a tool for improving the quality of web pages. It provides audits for performance, accessibility, best practices, SEO, and progressive web apps.
+   ![lighthouse](README/images/lighthouse.png)
+   - The LightHouse extension in Google Chrome was used to audit the application for performance, accessibility, best practices, and SEO.
+create a table with the results of the audit.
+
+| From | Results | 
+|-------------|---------------|
+| Home         | ![Home](README/images/lighthouse-home.png) |
+| Login        | ![Login](README/images/lighthouse-login.png) |
+| Signup       | ![Signup](README/images/lighthouse-signup.png) |
+| Password Reset| ![Password Reset](README/images/lighthouse-password.png) |
+| Logout       | ![Logout](README/images/lighthouse-logout.png) | 
+| Dashboard    | ![Dashboard](README/images/lighthouse-dashboard.png) |
+| TODO         | ![TODO](README/images/lighthouse-todo.png) |
+| Profile      | ![Profile](README/images/lighthouse-profile.png) |
+| Friends      | ![Friends](README/images/lighthouse-friends.png) |
+| Notifications| ![Notifications](README/images/lighthouse-notifications.png) |
+| Invitations  | ![Invitations](README/images/lighthouse-invitations.png) |
+| Events       | ![Events](README/images/lighthouse-events.png) |
+| Calendar     | ![Calendar](README/images/lighthouse-calendar.png) |
+| Create Event | ![Create Event](README/images/lighthouse-create-event.png) |
+| Edit Event   | ![Edit Event](README/images/lighthouse-edit-event.png) |
+| Event Details| ![Event Details](README/images/lighthouse-event-details.png) |
+
 
 ### Manual Testing
 - Manual testing is performed to verify the functionality of the application from a user's perspective.
@@ -467,45 +550,162 @@ TODO - Add validator screenshots
 
 ### Prerequisites
 
+- Python 3.9 or higher
+- Django 4.2.13
+- SendGrid account for email services
+- Heroku CLI (for deployment)
+- Git
+
 ### Installation
 
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/your-repo.git
+   cd your-repo
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment:
+
+On Windows:
+```bash
+venv\Scripts\activate
+```
+On macOS and Linux:
+```bash
+source venv/bin/activate
+Install the dependencies:
+```
+
+```bash
+Copy code
+pip install -r requirements.txt
+Set environment variables:
+Create a .env file and add the following environment variables:
+```
+```
+makefile
+Copy code
+DEFAULT_FROM_EMAIL_KEY=your_email@example.com
+EMAIL_HOST_PASSWORD_KEY=your_sendgrid_api_key
+SECRET_KEY=your_secret_key
+```
+
 ### Usage
+
+Run the development server:
+
+```bash
+python manage.py runserver
+```
+
+Open your browser and go to http://127.0.0.1:8000/ to access the application.
 
 ## Deployment
 
 ### Cloning & Forking
+Fork the repository on GitHub to your own account.
+
+Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/your-username/your-forked-repo.git
+```
 
 ### Local Deployment
 
+Run database migrations:
+
+
+```bash
+python manage.py migrate
+```
+
+Create a superuser:
+
+
+```bash
+python manage.py createsuperuser
+```
+
+Collect static files:
+
+```bash
+python manage.py collectstatic
+Remote Deployment (Heroku)
+```
+
+Login to Heroku:
+
+```bash
+heroku login
+Create a new Heroku app:
+``
+
+```bash
+heroku create your-app-name
+Set environment variables on Heroku:
+```
+
+```bash
+heroku config:set DEFAULT_FROM_EMAIL_KEY=your_email@example.com
+heroku config:set EMAIL_HOST_PASSWORD_KEY=your_sendgrid_api_key
+heroku config:set SECRET_KEY=your_secret_key
+```
+
 ### Remote Deployment (Heroku)
+
+```bash
+git push heroku main
+Run database migrations on Heroku:
+```
+
+```bash
+heroku run python manage.py migrate
+```
+
+Open your app:
+
+```bash
+heroku open
+```
 
 ## Credits
 
-- [Database Relationship Diagrams Design Tool](https://dbdiagram.io/)
-- [Site Map Design Tool - Balsamiq](https://balsamiq.com/)
 - [Default Profile Picture SVG](https://en.m.wikipedia.org/wiki/File:Default_pfp.svg)
 - [Fix Sendgrid Integration - Change from SMTP to API Key Usage](https://www.youtube.com/watch?v=T3RC7UBAB18)
 - [Password Reset Email | Django (3.0) Crash Course Tutorials (pt 20)](https://www.youtube.com/watch?v=sFPcd6myZrY&t=979s)
 - [Python Django Tutorial: Full-Featured Web App Part 12 - Email and Password Reset](https://www.youtube.com/watch?v=-tyBEsHSv7w&t=1065s)
+- [Coolors - Color Palette Generator](https://coolors.co/)
+
 ### Useful Links
 
 - [Python Django Web Framework - Full Course for Beginners](https://www.youtube.com/watch?v=F5mRW0jo-U4&t=302s)
 
-### Libraries and Frameworks
-- **Django**: The web framework used for the backend development.
-- **Django Allauth**: Used for handling user authentication and registration.
-- **Sendgrid**: Used for sending emails.
-- **Bootstrap**: Used for styling the frontend components.
-
 ### Tools
-- **Visual Studio Code**: Code editor used for development.
-- **Git**: Version control system used for source code management.
-- **Heroku**: Platform used for deploying the application.
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [GitHub](https://github.com)
+- [Heroku](https://www.heroku.com/)
+- [Database Relationship Diagrams Design Tool](https://dbdiagram.io/)
+- [Site Map Design Tool - Balsamiq](https://balsamiq.com/)
+- [W3C HTML Validator](https://validator.w3.org/)
+- [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)
+- [flake8](https://flake8.pycqa.org/en/latest/)
+- [Jshint](https://jshint.com/)
+- [Django's Built-in Check System](https://docs.djangoproject.com/en/3.2/ref/django-admin/#check)
+- [WAVE - Web Accessibility Evaluation Tool](https://wave.webaim.org/)
+- [LightHouse](https://developers.google.com/web/tools/lighthouse)
+- [CI Python Linter](https://pep8ci.herokuapp.com/)
 
 ### Resources
-- **Django Documentation**: For reference and guidance on Django framework.
-- **Bootstrap Documentation**: For reference on Bootstrap framework.
-- **Sendgrid Documentation**: For reference on integrating Sendgrid for sending emails.
+- [Django Documentation](https://docs.djangoproject.com/en/3.2/)
+- [Bootstrap Documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+- [Sendgrid Documentation](https://sendgrid.com/docs/)
+- [MoSCoW Prioritization](https://www.productplan.com/glossary/moscow-prioritization/)
+- [GitHub Projects](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards)
 
 ### License
 - This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
