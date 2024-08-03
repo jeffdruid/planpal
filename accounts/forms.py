@@ -9,19 +9,18 @@ class SignupForm(forms.ModelForm):
     password1 = forms.CharField(
         label="Password",
         widget=forms.PasswordInput,
-        validators=[validate_password]
+        validators=[validate_password],
     )
     password2 = forms.CharField(
-        label="Confirm Password",
-        widget=forms.PasswordInput
+        label="Confirm Password", widget=forms.PasswordInput
     )
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ["username", "email"]
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
+        email = self.cleaned_data.get("email")
         validate_email(email)
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Email already taken.")
@@ -33,7 +32,7 @@ class SignupForm(forms.ModelForm):
         password2 = cleaned_data.get("password2")
 
         if password1 and password2 and password1 != password2:
-            self.add_error('password2', "Passwords do not match.")
+            self.add_error("password2", "Passwords do not match.")
 
         return cleaned_data
 

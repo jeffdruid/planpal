@@ -57,6 +57,67 @@ class InvitationsTestCase(TestCase):
             from_user=self.user1, to_user=self.user3, status="accepted"
         )
 
+    def test_manage_invitations_view(self):
+        """
+        Test to ensure the manage invitations view loads correctly
+        for the event creator.
+        """
+        response = self.client.get(
+            reverse("manage_invitations", args=[self.event.id])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response, "invitations/manage_invitations.html"
+        )
+
+    def test_manage_invitations_view_redirect(self):
+        """
+        Test to ensure the manage invitations view redirects
+        for non-event creator.
+        """
+        self.client.login(username="testuser2", password="password")
+        response = self.client.get(
+            reverse("manage_invitations", args=[self.event.id])
+        )
+        self.assertRedirects(response, reverse("dashboard"))
+
+    def test_create_invitation_view(self):
+        """
+        Test to ensure the create invitation view loads correctly
+        for the event creator.
+        """
+        response = self.client.get(
+            reverse("create_invitation", args=[self.event.id])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invitations/create_invitation.html")
+
+    def test_create_invitation_view_redirect(self):
+        """
+        Test to ensure the create invitation view redirects
+        for non-event creator.
+        """
+        self.client.login(username="testuser2", password="password")
+        response = self.client.get(
+            reverse("create_invitation", args=[self.event.id])
+        )
+        self.assertRedirects(
+            response, reverse("event_details", args=[self.event.id])
+        )
+
+    def test_create_invitation(self):
+        """Test to ensure an invitation is created correctly for a friend."""
+        response = self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"user_id": self.user2.id},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            Invitation.objects.filter(
+                event=self.event, user=self.user2
+            ).exists()
+        )
+
     def test_invalid_event_id(self):
         """Test to ensure view handles invalid event ID gracefully."""
         response = self.client.get(reverse("manage_invitations", args=[999]))
@@ -72,8 +133,8 @@ class InvitationsTestCase(TestCase):
 
     def test_notification_creation(self):
         """
-        Test to ensure notifications are created
-        when invitations are sent.
+        Test to ensure notifications are created when invitations
+        are sent.
         """
         self.client.post(
             reverse("create_invitation", args=[self.event.id]),
@@ -117,4 +178,33 @@ class InvitationsTestCase(TestCase):
             Invitation.objects.filter(
                 event=self.event, user=self.user3
             ).exists()
+        )
+
+    def test_create_invitation_no_friends(self):
+        """
+        Test to ensure a message is shown if there are no friends to invite.
+        """
+        Friendship.objects.all().delete()
+        response = self.client.get(
+            reverse("create_invitation", args=[self.event.id])
+        )
+        self.assertRedirects(response, reverse("friends_page"))
+
+    def test_create_invitation_duplicate(self):
+        """Test to ensure duplicate invitations are prevented."""
+        Invitation.objects.create(
+            event=self.event, user=self.user2, status="Pending"
+        )
+        response = self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"user_id": self.user2.id},
+        )
+        self.assertRedirects(
+            response, reverse("create_invitation", args=[self.event.id])
+        )
+        self.assertEqual(
+            Invitation.objects.filter(
+                event=self.event, user=self.user2
+            ).count(),
+            1,
         )

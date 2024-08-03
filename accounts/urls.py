@@ -34,7 +34,11 @@ urlpatterns = [
         "view_profile/<int:user_id>/", views.view_profile, name="view_profile"
     ),
     path("delete_account/", views.delete_account, name="delete_account"),
-    path('password_reset/', 
-         auth_views.PasswordResetView.as_view(template_name='accounts/password_reset.html'), 
-         name='password_reset'),
+    path(
+        "password_reset/",
+        auth_views.PasswordResetView.as_view(
+            template_name="accounts/password_reset.html"
+        ),
+        name="password_reset",
+    ),
 ]

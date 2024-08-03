@@ -8,6 +8,7 @@
 
 - Social Event Planner is a web application designed to help users create, manage, and share events with their friends. It provides features for event creation, invitations, notifications, and user profile management.
 
+   ![Dashboard](README/images/dashboard.png)
 View the live project [here](https://planpal-1fe5e3919654.herokuapp.com/)
 
 ## Table of Contents
@@ -91,8 +92,9 @@ TODO - Update table of contents
     - [Remote Deployment (Heroku)](#remote-deployment-heroku)
 13. [Credits](#credits)
     - [Source Code](#source-code)
-    - [Images](#images)
     - [Useful links](#useful-links)
+    - [Tools](#tools)
+    - [Resources](#resources)
 14. [License](#license)
 
 ## Technologies Used
@@ -225,6 +227,7 @@ SendGrid is a cloud-based email service that provides reliable email delivery an
 | I want to change my password                                                                                                             | I can update my password and log in with the new credentials |
 | I want to reset my password if I forget it                                                                                               | I can request a password reset via email  
 | I want to delete my account                                                                                                              | My account is permanently deleted and all data is removed |
+| I want to confirm before deleting my account                                                                                             | A confirmation modal appears when I attempt to delete my account |
 
 
 ## Wireframes:
@@ -265,6 +268,7 @@ TODO - Add features screenshots
 - Edit Event: Users can edit the details of their events.
    ![edit event](README/images/feat-event-edit.png)
 - Delete Event: Users can delete their events, which will also delete all associated invitations and responses.
+   ![delete event](README/images/feat-dashboard-delete.png)
 - View Event Details: Users can view detailed information about an event, including the list of invited participants and their responses, and suggested dates/times.
    ![event details](README/images/feat-event-details.png)
 
@@ -292,30 +296,37 @@ TODO - Add features screenshots
 
 #### Calendar Integration
 - Interactive Calendar: Events are displayed in a calendar view, allowing users to see their schedule at a glance.
-- Event Tooltips: Hovering over an event shows a tooltip with detailed information about the event.
+   ![calendar](README/images/dashboard.png)
 - Color-Coded Events: Events are color-coded based on their status (confirmed, pending, cancelled).
 - Event Status Indicators: Additional indicators for user responses (accepted, declined, maybe).
+- Event Tooltips: Hovering over an event shows a tooltip with detailed information about the event.
+TODO -Add GIF for calendar tooltips
 
 #### Location Services
 - Google Places Autocomplete: Integrated autocomplete for event location input, enhancing user experience and accuracy.
+TODO - Add GIF for location autocomplete
 
 #### User Dashboard
 - Upcoming Events: A list of upcoming events that the user is either hosting or invited to.
 - Your Events: A separate list showing events created by the user.
+   ![dashboard](README/images/dashboard.png)
 - Event Management Tools: Quick access to edit or delete events from the dashboard.
    ![dashboard](README/images/feat-dashboard-delete.png)
 
 #### Dynamic Data Integration
 - Real-Time Data Updates: Notifications are dynamically updated without requiring a page refresh.
 - Ajax Integration: Used for updating the notification count and notification dropdown without reloading the page.
+   ![notifications](README/images/feat-notifications-dropdown.png)
 
 #### Error Handling
 - User-Friendly Error Messages: Clear and concise error messages are displayed for validation errors and other issues.
 - Fallback Mechanisms: Ensures the application continues to function smoothly in case of minor issues.
+TODO - Add error message screenshots
 
 #### Responsive Design
 - Mobile-Friendly: The application is designed to be fully responsive and works well on mobile devices.
 - Adaptive UI Elements: Elements such as dropdowns, modals, and forms adapt to different screen sizes for an optimal user experience.
+   ![responsive](README/images/responsive-dropdown.png)
 
 #### Security Features
 - CSRF Protection: Cross-Site Request Forgery protection is enabled to secure forms.
@@ -417,55 +428,443 @@ All testing was done manually and automated using Django's built-in testing fram
 #### Accounts App:
 
 - Dashboard View: Ensures the dashboard loads correctly and displays the correct information.
+   ```python
+   def test_dashboard_view(self):
+    """Test to ensure the dashboard view loads correctly."""
+    print("Testing dashboard view...")
+    response = self.client.get(reverse("dashboard"))
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, "accounts/dashboard.html")
+    print("Dashboard view tested successfully.")
+   ```
+   - It sends a GET request to the dashboard URL.
+   - It verifies that the response status code is 200 (OK) and that the correct template (accounts/dashboard.html) is used.
+
 - Signup View: Verifies that the signup process works correctly.
+   ```python
+   def test_signup_view(self):
+    """Test to ensure the signup view works correctly."""
+    print("Testing signup view...")
+    response = self.client.post(
+        reverse("signup"),
+        {
+            "username": "newuser",
+            "email": "newuser@example.com",
+            "password1": "newpassword",
+            "password2": "newpassword",
+        },
+    )
+    self.assertEqual(response.status_code, 302)
+    print("Signup view tested successfully.")
+   ```
+   - It sends a POST request to the signup URL with new user details.
+   - It checks that the response status code is 302 (redirect) after successful signup.
+
 - Profile View: Confirms the profile view loads and updates correctly.
+   ```python
+   def test_profile_view(self):
+    """Test to ensure the profile view loads correctly."""
+    print("Testing profile view...")
+    response = self.client.get(reverse("profile"))
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, "accounts/profile.html")
+    print("Profile view tested successfully.")
+   ```
+   - It sends a GET request to the profile URL.
+   - It verifies that the response status code is 200 (OK) and that the correct template (accounts/profile.html) is used.
+
 - Friends Page View: Checks that the friends page loads correctly.
+   ```python
+   def test_friends_page_view(self):
+    """Test to ensure the friends page view loads correctly."""
+    print("Testing friends page view...")
+    response = self.client.get(reverse("friends_page"))
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, "accounts/friends.html")
+    print("Friends page view tested successfully.")
+   ```
+   - It sends a GET request to the friends page URL.
+   - It verifies that the response status code is 200 (OK) and that the correct template (accounts/friends.html) is used.
+
 - Send Friend Request: Ensures friend requests can be sent.
+   ```python
+   def test_send_friend_request(self):
+    """Test to ensure sending a friend request works correctly."""
+    print("Testing send friend request...")
+    new_user = User.objects.create_user(
+        username="friend", email="friend@example.com", password="password"
+    )
+    response = self.client.get(reverse("send_friend_request", args=[new_user.id]))
+    self.assertEqual(response.status_code, 302)
+    print("Send friend request tested successfully.")
+   ```
+   - It creates a new user and sends a GET request to the send friend request URL with the user's ID.
+   - It checks that the response status code is 302 (redirect) after sending the friend request.
+
 - Respond Friend Request: Validates the process of responding to a friend request.
+   ```python
+   def test_respond_friend_request(self):
+    """Test to ensure responding to a friend request works correctly."""
+    print("Testing respond friend request...")
+    new_user = User.objects.create_user(
+        username="friend", email="friend@example.com", password="password"
+    )
+    friendship = Friendship.objects.create(
+        from_user=self.user, to_user=new_user, status="pending"
+    )
+    response = self.client.get(reverse("respond_friend_request", args=[friendship.id, "accept"]))
+    self.assertEqual(response.status_code, 302)
+    print("Respond friend request tested successfully.")
+   ```
+   - It creates a new user and a pending friendship request.
+   - It sends a GET request to the respond friend request URL with the friendship ID and response type.
+   - It checks that the response status code is 302 (redirect) after responding to the friend request.
+
 - Delete Friend: Tests the deletion of friends.
+   ```python
+   def test_delete_friend(self):
+    """Test to ensure deleting a friend works correctly."""
+    print("Testing delete friend...")
+    new_user = User.objects.create_user(
+        username="friend", email="friend@example.com", password="password"
+    )
+    friendship = Friendship.objects.create(
+        from_user=self.user, to_user=new_user, status="accepted"
+    )
+    response = self.client.get(reverse("delete_friend", args=[new_user.id]))
+    self.assertEqual(response.status_code, 302)
+    print("Delete friend tested successfully.")
+   ```
+   - It creates a new user and an accepted friendship.
+   - It sends a GET request to the delete friend URL with the friend's ID.
+   - It checks that the response status code is 302 (redirect) after deleting the friend.
+
+- Search Users: Tests the user search functionality.
+   ```python
+   def test_friend_search_form(self):
+    """Test to ensure the FriendSearchForm works correctly."""
+    print("Testing FriendSearchForm...")
+    form_data = {"search_query": "test"}
+    form = FriendSearchForm(data=form_data)
+    self.assertTrue(form.is_valid())
+    self.assertEqual(form.cleaned_data["search_query"], "test")
+    print("FriendSearchForm tested successfully.")
+   ```
+   - It creates a search query and tests the FriendSearchForm.
+   - It checks that the form is valid and contains the correct search query.
+   
+- Profile Picture Form: Validates the profile picture form. 
+   ```python
+   def test_profile_picture_form(self):
+    """Test to ensure the ProfilePictureForm works correctly."""
+    print("Testing ProfilePictureForm...")
+    form_data = {"profile_picture": "p1.png"}
+    form = ProfilePictureForm(data=form_data)
+    self.assertTrue(form.is_valid())
+    self.assertEqual(form.cleaned_data["profile_picture"], "p1.png")
+    print("ProfilePictureForm tested successfully.")
+   ```
+   - It creates form data and initializes the form.
+   - It checks that the form is valid and contains the correct profile picture.
+
 - One-Time Login Link:
    - Sending the one-time login link.
+      ```python
+      def test_send_one_time_login_link(self):
+      """Test to ensure the one-time login link is sent to the correct email."""
+      print("Testing send one-time login link...")
+      response = self.client.post(
+         reverse("send_one_time_login_link_form"),
+         {"email": self.user.email},
+      )
+      self.assertEqual(response.status_code, 302)
+      self.assertEqual(len(mail.outbox), 1)
+      self.assertIn(
+         "Your one-time login link for PlanPal", mail.outbox[0].subject
+      )
+      print("Send one-time login link tested successfully.")
+      ```
+      - It sends a POST request to the send_one_time_login_link_form view with the user's email address.
+      - It checks that the response status code is 302 (redirect) and that an email is sent.
+      - It asserts that the email subject contains the expected text.
+   
    - Logging in using the one-time login link.
+      ```python
+      def test_one_time_login(self):
+         """Test to ensure the user can log in using the one-time login link."""
+         print("Testing one-time login...")
+         token = default_token_generator.make_token(self.user)
+         uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+         response = self.client.get(reverse("one_time_login", args=[uid, token]))
+         self.assertRedirects(response, reverse("set_new_password"))
+         print("One-time login tested successfully.")
+      ```
+      - It generates a one-time login token and user ID.
+      - It sends a GET request to the one_time_login view with the user ID and token.
+      - It checks that the response is redirected to the set_new_password view.
+
    - Handling expired tokens.
+      ```python
+      def test_expired_one_time_login_token(self):
+         """Test to ensure the expired token does not allow login."""
+         print("Testing expired one-time login token...")
+         token = default_token_generator.make_token(self.user)
+         uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+         self.user.set_password("newpassword")
+         self.user.save()
+         response = self.client.get(reverse("one_time_login", args=[uid, token]))
+         self.assertRedirects(response, reverse("account_login"))
+         print("Expired one-time login token tested successfully.")
+      ```
+      - It generates a one-time login token and user ID.
+      - It sets a new password for the user.
+      - It sends a GET request to the one_time_login view with the user ID and token.
+
    - Ensuring invalid user IDs are handled gracefully.
+      ```python
+      def test_invalid_user_id(self):
+         """Test to ensure view handles invalid user ID gracefully."""
+         print("Testing invalid user ID...")
+         response = self.client.get(reverse("view_profile", args=[999]))
+         self.assertEqual(response.status_code, 404)
+         print("Invalid user ID tested successfully.")
+      ```
+      - It sends a GET request to the view_profile view with an invalid user ID.
+      - It checks that the response status code is 404 (Not Found).
+      - It ensures that the view handles invalid user IDs gracefully.
 
 #### Invitations App:
 
 - Manage Invitations View: Verifies that event creators can manage invitations.
+   ```python
+   def test_manage_invitations_view(self):
+        """Test to ensure the manage invitations view loads correctly for the event creator."""
+        response = self.client.get(
+            reverse("manage_invitations", args=[self.event.id])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response, "invitations/manage_invitations.html"
+        )
+   ```
+   - It sends a GET request to the manage_invitations view with the event ID.
+   - It checks that the response status code is 200 (OK) and that the correct template (invitations/manage_invitations.html) is used.
+
 - Create Invitation View: Ensures event creators can invite friends and handle various scenarios (e.g., no friends, non-friends, duplicate invitations).
+   ```python
+   def test_create_invitation_no_friends(self):
+        """Test to ensure a message is shown if there are no friends to invite."""
+        Friendship.objects.all().delete()
+        response = self.client.get(
+            reverse("create_invitation", args=[self.event.id])
+        )
+        self.assertRedirects(response, reverse("friends_page"))
+   ```
+   - It deletes all friendships and sends a GET request to the create_invitation view.
+   - It checks that the response is redirected to the friends page.
+
+   ```python
+    def test_create_invitation_duplicate(self):
+        """Test to ensure duplicate invitations are prevented."""
+        Invitation.objects.create(
+            event=self.event, user=self.user2, status="Pending"
+        )
+        response = self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"user_id": self.user2.id},
+        )
+        self.assertRedirects(
+            response, reverse("create_invitation", args=[self.event.id])
+        )
+        self.assertEqual(
+            Invitation.objects.filter(
+                event=self.event, user=self.user2
+            ).count(),
+            1,
+        )
+   ```
+   - It creates a pending invitation for a user and sends a POST request to the create_invitation view with the same user ID.
+   - It checks that the response is redirected back to the create_invitation view and that only one invitation exists for the user.
+
+- Bulk Invitations: Verifies that all friends can be invited to an event at once.
+   ```python
+   def test_bulk_invitation_sending(self):
+        """Test to ensure all friends can be invited at once."""
+        self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"send_all": "1"},
+        )
+        invitations = Invitation.objects.filter(event=self.event)
+        self.assertEqual(invitations.count(), 2)
+        self.assertTrue(
+            Invitation.objects.filter(
+                event=self.event, user=self.user2
+            ).exists()
+        )
+        self.assertTrue(
+            Invitation.objects.filter(
+                event=self.event, user=self.user3
+            ).exists()
+        )
+   ```
+   - It sends a POST request to the create_invitation view with the event ID and the send_all parameter.
+   - It checks that invitations are created for all friends of the event creator.
+
+- Notification Creation: Ensures that notifications are sent when invitations are created.
+   ```python
+   def test_notification_creation(self):
+        """Test to ensure notifications are created when invitations are sent."""
+        self.client.post(
+            reverse("create_invitation", args=[self.event.id]),
+            {"user_id": self.user2.id},
+        )
+        notification = Notification.objects.filter(
+            user=self.user2, event=self.event, type="event_created"
+        ).first()
+        self.assertIsNotNone(notification)
+   ```
+   - It sends a POST request to the create_invitation view with the event ID and user ID.
+   - It checks that a notification is created for the invited user and the event.
+
 
 #### Notifications App:
 
 - Notifications View: Ensures the notifications view loads correctly.
+   ```python
+    def test_notifications_view(self):
+        response = self.client.get(reverse("notifications"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "notifications/notifications.html")
+   ```
+   - It sends a GET request to the notifications view.
+   - It checks that the response status code is 200 (OK) and that the correct template (notifications/notifications.html) is used.
+
 - Mark Notification Read: Confirms notifications can be marked as read and the correct redirection occurs.
+   ```python
+   def test_mark_notification_read(self):
+        response = self.client.get(
+            reverse("mark_notification_read", args=[self.notification1.id])
+        )
+        self.notification1.refresh_from_db()
+        self.assertTrue(self.notification1.read)
+        self.assertRedirects(
+            response, reverse("event_details", args=[self.event.id])
+        )
+
+        response = self.client.get(
+            reverse("mark_notification_read", args=[self.notification3.id])
+        )
+        self.notification3.refresh_from_db()
+        self.assertTrue(self.notification3.read)
+        self.assertRedirects(response, reverse("friends_page"))
+   ```
+   - It sends a GET request to the mark_notification_read view with the notification ID.
+   - It checks that the notification is marked as read and that the response is redirected to the correct page.
+
 - Get Notifications: Verifies that unread notifications are fetched correctly.
+   ```python
+   def test_get_notifications(self):
+        response = self.client.get(reverse("get_notifications"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["unread_count"], 2)
+        self.assertEqual(len(response.json()["notifications"]), 2)
+   ```
+   - It sends a GET request to the get_notifications view.
+   - It checks that the response status code is 200 (OK), the unread count is correct, and the number of notifications is correct.
 
-##### Example Test Cases
-Here's an example of a test case for the one-time login link:
+#### Events App:
+- Create Event View: Tests the event creation process, including form validation and successful event creation.
+   ```python
+   def test_create_event_view(self):
+        """Test to ensure the create event view works correctly."""
+        print("Testing create event view...")
+        response = self.client.post(
+            reverse("create_event"),
+            {
+                "title": "New Event",
+                "description": "This is a new event",
+                "location": "New Location",
+                "proposed_date": timezone.now() + timezone.timedelta(days=2),
+                "status": "Pending",
+            },
+        )
+        self.assertEqual(
+            response.status_code, 302
+        )  # Check if the status code is 302 (redirect)
+        print("Create event view tested successfully.")
+   ```
+   - It sends a POST request to the create_event view with event details.
+   - It checks that the response status code is 302 (redirect) after creating the event.
 
-```python
-def test_send_one_time_login_link(self):
-    """Test to ensure the one-time login link is sent to the correct email."""
-    print("Testing send one-time login link...")
-    response = self.client.post(
-        reverse("send_one_time_login_link_form"),
-        {"email": self.user.email},
-    )
-    self.assertEqual(response.status_code, 302)
-    self.assertEqual(len(mail.outbox), 1)
-    self.assertIn("Your one-time login link for PlanPal", mail.outbox[0].subject)
-    print("Send one-time login link tested successfully.")
-```
+- Edit Event View: Ensures event details can be edited and saved correctly.
+   ```python
+   def test_edit_event_view(self):
+        """Test to ensure the edit event view works correctly."""
+        print("Testing edit event view...")
+        response = self.client.post(
+            reverse("edit_event", args=[self.event.id]),
+            {
+                "title": "Updated Event",
+                "description": "This is an updated event",
+                "location": "Updated Location",
+                "proposed_date": timezone.now() + timezone.timedelta(days=3),
+                "status": "Confirmed",
+            },
+        )
+        self.assertEqual(
+            response.status_code, 302
+        )  # Check if the status code is 302 (redirect)
+        self.event.refresh_from_db()
+        self.assertEqual(
+            self.event.title, "Updated Event"
+        )  # Check if the event title is updated
+        print("Edit event view tested successfully.")
+   ```
+   - It sends a POST request to the edit_event view with updated event details.
+   - It checks that the response status code is 302 (redirect) and that the event details are updated.
 
-- The test case sends a POST request to the `send_one_time_login_link_form` view with the user's email address.
-- It checks that the response status code is 302 (redirect) and that an email is sent.
-- The test asserts that the email subject contains the expected text.
-- The test case is run as part of the test suite to ensure the one-time login link functionality works as expected.
+- Event Details View: Checks that event details are displayed correctly and that the correct template is used.
+   ```python
+    def test_event_details_view(self):
+        """Test to ensure the event details view loads correctly."""
+        print("Testing event details view...")
+        response = self.client.get(
+            reverse("event_details", args=[self.event.id])
+        )
+        self.assertEqual(
+            response.status_code, 200
+        )  # Check if the status code is 200 (OK)
+        self.assertTemplateUsed(
+            response, "events/event_details.html"
+        )  # Check if the correct template is used
+        print("Event details view tested successfully.")
+   ```
+   - It sends a GET request to the event_details view with the event ID.
+   - It checks that the response status code is 200 (OK) and that the correct template (events/event_details.html) is used.
+
+- Delete Event View: Validates the event deletion process and associated data removal.
+   ``` python
+    def test_delete_event_view(self):
+        """Test to ensure the delete event view works correctly."""
+        print("Testing delete event view...")
+        response = self.client.post(
+            reverse("delete_event", args=[self.event.id])
+        )
+        self.assertEqual(
+            response.status_code, 302
+        )  # Check if the status code is 302 (redirect)
+        with self.assertRaises(Event.DoesNotExist):
+            Event.objects.get(id=self.event.id)  # Ensure the event is deleted
+        print("Delete event view tested successfully.")
+   ```
+   - It sends a POST request to the delete_event view with the event ID.
+   - It checks that the response status code is 302 (redirect) and that the event is deleted.
+
 
 ### Validator Testing
 #### W3C HTML Validator
 - The W3C HTML Validator is used to check the HTML code for compliance with web standards.
-
+TODO - Add HTML validation results.
 #### W3C CSS Validator
 - The W3C CSS Validator is used to check the CSS code for compliance with web standards.
    ![css validator](README/images/validator-css-w3c.png)
@@ -480,7 +879,7 @@ def test_send_one_time_login_link(self):
 #### Jshint
 - Jshint is a JavaScript code quality tool that helps identify errors and potential problems in JavaScript code.
 
-| File | Results |
+| From | Results |
 |------|---------|
 | event_form.js | ![base.js](README/images/jshint-event.png) |
 | scripts.js | ![calendar.js](README/images/jshint-scripts.png) |
@@ -489,6 +888,31 @@ def test_send_one_time_login_link(self):
 
 #### CI Python Linter
 - The CI Python Linter is a continuous integration tool that runs flake8 on the codebase to ensure it meets the required standards.
+
+| From | Results |
+|------|---------|
+| Notifications App / Views.py | ![Notifications App](README/images/linter-notifications-views.png) |
+| Notifications App / Utils.py | ![Notifications App](README/images/linter-notifications-utils.png) |
+| Notifications App / Urls.py| ![Notifications App](README/images/linter-notifications-urls.png) |
+| Notifications App / Tests.py | ![Notifications App](README/images/linter-notifications-tests.png) |
+| Notifications App / Models.py | ![Notifications App](README/images/linter-notifications-models.png) |
+| Notifications App / Context_processors.py | ![Notifications App](README/images/linter-notifications-context.png) |
+| Invitations App / Views.py | ![Invitations App](README/images/linter-invitations-views.png) |
+| Invitations App / Urls.py | ![Invitations App](README/images/linter-invitations-urls.png) |
+| Invitations App / Models.py | ![Invitations App](README/images/linter-invitations-models.png) |
+| Invitations App / Tests.py | ![Invitations App](README/images/linter-invitations-tests.png) |
+| Events App / Views.py | ![Events App](README/images/linter-events-views.png) |
+| Events App / Urls.py | ![Events App](README/images/linter-events-urls.png) |
+| Events App / Models.py | ![Events App](README/images/linter-events-models.png) |
+| Events App / Forms.py | ![Events App](README/images/linter-events-forms.png) |
+| Events App / Tests.py | ![Events App](README/images/linter-events-tests.png) |
+| Accounts App / Views.py | ![Accounts App](README/images/linter-accounts-views.png) |
+| Accounts App / Urls.py | ![Accounts App](README/images/linter-accounts-urls.png) |
+| Accounts App / Models.py | ![Accounts App](README/images/linter-accounts-models.png) |
+| Accounts App / Forms.py | ![Accounts App](README/images/linter-accounts-forms.png) |
+| Accounts App / Tests.py | ![Accounts App](README/images/linter-accounts-tests.png) |
+| Accounts App / Tests.py | ![Accounts App](README/images/linter-accounts-middleware.png) |
+
 
 #### Django's Built-in Check System
 Django provides a management command check that can help identify some issues within your project.
@@ -499,7 +923,8 @@ Django provides a management command check that can help identify some issues wi
 
 #### WAVE - Web Accessibility Evaluation Tool
 - WAVE is a web accessibility evaluation tool that helps identify accessibility issues in web pages.
-   ![wave](README/images/wave-home.png)  
+   ![wave](README/images/wave-home.png)
+   TODO - Add WAVE validation results.
 
 #### LightHouse
 - LightHouse is a tool for improving the quality of web pages. It provides audits for performance, accessibility, best practices, SEO, and progressive web apps.
@@ -530,7 +955,12 @@ create a table with the results of the audit.
 ### Manual Testing
 - Manual testing is performed to verify the functionality of the application from a user's perspective.
 
+#### Responsiveness
+TODO - Add manual testing results.
+
 ## Bugs
+
+### Fixed Bugs
 
 ## UI Improvements
 
@@ -581,14 +1011,15 @@ Install the dependencies:
 ```
 
 ```bash
-Copy code
 pip install -r requirements.txt
-Set environment variables:
-Create a .env file and add the following environment variables:
 ```
+
+Set environment variables:
+
+Create a .env file and add the following environment variables:
+
 ```
 makefile
-Copy code
 DEFAULT_FROM_EMAIL_KEY=your_email@example.com
 EMAIL_HOST_PASSWORD_KEY=your_sendgrid_api_key
 SECRET_KEY=your_secret_key
@@ -684,6 +1115,7 @@ heroku open
 ### Useful Links
 
 - [Python Django Web Framework - Full Course for Beginners](https://www.youtube.com/watch?v=F5mRW0jo-U4&t=302s)
+- [Heroku: Reduce Slug Size With .slugignore](https://devcenter.heroku.com/articles/slug-compiler#ignoring-files-with-slugignore)
 
 ### Tools
 - [Visual Studio Code](https://code.visualstudio.com/)

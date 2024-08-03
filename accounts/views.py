@@ -120,7 +120,9 @@ def signup(request):
             UserProfile.objects.get_or_create(user=user)
 
             # Automatically log the user in
-            user = authenticate(username=user.username, password=form.cleaned_data["password1"])
+            user = authenticate(
+                username=user.username, password=form.cleaned_data["password1"]
+            )
             if user is not None:
                 login(request, user)
                 return redirect("dashboard")
