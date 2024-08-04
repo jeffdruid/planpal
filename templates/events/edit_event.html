@@ -8,7 +8,7 @@
 {% block content %}
   <div class="container card mt-2" id="edit-form">
     <h3 class="text-center card-header">Edit Event</h3>
-    <form method="post" action="" class="event-form">
+    <form method="post" class="event-form">
       {% csrf_token %}
       <div class="form-group">
         <div class="mb-3">{{ form.title.label_tag }} {{ form.title }}</div>
@@ -18,7 +18,7 @@
       </div>
       <div class="form-group">
         <label for="location">Location:</label>
-        <input type="text" id="location" name="location" value="{{ form.location.value }}" class="form-control" required />
+        <input type="text" id="location" name="location" value="{{ form.location.value }}" class="form-control" required>
         <a id="mapLink" href="#" target="_blank" class="btn btn-link mt-2" style="color: #00448d;">View on Map</a>
       </div>
       {% for field in form %}

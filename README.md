@@ -1024,7 +1024,23 @@ All testing was done manually and automated using Django's built-in testing fram
 ### Validator Testing
 #### W3C HTML Validator
 - The W3C HTML Validator is used to check the HTML code for compliance with web standards.
-TODO - Add HTML validation results.
+   | Page | Results |
+   |------|---------|
+   | Home | ![home](README/images/html-home.png) |
+   | Login | ![login](README/images/html-login.png) |
+   | Signup | ![signup](README/images/html-signup.png) |
+   | Password Reset | ![password reset](README/images/html-reset.png) |
+   | Logout | ![logout](README/images/html-logout.png) |
+   | Dashboard | ![dashboard](README/images/html-dashboard.png) |
+   | Profile | ![profile](README/images/html-profile.png) |
+   | Friends | ![friends](README/images/html-friends.png) |
+   | Notifications | ![notifications](README/images/html-notifications.png) |
+   | Invitations | ![invitations](README/images/html-invitations.png) |
+   | Create Event | ![create event](README/images/html-create.png) |
+   | Edit Event | ![edit event](README/images/html-edit.png) |
+   | Event Details | ![event details](README/images/html-details.png) |
+
+
 #### W3C CSS Validator
 - The W3C CSS Validator is used to check the CSS code for compliance with web standards.
    ![css validator](README/images/validator-css-w3c.png)

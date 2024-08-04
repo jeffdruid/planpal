@@ -23,16 +23,15 @@
             </div>
             <ul class="list-unstyled">
               {% for item in upcoming_events_with_read_status %}
-                <li class="{% if item.response_status == 'Deny' %}text-muted-declined{% endif %}">
+                <li class="{% if item.response_status == 'Deny' %}text-muted-declined{% endif %} mb-4" style="border-bottom: 1px solid #0001;">
                   <strong><a href="{% url 'event_details' item.event.id %}" class="event-link">{{ item.event.title|upper }}</a></strong>
-                  <br />
+                  <br>
                   {{ item.event.proposed_date|date:'F j, Y' }}
                   <span id="badge-icon" class="badge badge-{{ item.event.status|lower }} ml-2"></span>
                   {% if item.unread %}
                     <span class="ml-2"><i class="fas fa-envelope"></i></span>
                   {% endif %}
                 </li>
-                <hr />
               {% empty %}
                 <li>No upcoming events.</li>
               {% endfor %}
@@ -57,15 +56,15 @@
           <div class="card-body overflow-auto">
             <ul class="list-unstyled">
               {% for event in user_events %}
-                <li>
+                <li class="mb-4" style="border-bottom: 1px solid #0001;">
                   <strong><a href="{% url 'event_details' event.id %}" class="event-link">{{ event.title|upper }}</a></strong>
-                  <br />
+                  <br>
                   {{ event.proposed_date|date:'F j, Y' }}
                   <span class="badge badge-{{ event.status|lower }} ml-2">{{ event.status }}</span>
                   <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i></a>
                   <button class="btn btn-sm btn-outline-danger delete-btn" data-event-id="{{ event.id }}"><i class="fas fa-trash-alt"></i></button>
                 </li>
-                <hr />
+                 
               {% empty %}
                 <li>You have not created any events.</li>
               {% endfor %}
