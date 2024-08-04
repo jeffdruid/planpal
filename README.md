@@ -356,7 +356,7 @@ SendGrid is a cloud-based email service that provides reliable email delivery an
    - Coolors.co was used to generate the color palette for the application.
 
 ## Features
-TODO - Add features screenshots
+- The Social Event Planner application provides a range of features to help users create, manage, and share events with their friends. The features are designed to enhance user experience, improve productivity, and facilitate social interactions.
 
 #### User Authentication
 - Sign Up: Users can create a new account using their email address and a password.
@@ -563,7 +563,7 @@ For more details, visit the [GitHub Project](https://github.com/users/jeffdruid/
 
 ## Testing
 All testing was done manually and automated using Django's built-in testing framework. The application was tested for functionality, user experience, and security. Test cases were created to cover user stories and edge cases, ensuring the application works as expected.
-<!-- TODO - Add link to test cases -->
+
 ### Testing User Stories
 
 | Story ID | User Story Description                                          | Acceptance Criteria                                                                                                                                       |
@@ -577,7 +577,7 @@ All testing was done manually and automated using Django's built-in testing fram
 | US07     | As a user, I want to accept or decline friend requests          | - Users receive notifications for new friend requests.<br>- Users can accept or decline friend requests.<br>- Users can see a list of their friends.       |
 | US08     | As a user, I want to send friend requests                       | - Users can search for other users.<br>- Users can send friend requests to other users.<br>- Users receive notifications for sent requests.                |
 | US09     | As a user, I want to delete a friend                            | - Users can remove friends from their friend list.<br>- Associated data (notifications, invitations) are deleted.<br>- Users receive confirmation of removal. |
-| US10     | As an event creator, I want to manage event invitations         | - Users can view a list of sent invitations.<br>- Users can see the status of each invitation.<br>- Users can resend or cancel invitations.                |
+| US10     | As an event creator, I want to manage event invitations         | - Users can view a list of sent invitations.<br>- Users can see the status of each invitation.              |
 | US11     | As an admin, I want to manage user accounts                     | - Admins can view a list of all users.<br>- Admins can delete or deactivate user accounts.<br>- Admins can reset user passwords.                          |
 | US12     | As a user, I want to receive notifications                      | - Users receive notifications for new events, invitations, and friend requests.<br>- Users can mark notifications as read.<br>- Unread notifications are highlighted. |
 
@@ -1129,7 +1129,15 @@ create a table with the results of the audit.
 - Manual testing is performed to verify the functionality of the application from a user's perspective.
 
 #### Responsiveness
-TODO - Add manual testing results.
+- The application is tested on various devices and screen sizes to ensure responsiveness and compatibility.
+
+| Device | Browser | Results |
+|--------|---------|---------|
+| Desktop | Chrome | ![Desktop](README/images/web-chrome-dashboard.png) |
+| Desktop | Firefox | ![Desktop](README/images/web-firefox-dashboard.png) |
+| Desktop | Edge | ![Desktop](README/images/web-edge-dashboard.png) |
+
+
 
 ## Bugs
 ### Bug Report: send_one_time_login_link_form Functionality
@@ -1147,6 +1155,8 @@ The send_one_time_login_link_form function is responsible for handling requests 
    - However, several issues in this code can lead to potential security vulnerabilities and functional problems.
    - The function send_one_time_login_link_form requires enhancements in terms of input validation, security, and user feedback to ensure robust functionality and protection against common vulnerabilities. 
    - **This feature is disabled in the current version of the application to prevent potential security risks.**
+
+   - commit: [send_one_time_login_link_form](https://github.com/jeffdruid/planpal/commit/5c8351adcece1721891f421d876733fb72c7a64f)
 
 ### Fixed Bugs
 ### Bug: Profile Picture Modal Not Closing
