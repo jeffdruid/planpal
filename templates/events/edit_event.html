@@ -19,7 +19,7 @@
       <div class="form-group">
         <label for="location">Location:</label>
         <input type="text" id="location" name="location" value="{{ form.location.value }}" class="form-control" required />
-        <a id="mapLink" href="#" target="_blank" class="btn btn-link mt-2">View on Map</a>
+        <a id="mapLink" href="#" target="_blank" class="btn btn-link mt-2" style="color: #00448d;">View on Map</a>
       </div>
       {% for field in form %}
         {% if field.errors %}
@@ -35,7 +35,7 @@
       {% endfor %}
       <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
       <p class="text-center text-white mt-4">
-        <a href="{% url 'manage_invitations' event_id=event_id %}">Manage Invitations</a>
+        <a style="color: #00448d;" href="{% url 'manage_invitations' event_id=event_id %}">Manage Invitations</a>
       </p>
     </form>
   </div>

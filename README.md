@@ -39,6 +39,7 @@ TODO - Update table of contents
 4. [Wireframes](#wireframes)
    - [Site Map](#site-map)
    - [Database Schema](#database-schema)
+   - [Color Palette](#color-palette)
 5. [Features](#features)
    - [User Authentication](#user-authentication)
    - [Event Creation and Management](#event-creation-and-management)
@@ -65,14 +66,22 @@ TODO - Update table of contents
 6. [Troubleshooting](#troubleshooting)
    - [Password Reset](#password-reset)
 7. [Testing](#testing)
+   - [Testing User Stories](#testing-user-stories)
    - [Test Cases](#test-cases)
      - [Accounts App](#accounts-app)
      - [Invitations App](#invitations-app)
      - [Notifications App](#notifications-app)
-     - [Example Test Cases](#example-test-cases)
+      - [Events App](#events-app)
    - [Validator Testing](#validator-testing)
+      - [W3C html Validator](#w3c-html-validator)
+      - [W3C CSS Validator](#w3c-css-validator)
      - [flake8](#flake8)
+     - [JSHint](#jshint)
      - [CI Python Linter](#ci-python-linter)
+      - [Django's Built-in Check System](#djangos-built-in-check-system)
+      - [WAVE - Web Accessibility Evaluation Tool](#wave---web-accessibility-evaluation-tool)
+      - [Lighthouse](#lighthouse)
+      -
    - [Manual Testing](#manual-testing)
 8. [Bugs](#bugs)
    - [Google Sheets Not Opening in a New Tab (Deployment Issue)](#google-sheets-not-opening-in-a-new-tab-deployment-issue)
@@ -82,6 +91,8 @@ TODO - Update table of contents
    - [Implementation of the colorama Library](#implementation-of-the-colorama-library)
 10. [Future Improvements](#future-improvements)
    - [Google Maps JavaScript API](#google-maps-javascript-api)
+   - [Dynamic Data loading](#dynamic-data-loading)
+   - [Filtering and Sorting](#filtering-and-sorting)
 11. [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
@@ -278,6 +289,9 @@ TODO - Add features screenshots
 - Manage Invitations: Users can view and manage invitations they have sent or received.
    ![manage invitations](README/images/feat-invitations-manage-full.png)
 - Respond to Invitations: Invited users can accept, decline, or mark their response as "maybe".
+   ![respond invitations](README/images/feat-response.png)
+- Suggestions: Users can suggest alternate dates for events and see responses from other participants.
+   ![suggestions](README/images/feat-suggest.png)
 
 #### Notification System
 - Real-Time Notifications: Users receive notifications for event updates, invitations, and responses.
@@ -296,15 +310,16 @@ TODO - Add features screenshots
 
 #### Calendar Integration
 - Interactive Calendar: Events are displayed in a calendar view, allowing users to see their schedule at a glance.
-   ![calendar](README/images/dashboard.png)
 - Color-Coded Events: Events are color-coded based on their status (confirmed, pending, cancelled).
+   ![calendar](README/images/dashboard.png)
 - Event Status Indicators: Additional indicators for user responses (accepted, declined, maybe).
+   ![event status](README/images/feat-filter.gif)
 - Event Tooltips: Hovering over an event shows a tooltip with detailed information about the event.
-TODO -Add GIF for calendar tooltips
+   ![event tooltip](README/images/feat-tooltip.gif)
 
 #### Location Services
 - Google Places Autocomplete: Integrated autocomplete for event location input, enhancing user experience and accuracy.
-TODO - Add GIF for location autocomplete
+   ![location autocomplete](README/images/feat-autocomplete.gif)
 
 #### User Dashboard
 - Upcoming Events: A list of upcoming events that the user is either hosting or invited to.
@@ -321,7 +336,7 @@ TODO - Add GIF for location autocomplete
 #### Error Handling
 - User-Friendly Error Messages: Clear and concise error messages are displayed for validation errors and other issues.
 - Fallback Mechanisms: Ensures the application continues to function smoothly in case of minor issues.
-TODO - Add error message screenshots
+   ![error message](README/images/feat-error-message.png)
 
 #### Responsive Design
 - Mobile-Friendly: The application is designed to be fully responsive and works well on mobile devices.
@@ -335,7 +350,9 @@ SSL/TLS: Ensures data is encrypted during transmission.
 
 #### Additional Features
 - Progress Indicators: Loading spinners provide feedback during data fetching and processing.
+   ![loading spinner](README/images/feat-tooltip.gif)
 - Reporting: Detailed reports on event participation and user activity.
+   ![reports](README/images/feat-response.png)
 
 ## MoSCoW Prioritization
 - The MoSCoW method is used to prioritize features based on their importance and urgency. Features are categorized into Must Have, Should Have, Could Have, and Won't Have for the current version of the application.
@@ -919,7 +936,7 @@ Django provides a management command check that can help identify some issues wi
    ```bash
       python manage.py check
    ```
-   -![check](README/images/test-django-check.png)
+   ![check](README/images/test-django-check.png)
 
 #### WAVE - Web Accessibility Evaluation Tool
 - WAVE is a web accessibility evaluation tool that helps identify accessibility issues in web pages.
@@ -940,16 +957,13 @@ create a table with the results of the audit.
 | Password Reset| ![Password Reset](README/images/lighthouse-password.png) |
 | Logout       | ![Logout](README/images/lighthouse-logout.png) | 
 | Dashboard    | ![Dashboard](README/images/lighthouse-dashboard.png) |
-| TODO         | ![TODO](README/images/lighthouse-todo.png) |
 | Profile      | ![Profile](README/images/lighthouse-profile.png) |
 | Friends      | ![Friends](README/images/lighthouse-friends.png) |
-| Notifications| ![Notifications](README/images/lighthouse-notifications.png) |
-| Invitations  | ![Invitations](README/images/lighthouse-invitations.png) |
-| Events       | ![Events](README/images/lighthouse-events.png) |
-| Calendar     | ![Calendar](README/images/lighthouse-calendar.png) |
-| Create Event | ![Create Event](README/images/lighthouse-create-event.png) |
-| Edit Event   | ![Edit Event](README/images/lighthouse-edit-event.png) |
-| Event Details| ![Event Details](README/images/lighthouse-event-details.png) |
+| Notifications| ![Notifications](README/images/lighthouse-notification.png) |
+| Invitations  | ![Invitations](README/images/lighthouse-invitations.png)|
+| Create Event | ![Create Event](README/images/lighthouse-add.png) |
+| Edit Event   | ![Edit Event](README/images/lighthouse-edit.png) |
+| Event Details| ![Event Details](README/images/lighthouse-event.png) |
 
 
 ### Manual Testing
@@ -963,13 +977,15 @@ TODO - Add manual testing results.
 ### Fixed Bugs
 
 ## UI Improvements
+- The user interface was improved to enhance the user experience and make the application more visually appealing.
+- Bootstrap 5 was used to create a responsive and modern design for the application.
 
 ## Future Improvements
 
 #### Google Maps JavaScript API
 - The Google Maps JavaScript API would be used to embed maps into the web pages and provide location-based services, such as displaying event locations on a map.
 
-#### Dynamic Data Integration
+#### Dynamic Data Loading
 - Real-Time Data Updates: Data on the dashboard, calendar, and event responses could be updated in real-time using WebSockets or other technologies.
 
 #### Filtering and Sorting
@@ -988,7 +1004,7 @@ TODO - Add manual testing results.
 
 ### Installation
 
-1. **Clone the repository**:
+Clone the repository
    ```bash
    git clone https://github.com/your-username/your-repo.git
    cd your-repo

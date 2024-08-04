@@ -12,8 +12,8 @@
         {% for notification in notifications|dictsort:'read' %}
           <li class="list-group-item {% if not notification.read %}bg-gray{% endif %}">
             <a href="{% url 'mark_notification_read' notification.id %}" class="notification-link">
-              <h5 class="notification-title">{{ notification.message }}</h5>
-              <p class="notification-time text-muted">{{ notification.created_at|date:'F j, Y, g:i a' }}</p>
+              <h3 class="notification-title" style="color: black;">{{ notification.message }}</h3>
+              <p class="notification-time" style="color: black;">{{ notification.created_at|date:'F j, Y, g:i a' }}</p>
             </a>
           </li>
         {% empty %}
