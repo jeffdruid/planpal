@@ -127,38 +127,137 @@ TODO - Update table of contents
 ### Django
 Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It is used to build the server-side functionality of the Social Event Planner, including handling HTTP requests, database operations, and user authentication.
 
+   ```python
+   from django.shortcuts import render, redirect
+   from django.contrib.auth.decorators import login_required
+   from .models import Event
+
+   @login_required
+   def dashboard(request):
+      events = Event.objects.filter(user=request.user)
+      return render(request, "dashboard.html", {"events": events})
+   ```
+
 ### SQLite
 Django's built-in SQLite is used as the database for this project. It is a lightweight, disk-based database that doesn’t require a separate server process, making it easy to set up and use.
+
+   ```python
+   DATABASES = {
+      'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+      }
+   }
+   ```
 
 ### Bootstrap
 Bootstrap is a front-end framework for developing responsive and mobile-first websites. It provides CSS and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.
 
+   ```html
+   <div class="container">
+      <h1 class="mt-4">Event Dashboard</h1>
+      <button class="btn btn-primary">Add Event</button>
+   </div>
+```
+
 ### jQuery
 jQuery is a fast, small, and feature-rich JavaScript library. It simplifies things like HTML document traversal and manipulation, event handling, and animation, making it easier to develop dynamic and interactive web pages.
+
+   ```javascript
+   <script>
+   $(document).ready(function(){
+      $("#addEventBtn").click(function(){
+         $("#eventModal").modal('show');
+      });
+   });
+   </script>
+   ```
 
 ### FullCalendar
 FullCalendar is a JavaScript calendar library for creating interactive and customizable calendars. It is used to display events in a calendar view, allowing users to see their schedules at a glance.
 
+   ```html
+   <div id='calendar'></div>
+   <script>
+      $(document).ready(function() {
+         $('#calendar').fullCalendar({
+               events: '/api/events/', // URL to fetch events
+         });
+      });
+   </script>
+   ```
+
 ### Google Places API
 The Google Places API is a service that returns information about places using HTTP requests. It is used to enhance event location input by providing autocomplete functionality and additional place details.
 
+   ```html
+   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+   <input id="location" type="text" placeholder="Enter a location">
+   <script>
+      var input = document.getElementById('location');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+   </script>
+   ```
+
 ### Font Awesome
 Font Awesome is a font and icon toolkit based on CSS and LESS. It is used to add scalable vector icons that can be customized with CSS.
+   
+   ```html
+   <i class="fas fa-calendar-alt"></i> Calendar
+   ```
 
 ### Ajax
 Ajax is used to perform asynchronous HTTP requests to update parts of a web page without reloading the whole page. It enhances the user experience by providing faster and more dynamic interactions.
 
+   ```javascript
+   $.ajax({
+      url: '/api/events/',
+      method: 'GET',
+      success: function(data) {
+         $('#eventsList').html(data);
+      }
+   });
+   ```
+
 ### Tippy.js
 Tippy.js is a lightweight, highly customizable tooltip and popover library. It is used to display additional information about events when users hover over them in the calendar.
+   
+   ```javascript
+   <button data-tippy-content="Event details">Event Info</button>
+   <script>
+      tippy('[data-tippy-content]');
+   </script>
+   ```
 
 ### Moment.js
 Moment.js is a JavaScript library for parsing, validating, manipulating, and displaying dates and times. It is used in conjunction with FullCalendar to handle date and time formatting.
 
+   ```javascript
+   var date = moment().format('MMMM Do YYYY, h:mm:ss a')
+   ```
 ### Heroku
 Heroku is a cloud platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud. It is used to deploy and host the Social Event Planner web application.
 
+   ```bash
+   # Deployment command
+   git push heroku main
+   ```
+
 ### SendGrid
 SendGrid is a cloud-based email service that provides reliable email delivery and scalability. It is used to send transactional emails, such as password reset links and event invitations, to users of the Social Event Planner.
+
+   ```python
+   from django.core.mail import send_mail
+
+   def send_invitation(email, event):
+      send_mail(
+         'You are invited!',
+         f'Join us at {event.name} on {event.date}.',
+         'from@example.com',
+         [email],
+         fail_silently=False,
+      )
+   ```  
 
 ## User Stories:
 
@@ -345,8 +444,52 @@ TODO - Add features screenshots
 
 #### Security Features
 - CSRF Protection: Cross-Site Request Forgery protection is enabled to secure forms.
+   ```html
+   <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+   </form>
+   ```
+   - the {% csrf_token %} template tag generates a CSRF token that Django checks when the form is submitted.
+
 - Password Hashing: User passwords are securely hashed using Django’s built-in mechanisms.
-SSL/TLS: Ensures data is encrypted during transmission.
+   
+   ```python
+   def set_new_password(request):
+    if request.method == "POST":
+        new_password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+        if new_password == confirm_password:
+            request.user.set_password(new_password)  # Hashes the password
+            request.user.save()
+            return redirect("account_login")
+   ```
+   - The set_password method hashes the password before saving it to the database, ensuring that plain-text passwords are never stored.
+   - The request.user.set_password(new_password) hashes the new password using Django's default hashing algorithm before saving it to the database.
+
+- SSL/TLS: Ensures data is encrypted during transmission.
+   ```python
+   SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+   SESSION_COOKIE_SECURE = True  # Ensure cookies are only sent over HTTPS
+   CSRF_COOKIE_SECURE = True     # Ensure the CSRF cookie is only sent over HTTPS
+   ```
+
+- Cache Control: Prevent caching of sensitive pages.
+   ```python
+   @login_required
+   @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+   def dashboard(request):
+      ...
+   ```
+
+- Additional Security Features
+   ```python
+   @login_required
+   def profile(request):
+      ...
+   ```
+   - the @login_required decorator to ensure that certain views are only accessible to authenticated users.
 
 #### Additional Features
 - Progress Indicators: Loading spinners provide feedback during data fetching and processing.
@@ -973,8 +1116,62 @@ create a table with the results of the audit.
 TODO - Add manual testing results.
 
 ## Bugs
+### Bug Report: send_one_time_login_link_form Functionality
+The send_one_time_login_link_form function is responsible for handling requests to generate a one-time login link for users who have requested a password reset. 
+- This function processes form submissions containing an email address and redirects users to generate and send the login link.
+
+   ```python
+   def send_one_time_login_link_form(request):
+      if request.method == "POST":
+         email = request.POST.get("email")
+         return redirect("send_one_time_login_link", user_email=email)
+      return render(request, "accounts/send_one_time_login_link_form.html")
+   ```
+
+   - However, several issues in this code can lead to potential security vulnerabilities and functional problems.
+   - The function send_one_time_login_link_form requires enhancements in terms of input validation, security, and user feedback to ensure robust functionality and protection against common vulnerabilities. 
+   - **This feature is disabled in the current version of the application to prevent potential security risks.**
 
 ### Fixed Bugs
+### Bug: Profile Picture Modal Not Closing
+
+- The profile picture modal was not closing when clicking outside the modal or on the "X" button.
+
+   ```javascript
+   <!-- JavaScript for closing modals -->
+   <script>
+      window.onclick = function(event) {
+         const profilePictureModal = $('#profilePictureModal');
+         if (event.target == profilePictureModal[0]) {
+               closeProfilePictureModal();
+         }
+      }
+   </script>
+   ```
+   - Ensure the correct Bootstrap modal methods are called and fix the JavaScript code to handle the closing functionality properly.
+
+   ```javascript
+   <!-- JavaScript for closing modals -->
+   <script>
+      $(document).ready(function() {
+         // Close the profile picture modal when clicking outside
+         $(window).on('click', function(event) {
+               if ($(event.target).is('#profilePictureModal')) {
+                  $('#profilePictureModal').modal('hide');
+               }
+         });
+
+         // Ensure modals close on clicking 'X'
+         $('.modal .close').on('click', function() {
+               $(this).closest('.modal').modal('hide');
+         });
+      });
+   </script>
+   ```
+   
+   - The updated JavaScript code ensures that the profile picture modal closes when clicking outside the modal or on the "X" button.
+   - The modal is hidden using the Bootstrap modal('hide') method to ensure proper functionality.
+   - The modal close functionality is now working as expected, allowing users to close the modal by clicking outside or on the "X" button.
 
 ## UI Improvements
 - The user interface was improved to enhance the user experience and make the application more visually appealing.
@@ -1082,20 +1279,22 @@ Collect static files:
 
 ```bash
 python manage.py collectstatic
-Remote Deployment (Heroku)
 ```
+
+### Remote Deployment (Heroku)
 
 Login to Heroku:
 
 ```bash
 heroku login
+```
+
 Create a new Heroku app:
-``
 
 ```bash
 heroku create your-app-name
-Set environment variables on Heroku:
 ```
+Set environment variables on Heroku:
 
 ```bash
 heroku config:set DEFAULT_FROM_EMAIL_KEY=your_email@example.com
@@ -1103,12 +1302,11 @@ heroku config:set EMAIL_HOST_PASSWORD_KEY=your_sendgrid_api_key
 heroku config:set SECRET_KEY=your_secret_key
 ```
 
-### Remote Deployment (Heroku)
-
 ```bash
 git push heroku main
-Run database migrations on Heroku:
 ```
+
+Run database migrations on Heroku:
 
 ```bash
 heroku run python manage.py migrate
