@@ -32,7 +32,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 DEBUG = False
 ALLOWED_HOSTS = [
     ".herokuapp.com",
-    "127.0.0.1",
 ]
 
 SECURE_SSL_REDIRECT = True
@@ -82,7 +81,6 @@ ACCOUNT_USERNAME_REQUIRED = True
 LOGIN_URL = "/login/"
 
 LOGIN_REDIRECT_URL = "dashboard"
-# LOGOUT_REDIRECT_URL = "/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -123,8 +121,6 @@ WSGI_APPLICATION = "planpal.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {"default": dj_database_url.parse(
-# os.environ.get("DATABASE_URL"))}
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
