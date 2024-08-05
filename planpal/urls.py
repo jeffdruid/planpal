@@ -18,3 +18,6 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = accounts_views.custom_404_view
+handler500 = accounts_views.custom_500_view
+handler403 = accounts_views.custom_403_view
+handler400 = accounts_views.custom_400_view

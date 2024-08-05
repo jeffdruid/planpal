@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Page Not Found{% endblock %}
+{% block title %}Bad Request{% endblock %}
 
 {% block content %}
 <div class="container text-center mt-5 pb-5">
-    <h1 class="display-4 pt-5">404</h1>
-    <p class="lead">Oops! The page you are looking for doesn't exist.</p>
+    <h1 class="display-4 pt-5">400</h1>
+    <p class="lead">Bad request. Please check your input and try again.</p>
     <a href="{% url 'home' %}" class="btn btn-primary mb-5">Return to Home</a>
 </div>
 {% endblock %}
