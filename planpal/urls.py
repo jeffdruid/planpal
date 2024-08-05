@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts import views as accounts_views
+
 
 urlpatterns = [
     path(
@@ -14,3 +16,5 @@ urlpatterns = [
     path("notifications/", include("notifications.urls")),
     path("accounts/", include("allauth.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = accounts_views.custom_404_view

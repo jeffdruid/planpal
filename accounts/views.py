@@ -14,6 +14,10 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_control
 
 
+def custom_404_view(request, exception):
+    return render(request, "404.html", status=404)
+
+
 @login_required
 def set_new_password(request):
     if request.method == "POST":
