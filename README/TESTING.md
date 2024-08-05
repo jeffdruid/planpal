@@ -620,16 +620,36 @@ The manual testing confirms that the page operates smoothly across multiple brow
 #### Responsiveness
 - The application is tested on various devices and screen sizes to ensure responsiveness and compatibility.
 
+##### Desktop
+
 | Device | Browser | Results |
 |--------|---------|---------|
 | Desktop | Chrome | ![Desktop](images/web-chrome-dashboard.png) |
 | Desktop | Firefox | ![Desktop](images/web-firefox-dashboard.png) |
 | Desktop | Edge | ![Desktop](images/web-edge-dashboard.png) |
 
+- *Chrome Desktop - Version 127.0.6533.89 (Official Build) (64-bit)*
+- *Firefox Desktop - Version 128.0.3 (Official Build) (64-bit)*
+- *Edge Desktop - Version 127.0.2651.86 (Official build) (64-bit)*
+
+##### Mobile
+
 | Chrome | Firefox | Edge |
 |--------|---------|------|
 |<img src="images/mob-chrome-dashboard.png" width="300"> | <img src="images/mob-fire-dashboard.png" width="300"> | <img src="images/mob-edge-dashboard.png" width="300"> |
 
-| Tablet | Chrome | - |
-| Tablet | Firefox | - |
-| Tablet | Edge | - |
+- *Chrome Mobile - Version 127.0.6533.77 (Official Build)*
+- *Firefox Mobile - Version 128.3 (43849) (Official Build)*
+- *Edge Mobile - Version 127.0.2651.81 (Official build)*
+
+##### Tablet
+
+| Chrome | Firefox | Edge |
+|--------|---------|------|
+|<img src="images/tab_Chrome.jpg" width="300"> | <img src="images/tab_Firefox.jpg" width="300"> | <img src="images/tab_Edge.jpg" width="300"> |
+
+- *Chrome Tablet - Version 126.0.6478.50 (Official Build)*
+- *Firefox Tablet - Version 128.0.3 (2016034663) (Official Build)*
+- *Edge Tablet - Version 125.0.2535.87 (Official build)*
+
+**[Back to Top](#social-event-planner-application)**
